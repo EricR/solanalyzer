@@ -6,7 +6,7 @@ SolAnalyzer is a static analyzer for the Solidity programming language, with a f
 
 ## Compile
 
-Compiling solanalyzer requires Go and GoDep. Once those dependencies are satisfied, `make` can be run to build the project.
+Compiling SolAnalyzer requires Go and GoDep. Once those dependencies are satisfied, `make` can be run to compile the source.
 
 ## Run
 
