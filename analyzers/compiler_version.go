@@ -95,7 +95,7 @@ func (cva *CompilerVersionAnalyzer) Execute(source *sources.Source) ([]*Issue, e
 
 		issues = append(issues, &Issue{
 			Severity:    SeverityInfo,
-			Title:       "Outdated Solidity Compiler",
+			Title:       "Outdated Compiler",
 			MsgFormat:   "txt",
 			Message:     msg,
 			analyzer:    cva,
