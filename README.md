@@ -30,16 +30,16 @@ Copyright 2018 Eric Rafaloff
 
 This is beta software. Please report issues at https://github.com/EricR/solanalyzer/issues/.
 
-[2018-08-26T19:00:32-04:00]  INFO Starting new session
-[2018-08-26T19:00:32-04:00]  INFO Parsing sources
-[2018-08-26T19:00:32-04:00]  INFO Scanning sources
-[2018-08-26T19:00:32-04:00]  INFO Running analysis
-[2018-08-26T19:00:32-04:00]  INFO Generating report
+[2018-09-01T09:28:10-04:00]  INFO Starting new session
+[2018-09-01T09:28:10-04:00]  INFO Parsing sources
+[2018-09-01T09:28:10-04:00]  INFO Scanning sources
+[2018-09-01T09:28:10-04:00]  INFO Analyzing sources
+[2018-09-01T09:28:10-04:00]  INFO Generating report
 
 === Start SolAnalyzer Report ===
 
-Report Date:   Sun Aug 26 19:00 2018
-Analyzers Run: Solidity Compiler Version, Function Visibility
+Report Date:   Sat Sep  1 9:28 AM 2018
+Analyzers Run: compiler-version, function-visibility
 
 High Severity Issues
 --------------------
@@ -52,30 +52,24 @@ No issues
 Low Severity Issues
 -------------------
 Title:       Compiler Bug - EventStructWrongData
-Description: If a struct is used in an event, the address of the struct is logged instead of the actual data.
-Source:      examples/reentrancy.sol:1:16
+Description: The version pragma, >0.4.22, can be satisfied by a version of the Solidity compiler that contains a known bug. If a struct is used in an event, the address of the struct is logged instead of the actual data. This bug is reported to be fixed in version 0.5.0.
+Source:      examples/reentrancy.sol:1:23
 Analyzer ID: compiler-version
-Instance ID: 9634c1c4d4c66a71eb8dff6b1bbd2bb311304e9985bd2a6714844c41403002b3
+Instance ID: c4afc52c128cbd79b10ffeee91b937beeac479ecb864752a8dd0dcf787bdebb8
 
 Informational Severity Issues
 -----------------------------
-Title:       Outdated Solidity Compiler
-Description: The version constraint, =0.4.24, can only be satisfied by an outdated version of the Solidity compiler. The latest version is 0.4.25. The source's pragma declaration should be updated accordingly.
-Source:      examples/reentrancy.sol:1:16
-Analyzer ID: compiler-version
-Instance ID: 06e02d5a72cd15b55d759811ccaad7747fc6b1dc1d68e9dd70650e6389483157
-
-Title:       Public Function
-Description: The function transfer(address,uint) in the contract Vulnerable was found to be public. It should be confirmed that this function is intended to be publicly callable.
+Title:       Default Function Visibility
+Description: No visibility is specified for function transfer(address to, uint amount) in contract Vulnerable. The default is public. It should be confirmed that this is desired, and the visibility of the function should be explicitly set.
 Source:      examples/reentrancy.sol:6:1
 Analyzer ID: function-visibility
-Instance ID: 50a1be44962e05fd00c1b2bfc651d545375ea6c627ea945af49d0ea87e6d8d63
+Instance ID: 747dbaef6def6d744a1898c482f1325ec704d56ceb1f1fa1b099d7a03008f8e1
 
-Title:       Public Function
-Description: The function withdraw() in the contract Vulnerable was found to be public. It should be confirmed that this function is intended to be publicly callable.
+Title:       Default Function Visibility
+Description: No visibility is specified for function withdraw() in contract Vulnerable. The default is public. It should be confirmed that this is desired, and the visibility of the function should be explicitly set.
 Source:      examples/reentrancy.sol:13:1
 Analyzer ID: function-visibility
-Instance ID: fa50ccb652b67143f96251666641a2bcd509d493c04e1b30913cef3bb2ed3d99
+Instance ID: 6d6158a6074c6d05639d365b861615cb5648736afd27ae0a78b6633844c2f317
 
 === End SolAnalyzer Report ===
 ```

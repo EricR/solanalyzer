@@ -32,15 +32,16 @@ func (fva *FunctionVisibilityAnalyzer) Execute(source *sources.Source) ([]*Issue
 
 			modifiers := function.Modifiers
 
-			if !modifiers.Public && !modifiers.Private && !modifiers.Internal && 
-			!modifiers.External {
-				msg := fmt.Sprintf("No visibility is specified for function %s in " +
-					"contract %s. The default is public. It should be confirmed that " +
-					"this is desired.", function.ShortSignature(), contract)
+			if !modifiers.Public && !modifiers.Private && !modifiers.Internal &&
+				!modifiers.External {
+				msg := fmt.Sprintf("No visibility is specified for function %s in "+
+					"contract %s. The default is public. It should be confirmed that "+
+					"this is desired, and the visibility of the function should be "+
+					"explicitly set.", function.ShortSignature(), contract)
 
 				issues = append(issues, &Issue{
 					Severity:    SeverityInfo,
-					Title:       "Missing Function Visibility",
+					Title:       "Default Function Visibility",
 					MsgFormat:   "txt",
 					Message:     msg,
 					analyzer:    fva,

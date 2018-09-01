@@ -127,7 +127,7 @@ func (cva *CompilerVersionAnalyzer) Execute(source *sources.Source) ([]*Issue, e
 			Title:     fmt.Sprintf("Compiler Bug - %s", bug.Name),
 			MsgFormat: "txt",
 			Message: fmt.Sprintf("The version pragma, %s, can be satisfied "+
-				"by a version of the Solidity compiler that contains a known bug. %s " +
+				"by a version of the Solidity compiler that contains a known bug. %s "+
 				"This bug is reported to be fixed in version %s.",
 				source.Pragma.Value, bug.Description, bug.Fixed),
 			analyzer:    cva,
