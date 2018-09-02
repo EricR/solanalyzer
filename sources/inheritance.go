@@ -14,8 +14,7 @@ func NewInheritance() *Inheritance {
 	return &Inheritance{}
 }
 
-// Visit is called by a visitor. See source.go for additional information on
-// this pattern.
+// Visit is called by a visitor.
 func (i *Inheritance) Visit(ctx *parser.InheritanceSpecifierContext) {
 	i.Start = ctx.GetStart()
 	i.Stop = ctx.GetStop()

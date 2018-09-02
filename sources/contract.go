@@ -6,24 +6,35 @@ import "github.com/ericr/solanalyzer/parser"
 type Contract struct {
 	Tokens
 	DefType     string
-	Name        string
+	Identifier  string
 	Inheritance []*Inheritance
-	StateVars   []*StateVar
+	StateVars   []*StateVariable
+	UsingFor    []*UsingFor
+	Structs     []*Struct
+	Modifiers   []*Modifier
+	Constructor *Constructor
 	Functions   []*Function
+	Events      []*Event
 }
 
 // NewContract returns a new instance of Contract.
 func NewContract() *Contract {
-	return &Contract{}
+	return &Contract{
+		Inheritance: []*Inheritance{},
+		StateVars:   []*StateVariable{},
+		UsingFor:    []*UsingFor{},
+		Structs:     []*Struct{},
+		Modifiers:   []*Modifier{},
+		Functions:   []*Function{},
+	}
 }
 
-// Visit is called by a visitor. See source.go for additional information on
-// this pattern.
+// Visit is called by a visitor.
 func (c *Contract) Visit(ctx *parser.ContractDefinitionContext) {
 	c.Start = ctx.GetStart()
 	c.Stop = ctx.GetStop()
 	c.DefType = getText(ctx.GetChild(0))
-	c.Name = ctx.Identifier().GetText()
+	c.Identifier = ctx.Identifier().GetText()
 
 	for _, inheritanceSpec := range ctx.AllInheritanceSpecifier() {
 		inheritance := NewInheritance()
@@ -35,22 +46,46 @@ func (c *Contract) Visit(ctx *parser.ContractDefinitionContext) {
 	for _, contractPart := range ctx.AllContractPart() {
 		part := contractPart.(*parser.ContractPartContext)
 
-		if part.StateVariableDeclaration() != nil {
-			stateVar := NewStateVar()
+		switch {
+		case part.StateVariableDeclaration() != nil:
+			stateVar := NewStateVariable()
 			stateVar.Visit(part.StateVariableDeclaration().(*parser.StateVariableDeclarationContext))
 
 			c.StateVars = append(c.StateVars, stateVar)
-		}
 
-		if part.FunctionDefinition() != nil {
+		case part.UsingForDeclaration() != nil:
+			usingFor := NewUsingFor()
+			usingFor.Visit(part.UsingForDeclaration().(*parser.UsingForDeclarationContext))
+
+			c.UsingFor = append(c.UsingFor, usingFor)
+
+		case part.StructDefinition() != nil:
+			structDef := NewStruct()
+			structDef.Visit(part.StructDefinition().(*parser.StructDefinitionContext))
+
+			c.Structs = append(c.Structs, structDef)
+
+		case part.ConstructorDefinition() != nil:
+			constructor := NewConstructor()
+			constructor.Visit(part.ConstructorDefinition().(*parser.ConstructorDefinitionContext))
+
+			c.Constructor = constructor
+
+		case part.FunctionDefinition() != nil:
 			function := NewFunction()
 			function.Visit(part.FunctionDefinition().(*parser.FunctionDefinitionContext))
 
 			c.Functions = append(c.Functions, function)
+
+		case part.EventDefinition() != nil:
+			event := NewEvent()
+			event.Visit(part.EventDefinition().(*parser.EventDefinitionContext))
+
+			c.Events = append(c.Events, event)
 		}
 	}
 }
 
 func (c *Contract) String() string {
-	return c.Name
+	return c.Identifier
 }

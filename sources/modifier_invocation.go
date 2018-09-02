@@ -18,8 +18,7 @@ func NewModifierInvocation() *ModifierInvocation {
 	return &ModifierInvocation{}
 }
 
-// Visit is called by a visitor. See source.go for additional information on
-// this pattern.
+// Visit is called by a visitor.
 func (mi *ModifierInvocation) Visit(ctx *parser.ModifierInvocationContext) {
 	mi.Start = ctx.GetStart()
 	mi.Stop = ctx.GetStop()
@@ -29,7 +28,9 @@ func (mi *ModifierInvocation) Visit(ctx *parser.ModifierInvocationContext) {
 		expList := ctx.ExpressionList().(*parser.ExpressionListContext)
 
 		for _, exprCtx := range expList.AllExpression() {
-			expression := NewExpressionFromCtx(exprCtx.(*parser.ExpressionContext))
+			expression := NewExpression()
+			expression.Visit(exprCtx.(*parser.ExpressionContext))
+
 			mi.Expressions = append(mi.Expressions, expression)
 		}
 	}

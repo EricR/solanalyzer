@@ -21,8 +21,7 @@ func NewModifierList() *ModifierList {
 	return &ModifierList{}
 }
 
-// Visit is called by a visitor. See source.go for additional information on
-// this pattern.
+// Visit is called by a visitor.
 func (ml *ModifierList) Visit(ctx *parser.ModifierListContext) {
 	ml.Start = ctx.GetStart()
 	ml.Stop = ctx.GetStop()

@@ -35,8 +35,7 @@ func NewTypeName() *TypeName {
 	return &TypeName{}
 }
 
-// Visit is called by a visitor. See source.go for additional information on
-// this pattern.
+// Visit is called by a visitor.
 func (tn *TypeName) Visit(ctx *parser.TypeNameContext) {
 	tn.Start = ctx.GetStart()
 	tn.Stop = ctx.GetStop()
@@ -70,6 +69,15 @@ func (tn *TypeName) Visit(ctx *parser.TypeNameContext) {
 
 		tn.Expression = NewExpression()
 		tn.TypeName = tn2
+
+	case ctx.FunctionTypeName() != nil:
+		ftn := NewFunctionTypeName()
+		ftn.Visit(ctx.FunctionTypeName().(*parser.FunctionTypeNameContext))
+
+		tn.Function = ftn
+
+	default:
+		panic("Unknown TypeName")
 	}
 }
 

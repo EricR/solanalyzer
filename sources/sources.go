@@ -9,6 +9,7 @@ import (
 type Source struct {
 	FilePath  string
 	Pragma    *Pragma
+	Imports   []*ImportDirective
 	Contracts []*Contract
 	tree      *parser.SourceUnitContext
 }
@@ -33,12 +34,20 @@ func (s *Source) Visit() {
 		s.Pragma = pragma
 	}
 
+	for _, importCtx := range s.tree.AllImportDirective() {
+		importDir := NewImportDirective()
+		importDir.Visit(importCtx.(*parser.ImportDirectiveContext))
+
+		s.Imports = append(s.Imports, importDir)
+	}
+
 	for _, contractCtx := range s.tree.AllContractDefinition() {
 		contract := NewContract()
 		contract.Visit(contractCtx.(*parser.ContractDefinitionContext))
 
 		s.Contracts = append(s.Contracts, contract)
 	}
+
 }
 
 func (s *Source) String() string {

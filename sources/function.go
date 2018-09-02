@@ -9,8 +9,8 @@ import (
 type Function struct {
 	Tokens
 	Identifier string
-	Modifiers  *ModifierList
 	Parameters *ParameterList
+	Modifiers  *ModifierList
 	Returns    *ParameterList
 	Block      *Block
 }
@@ -24,8 +24,7 @@ func NewFunction() *Function {
 	}
 }
 
-// Visit is called by a visitor. See source.go for additional information on
-// this pattern.
+// Visit is called by a visitor.
 func (f *Function) Visit(ctx *parser.FunctionDefinitionContext) {
 	f.Start = ctx.GetStart()
 	f.Stop = ctx.GetStop()
@@ -55,6 +54,13 @@ func (f *Function) Visit(ctx *parser.FunctionDefinitionContext) {
 
 			f.Returns.Add(parameter)
 		}
+	}
+
+	if ctx.Block() != nil {
+		block := NewBlock()
+		block.Visit(ctx.Block().(*parser.BlockContext))
+
+		f.Block = block
 	}
 }
 

@@ -7,6 +7,7 @@ import (
 	"github.com/ericr/solanalyzer/reports"
 	"github.com/ericr/solanalyzer/sources"
 	"github.com/sirupsen/logrus"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -14,15 +15,19 @@ import (
 // Session represents a session of running the tool, referencing source units,
 // analyzers, and issues found.
 type Session struct {
-	Sources   []*sources.Source
-	Analyzers []analyzers.Analyzer
-	Issues    []*analyzers.Issue
+	Sources      []*sources.Source
+	sourcesMap   map[string]bool
+	Analyzers    []analyzers.Analyzer
+	analyzersMap map[string]bool
+	Issues       []*analyzers.Issue
 }
 
 // NewSession returns a new instance of Session.
 func NewSession() *Session {
 	return &Session{
-		Sources: []*sources.Source{},
+		Sources:      []*sources.Source{},
+		sourcesMap:   map[string]bool{},
+		analyzersMap: map[string]bool{},
 	}
 }
 
@@ -46,23 +51,36 @@ func (s *Session) ParsePath(paths []string) {
 
 // ParseFile parses a Solidity source file.
 func (s *Session) ParseFile(path string) error {
-	logrus.Debugf("Parsing %s", path)
-
-	fs, err := antlr.NewFileStream(path)
+	bytes, err := ioutil.ReadFile(path)
 	if err != nil {
 		return err
 	}
 
-	solLexer := parser.NewSolidityLexer(fs)
+	s.Parse(path, string(bytes))
+
+	return nil
+}
+
+// Parse parses a Solidity source string.
+func (s *Session) Parse(path string, source string) {
+	if s.sourcesMap[path] {
+		return
+	}
+
+	logrus.Debugf("Parsing %s", path)
+
+	inputStream := antlr.NewInputStream(source)
+	solLexer := parser.NewSolidityLexer(inputStream)
 	stream := antlr.NewCommonTokenStream(solLexer, antlr.TokenDefaultChannel)
 	solParser := parser.NewSolidityParser(stream)
 
 	solParser.RemoveErrorListeners()
 	solParser.AddErrorListener(&sources.ErrorListener{SourceFilePath: path})
 
-	s.addSource(path, solParser.SourceUnit().(*parser.SourceUnitContext))
+	sourceUnit := solParser.SourceUnit().(*parser.SourceUnitContext)
 
-	return nil
+	s.Sources = append(s.Sources, sources.New(path, sourceUnit))
+	s.sourcesMap[path] = true
 }
 
 // VisitSources "visits" all sources trees.
@@ -75,7 +93,12 @@ func (s *Session) VisitSources() {
 
 // AddAnalyzer adds a new analyzer to be run during the session.
 func (s *Session) AddAnalyzer(analyzer analyzers.Analyzer) {
+	if s.analyzersMap[analyzer.ID()] {
+		return
+	}
+
 	s.Analyzers = append(s.Analyzers, analyzer)
+	s.analyzersMap[analyzer.ID()] = true
 }
 
 // Analyze runs all analyzers on all sources.
@@ -100,10 +123,6 @@ func (s *Session) GenerateReport(generator reports.Generator) {
 	report.AddAnalyzers(s.Analyzers)
 	report.AddIssues(s.Issues)
 	report.Generate()
-}
-
-func (s *Session) addSource(path string, tree *parser.SourceUnitContext) {
-	s.Sources = append(s.Sources, sources.New(path, tree))
 }
 
 func (s *Session) pathWalkFunc(path string, info os.FileInfo, err error) error {

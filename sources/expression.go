@@ -5,7 +5,6 @@ import "github.com/ericr/solanalyzer/parser"
 // Expression represents a Solidity expression.
 type Expression struct {
 	Tokens
-	Text        string
 	Expressions []*Expression
 }
 
@@ -14,18 +13,10 @@ func NewExpression() *Expression {
 	return &Expression{}
 }
 
-// NewExpressionFromCtx returns a new instance of Expression from a given parser
-// context.
-func NewExpressionFromCtx(ctx *parser.ExpressionContext) *Expression {
-	expr := NewExpression()
-
-	for _, child := range ctx.GetChildren() {
-		expr.Text += getText(child)
-	}
-
-	return expr
+// Visit is called by a visitor.
+func (e *Expression) Visit(ctx *parser.ExpressionContext) {
 }
 
 func (e *Expression) String() string {
-	return e.Text
+	return "TODO"
 }

@@ -17,8 +17,7 @@ func NewPragma() *Pragma {
 	return &Pragma{}
 }
 
-// Visit is called by a visitor. See source.go for additional information on
-// this pattern.
+// Visit is called by a visitor.
 func (p *Pragma) Visit(ctx *parser.PragmaDirectiveContext) {
 	p.Start = ctx.GetStart()
 	p.Stop = ctx.GetStop()

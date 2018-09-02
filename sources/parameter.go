@@ -7,6 +7,7 @@ import (
 
 // Parameter represents a parameter in Solidity.
 type Parameter struct {
+	Tokens
 	Identifier      string
 	TypeName        *TypeName
 	StorageLocation string
@@ -17,9 +18,11 @@ func NewParameter() *Parameter {
 	return &Parameter{}
 }
 
-// Visit is called by a visitor. See source.go for additional information on
-// this pattern.
+// Visit is called by a visitor.
 func (p *Parameter) Visit(ctx *parser.ParameterContext) {
+	p.Start = ctx.GetStart()
+	p.Stop = ctx.GetStop()
+
 	if ctx.Identifier() != nil {
 		p.Identifier = ctx.Identifier().GetText()
 	}
