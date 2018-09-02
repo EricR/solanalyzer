@@ -7,6 +7,7 @@ import (
 
 // IfStatement represents an if statement in Solidity.
 type IfStatement struct {
+	Tokens
 	If   *Expression
 	Body *Statement
 	Else *Statement
@@ -19,6 +20,9 @@ func NewIfStatement() *IfStatement {
 
 // Visit is called by a visitor.
 func (is *IfStatement) Visit(ctx *parser.IfStatementContext) {
+	is.Start = ctx.GetStart()
+	is.Stop = ctx.GetStop()
+
 	ifExpr := NewExpression()
 	ifExpr.Visit(ctx.Expression().(*parser.ExpressionContext))
 
@@ -38,10 +42,10 @@ func (is *IfStatement) Visit(ctx *parser.IfStatementContext) {
 }
 
 func (is *IfStatement) String() string {
-	str := fmt.Sprintf("if(%s) %s", is.If, is.Body)
+	str := fmt.Sprintf("if (%s) %s", is.If, is.Body)
 
 	if is.Else != nil {
-		str += fmt.Sprintf(" %s", is.Else)
+		str += fmt.Sprintf(" else %s", is.Else)
 	}
 
 	return str

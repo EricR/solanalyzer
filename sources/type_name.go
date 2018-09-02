@@ -67,7 +67,10 @@ func (tn *TypeName) Visit(ctx *parser.TypeNameContext) {
 		tn2 := NewTypeName()
 		tn2.Visit(ctx.TypeName().(*parser.TypeNameContext))
 
-		tn.Expression = NewExpression()
+		expr := NewExpression()
+		expr.Visit(ctx.Expression().(*parser.ExpressionContext))
+
+		tn.Expression = expr
 		tn.TypeName = tn2
 
 	case ctx.FunctionTypeName() != nil:
@@ -94,6 +97,8 @@ func (tn *TypeName) String() string {
 			return fmt.Sprintf("%s[%s]", tn.TypeName, tn.Expression)
 		}
 		return tn.TypeName.String()
+	case TypeNameFunction:
+		tn.Function.String()
 	}
 
 	return ""

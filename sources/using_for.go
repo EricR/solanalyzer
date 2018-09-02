@@ -7,6 +7,8 @@ import (
 
 // UsingFor represents a using for declaration in Solidity.
 type UsingFor struct {
+	Tokens
+	Contract   *Contract
 	Identifier string
 	TypeName   *TypeName
 }
@@ -18,6 +20,8 @@ func NewUsingFor() *UsingFor {
 
 // Visit is called by a visitor.
 func (uf *UsingFor) Visit(ctx *parser.UsingForDeclarationContext) {
+	uf.Start = ctx.GetStart()
+	uf.Stop = ctx.GetStop()
 	uf.Identifier = ctx.Identifier().GetText()
 
 	if ctx.TypeName() != nil {

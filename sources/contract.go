@@ -5,6 +5,7 @@ import "github.com/ericr/solanalyzer/parser"
 // Contract represents a contract in Solidity.
 type Contract struct {
 	Tokens
+	Source      *Source
 	DefType     string
 	Identifier  string
 	Inheritance []*Inheritance
@@ -15,11 +16,13 @@ type Contract struct {
 	Constructor *Constructor
 	Functions   []*Function
 	Events      []*Event
+	Enums       []*Enum
 }
 
 // NewContract returns a new instance of Contract.
-func NewContract() *Contract {
+func NewContract(source *Source) *Contract {
 	return &Contract{
+		Source:      source,
 		Inheritance: []*Inheritance{},
 		StateVars:   []*StateVariable{},
 		UsingFor:    []*UsingFor{},
@@ -82,6 +85,12 @@ func (c *Contract) Visit(ctx *parser.ContractDefinitionContext) {
 			event.Visit(part.EventDefinition().(*parser.EventDefinitionContext))
 
 			c.Events = append(c.Events, event)
+
+		case part.EnumDefinition() != nil:
+			enum := NewEnum()
+			enum.Visit(part.EnumDefinition().(*parser.EnumDefinitionContext))
+
+			c.Enums = append(c.Enums, enum)
 		}
 	}
 }

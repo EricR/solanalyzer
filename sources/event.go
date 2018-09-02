@@ -9,6 +9,7 @@ import (
 // Event represents an event in Solidity.
 type Event struct {
 	Tokens
+	Contract   *Contract
 	Identifier string
 	Anonymous  bool
 	Parameters []*EventParameter
@@ -30,7 +31,7 @@ func (e *Event) Visit(ctx *parser.EventDefinitionContext) {
 	pramList := ctx.EventParameterList().(*parser.EventParameterListContext)
 
 	for _, paramCtx := range pramList.AllEventParameter() {
-		param := NewEventParameter()
+		param := NewEventParameter(e)
 		param.Visit(paramCtx.(*parser.EventParameterContext))
 
 		e.Parameters = append(e.Parameters, param)

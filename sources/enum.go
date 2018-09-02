@@ -9,6 +9,7 @@ import (
 // Enum represents an enum in Solidity.
 type Enum struct {
 	Tokens
+	Contract   *Contract
 	Identifier string
 	Values     []string
 }

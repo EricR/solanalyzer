@@ -8,6 +8,7 @@ import (
 // StateVariable represents a state variable in Solidity.
 type StateVariable struct {
 	Tokens
+	Contract   *Contract
 	TypeName   *TypeName
 	Public     bool
 	Internal   bool

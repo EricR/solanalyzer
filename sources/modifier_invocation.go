@@ -15,7 +15,9 @@ type ModifierInvocation struct {
 
 // NewModifierInvocation returns a new instance of ModifierInvocation.
 func NewModifierInvocation() *ModifierInvocation {
-	return &ModifierInvocation{}
+	return &ModifierInvocation{
+		Expressions: []*Expression{},
+	}
 }
 
 // Visit is called by a visitor.

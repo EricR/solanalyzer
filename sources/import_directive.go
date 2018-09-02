@@ -18,6 +18,7 @@ const (
 // ImportDirective represents an import directive in Solidity.
 type ImportDirective struct {
 	Tokens
+	Source       *Source
 	SubType      int
 	Module       string
 	From         string
@@ -26,8 +27,8 @@ type ImportDirective struct {
 }
 
 // NewImportDirective returns a new instance of ImportDirective.
-func NewImportDirective() *ImportDirective {
-	return &ImportDirective{}
+func NewImportDirective(source *Source) *ImportDirective {
+	return &ImportDirective{Source: source}
 }
 
 // Visit is called by a visitor.

@@ -8,14 +8,15 @@ import (
 // EvenParameter represents an event parameter in Solidity.
 type EventParameter struct {
 	Tokens
+	Event      *Event
 	TypeName   *TypeName
 	Indexed    bool
 	Identifier string
 }
 
 // NewEventParameter returns a new instance of EventParameter.
-func NewEventParameter() *EventParameter {
-	return &EventParameter{}
+func NewEventParameter(event *Event) *EventParameter {
+	return &EventParameter{Event: event}
 }
 
 // Visit is called by a visitor.

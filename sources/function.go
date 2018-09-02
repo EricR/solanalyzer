@@ -8,6 +8,7 @@ import (
 // Function represents a Solidity function.
 type Function struct {
 	Tokens
+	Contract   *Contract
 	Identifier string
 	Parameters *ParameterList
 	Modifiers  *ModifierList

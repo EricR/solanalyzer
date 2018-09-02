@@ -28,21 +28,21 @@ func New(path string, tree *parser.SourceUnitContext) *Source {
 // library.
 func (s *Source) Visit() {
 	if s.tree.PragmaDirective(0) != nil {
-		pragma := NewPragma()
+		pragma := NewPragma(s)
 		pragma.Visit(s.tree.PragmaDirective(0).(*parser.PragmaDirectiveContext))
 
 		s.Pragma = pragma
 	}
 
 	for _, importCtx := range s.tree.AllImportDirective() {
-		importDir := NewImportDirective()
+		importDir := NewImportDirective(s)
 		importDir.Visit(importCtx.(*parser.ImportDirectiveContext))
 
 		s.Imports = append(s.Imports, importDir)
 	}
 
 	for _, contractCtx := range s.tree.AllContractDefinition() {
-		contract := NewContract()
+		contract := NewContract(s)
 		contract.Visit(contractCtx.(*parser.ContractDefinitionContext))
 
 		s.Contracts = append(s.Contracts, contract)

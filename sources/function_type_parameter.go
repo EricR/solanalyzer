@@ -36,5 +36,5 @@ func (ftp *FunctionTypeParameter) String() string {
 	if ftp.StorageLocation == "" {
 		return ftp.TypeName.String()
 	}
-	return fmt.Sprintf("%s %s", ftp.TypeName.String(), ftp.StorageLocation)
+	return fmt.Sprintf("%s %s", ftp.TypeName, ftp.StorageLocation)
 }
