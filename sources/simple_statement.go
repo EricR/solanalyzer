@@ -5,7 +5,9 @@ import (
 )
 
 const (
+	// SimpleStatementVarDec is a simple statement with a variable declaration.
 	SimpleStatementVarDec = iota
+	// SimpleStatementExpr is a simple statement with an expression.
 	SimpleStatementExpr
 )
 

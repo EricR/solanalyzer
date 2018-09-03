@@ -5,7 +5,7 @@ import (
 	"github.com/ericr/solanalyzer/parser"
 )
 
-// Variable declaration represents a variable declaration in Solidity.
+// VariableDeclaration represents a variable declaration in Solidity.
 type VariableDeclaration struct {
 	Tokens
 	TypeName        *TypeName

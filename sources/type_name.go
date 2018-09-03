@@ -6,15 +6,15 @@ import (
 )
 
 const (
-	// Elementary type
+	// TypeNameElementary represents an elementary type.
 	TypeNameElementary int = iota
-	// User-defined type
+	// TypeNameUserDefined represents a user-defined type.
 	TypeNameUserDefined
-	// Mapping type
+	// TypeNameMapping represents a mapping type.
 	TypeNameMapping
-	// TypeName with an Expression
-	TypeNameSubExpression
-	// Function type
+	// TypeNameArray represents an array type.
+	TypeNameArray
+	// TypeNameFunction represents a function type.
 	TypeNameFunction
 )
 
@@ -42,8 +42,11 @@ func (tn *TypeName) Visit(ctx *parser.TypeNameContext) {
 
 	switch {
 	case ctx.ElementaryTypeName() != nil:
+		etn := NewElementaryTypeName()
+		etn.Visit(ctx.ElementaryTypeName().(*parser.ElementaryTypeNameContext))
+
 		tn.SubType = TypeNameElementary
-		tn.Elementary = NewElementaryTypeName(ctx.ElementaryTypeName().GetText())
+		tn.Elementary = etn
 
 	case ctx.UserDefinedTypeName() != nil:
 		udCtx := ctx.UserDefinedTypeName().(*parser.UserDefinedTypeNameContext)
@@ -70,6 +73,7 @@ func (tn *TypeName) Visit(ctx *parser.TypeNameContext) {
 		expr := NewExpression()
 		expr.Visit(ctx.Expression().(*parser.ExpressionContext))
 
+		tn.SubType = TypeNameArray
 		tn.Expression = expr
 		tn.TypeName = tn2
 
@@ -80,7 +84,7 @@ func (tn *TypeName) Visit(ctx *parser.TypeNameContext) {
 		tn.Function = ftn
 
 	default:
-		panic("Unknown TypeName")
+		panic("Unknown type name")
 	}
 }
 
@@ -92,7 +96,7 @@ func (tn *TypeName) String() string {
 		return tn.UserDefined.String()
 	case TypeNameMapping:
 		return tn.Mapping.String()
-	case TypeNameSubExpression:
+	case TypeNameArray:
 		if tn.Expression != nil {
 			return fmt.Sprintf("%s[%s]", tn.TypeName, tn.Expression)
 		}

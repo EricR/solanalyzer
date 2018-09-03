@@ -9,14 +9,14 @@ import (
 type Modifier struct {
 	Tokens
 	Identifier string
-	Parameters *ParameterList
+	Parameters []*Parameter
 	Block      *Block
 }
 
 // NewModifier returns a new instance of Modifier.
 func NewModifier() *Modifier {
 	return &Modifier{
-		Parameters: NewParameterList(),
+		Parameters: []*Parameter{},
 	}
 }
 
@@ -29,10 +29,10 @@ func (m *Modifier) Visit(ctx *parser.FunctionDefinitionContext) {
 	paramList := ctx.ParameterList().(*parser.ParameterListContext)
 
 	for _, paramCtx := range paramList.AllParameter() {
-		parameter := NewParameter()
-		parameter.Visit(paramCtx.(*parser.ParameterContext))
+		param := NewParameter()
+		param.Visit(paramCtx.(*parser.ParameterContext))
 
-		m.Parameters.Add(parameter)
+		m.Parameters = append(m.Parameters, param)
 	}
 
 	if ctx.Block() != nil {
@@ -44,5 +44,5 @@ func (m *Modifier) Visit(ctx *parser.FunctionDefinitionContext) {
 }
 
 func (m *Modifier) String() string {
-	return fmt.Sprintf("modifier %s(%s)", m.Identifier, m.Parameters)
+	return fmt.Sprintf("modifier %s(%s)", m.Identifier, paramsToString(m.Parameters))
 }

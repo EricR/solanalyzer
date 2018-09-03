@@ -8,7 +8,7 @@ import (
 // Constructor represents a constructor in Solidity.
 type Constructor struct {
 	Tokens
-	Parameters *ParameterList
+	Parameters []*Parameter
 	Modifiers  *ModifierList
 	Block      *Block
 }
@@ -16,7 +16,7 @@ type Constructor struct {
 // NewConstructor returns a new instance of Constructor.
 func NewConstructor() *Constructor {
 	return &Constructor{
-		Parameters: NewParameterList(),
+		Parameters: []*Parameter{},
 		Modifiers:  NewModifierList(),
 	}
 }
@@ -29,10 +29,10 @@ func (c *Constructor) Visit(ctx *parser.ConstructorDefinitionContext) {
 	paramList := ctx.ParameterList().(*parser.ParameterListContext)
 
 	for _, paramCtx := range paramList.AllParameter() {
-		parameter := NewParameter()
-		parameter.Visit(paramCtx.(*parser.ParameterContext))
+		param := NewParameter()
+		param.Visit(paramCtx.(*parser.ParameterContext))
 
-		c.Parameters.Add(parameter)
+		c.Parameters = append(c.Parameters, param)
 	}
 
 	modifiers := NewModifierList()
@@ -48,6 +48,6 @@ func (c *Constructor) Visit(ctx *parser.ConstructorDefinitionContext) {
 	}
 }
 
-func (s *Constructor) String() string {
-	return fmt.Sprintf("constructor(%s)", s.Parameters)
+func (c *Constructor) String() string {
+	return fmt.Sprintf("constructor(%s)", paramsToString(c.Parameters))
 }

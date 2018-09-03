@@ -10,18 +10,18 @@ type Function struct {
 	Tokens
 	Contract   *Contract
 	Identifier string
-	Parameters *ParameterList
+	Parameters []*Parameter
 	Modifiers  *ModifierList
-	Returns    *ParameterList
+	Returns    []*Parameter
 	Block      *Block
 }
 
 // NewFunction returns a new instance of Function.
 func NewFunction() *Function {
 	return &Function{
-		Parameters: NewParameterList(),
+		Parameters: []*Parameter{},
 		Modifiers:  NewModifierList(),
-		Returns:    NewParameterList(),
+		Returns:    []*Parameter{},
 	}
 }
 
@@ -34,10 +34,10 @@ func (f *Function) Visit(ctx *parser.FunctionDefinitionContext) {
 	paramList := ctx.ParameterList().(*parser.ParameterListContext)
 
 	for _, paramCtx := range paramList.AllParameter() {
-		parameter := NewParameter()
-		parameter.Visit(paramCtx.(*parser.ParameterContext))
+		param := NewParameter()
+		param.Visit(paramCtx.(*parser.ParameterContext))
 
-		f.Parameters.Add(parameter)
+		f.Parameters = append(f.Parameters, param)
 	}
 
 	modifiers := NewModifierList()
@@ -50,10 +50,10 @@ func (f *Function) Visit(ctx *parser.FunctionDefinitionContext) {
 		returnList := returnParams.ParameterList().(*parser.ParameterListContext)
 
 		for _, paramCtx := range returnList.AllParameter() {
-			parameter := NewParameter()
-			parameter.Visit(paramCtx.(*parser.ParameterContext))
+			param := NewParameter()
+			param.Visit(paramCtx.(*parser.ParameterContext))
 
-			f.Returns.Add(parameter)
+			f.Returns = append(f.Returns, param)
 		}
 	}
 
@@ -65,19 +65,20 @@ func (f *Function) Visit(ctx *parser.FunctionDefinitionContext) {
 	}
 }
 
+// ShortSignature returns an abbreviated version of String().
 func (f *Function) ShortSignature() string {
-	return fmt.Sprintf("%s(%s)", f.Identifier, f.Parameters)
+	return fmt.Sprintf("%s(%s)", f.Identifier, paramsToString(f.Parameters))
 }
 
 func (f *Function) String() string {
-	str := fmt.Sprintf("%s(%s)", f.Identifier, f.Parameters)
+	str := fmt.Sprintf("%s(%s)", f.Identifier, paramsToString(f.Parameters))
 
 	if len(f.Modifiers.String()) > 0 {
 		str = fmt.Sprintf("%s %s", str, f.Modifiers)
 	}
 
-	if len(*f.Returns) > 0 {
-		str = fmt.Sprintf("%s returns(%s)", str, f.Returns)
+	if len(f.Returns) > 0 {
+		str = fmt.Sprintf("%s returns(%s)", str, paramsToString(f.Returns))
 	}
 
 	return str

@@ -3,29 +3,29 @@ package sources
 import "github.com/ericr/solanalyzer/parser"
 
 const (
-	// If
+	// StatementIf represents an if statement.
 	StatementIf int = iota
-	// While
+	// StatementWhile represents a while statement.
 	StatementWhile
-	// For
+	// StatementFor represents a for statement.
 	StatementFor
-	// Block
+	// StatementBlock represents a block.
 	StatementBlock
-	// Inline assembly
+	// StatementInlineAssembly represents inline assembly.
 	StatementInlineAssembly
-	// Do while
+	// StatementDoWhile represents a do while statement.
 	StatementDoWhile
-	// Continue
+	// StatementContinue represents a continue.
 	StatementContinue
-	// Break
+	// StatementBreak represents a break.
 	StatementBreak
-	// Return
+	// StatementReturn represents a return.
 	StatementReturn
-	// Throw
+	// StatementThrow represents a throw.
 	StatementThrow
-	// Emit
+	// StatementEmit represents emit.
 	StatementEmit
-	// Simple
+	// StatementSimple represents a simple statement.
 	StatementSimple
 )
 
@@ -39,6 +39,7 @@ type Statement struct {
 	Block           *Block
 	DoWhile         *DoWhileStatement
 	ReturnStatement *ReturnStatement
+	SimpleStatement *SimpleStatement
 }
 
 // NewStatement returns a new instance of Statement.
@@ -111,7 +112,14 @@ func (s *Statement) Visit(ctx *parser.StatementContext) {
 		s.SubType = StatementEmit
 
 	case ctx.SimpleStatement() != nil:
+		simpleStatement := NewSimpleStatement()
+		simpleStatement.Visit(ctx.SimpleStatement().(*parser.SimpleStatementContext))
+
+		s.SimpleStatement = simpleStatement
 		s.SubType = StatementSimple
+
+	default:
+		panic("Unknown type of statement")
 	}
 }
 

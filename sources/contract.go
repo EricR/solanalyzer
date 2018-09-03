@@ -91,6 +91,9 @@ func (c *Contract) Visit(ctx *parser.ContractDefinitionContext) {
 			enum.Visit(part.EnumDefinition().(*parser.EnumDefinitionContext))
 
 			c.Enums = append(c.Enums, enum)
+
+		default:
+			panic("Unknown type of contract part")
 		}
 	}
 }

@@ -3,6 +3,7 @@ package sources
 import (
 	"fmt"
 	"github.com/ericr/solanalyzer/parser"
+	"strings"
 )
 
 // Parameter represents a parameter in Solidity.
@@ -42,4 +43,14 @@ func (p *Parameter) String() string {
 		return fmt.Sprintf("%s %s", p.TypeName, p.Identifier)
 	}
 	return p.TypeName.String()
+}
+
+func paramsToString(params []*Parameter) string {
+	strs := []string{}
+
+	for _, param := range params {
+		strs = append(strs, param.String())
+	}
+
+	return strings.Join(strs, ", ")
 }

@@ -25,7 +25,10 @@ func (m *Mapping) Visit(ctx *parser.MappingContext) {
 	tn := NewTypeName()
 	tn.Visit(ctx.TypeName().(*parser.TypeNameContext))
 
-	m.Elementary = NewElementaryTypeName(ctx.ElementaryTypeName().GetText())
+	etn := NewElementaryTypeName()
+	etn.Visit(ctx.ElementaryTypeName().(*parser.ElementaryTypeNameContext))
+
+	m.Elementary = etn
 	m.TypeName = tn
 }
 

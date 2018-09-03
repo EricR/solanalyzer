@@ -7,11 +7,11 @@ import (
 )
 
 const (
-	// Import from path
+	// ImportPath imports all modules from path
 	ImportPath int = iota
-	// Import module from path
+	// ImprotModule imports a module from path
 	ImprotModule
-	// Import modules from path
+	// ImportModules imports modules from path
 	ImportModules
 )
 

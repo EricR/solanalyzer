@@ -12,7 +12,7 @@ type Block struct {
 	Statements []*Statement
 }
 
-// NewBlock	returns a new instance of Block.
+// NewBlock returns a new instance of Block.
 func NewBlock() *Block {
 	return &Block{
 		Statements: []*Statement{},

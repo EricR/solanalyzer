@@ -5,7 +5,7 @@ import (
 	"github.com/ericr/solanalyzer/parser"
 )
 
-// EvenParameter represents an event parameter in Solidity.
+// EventParameter represents an event parameter in Solidity.
 type EventParameter struct {
 	Tokens
 	Event      *Event

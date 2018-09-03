@@ -8,7 +8,7 @@ type EmitCall struct {
 	Arguments  *FunctionCallArguments
 }
 
-// NewEmit returns a new instance of Emit.
+// NewEmitCall returns a new instance of Emit.
 func NewEmitCall() *EmitCall {
 	return &EmitCall{}
 }

@@ -49,6 +49,8 @@ func (vds *VariableDeclarationStatement) Visit(ctx *parser.VariableDeclarationSt
 
 			vds.VariableDeclarationList = append(vds.VariableDeclarationList, varDec)
 		}
+	default:
+		panic("Unknown type of variable declaration")
 	}
 
 	if ctx.Expression() != nil {

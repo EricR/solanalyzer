@@ -6,7 +6,9 @@ import (
 )
 
 const (
+	// FunctionCallArgsWithNameValues is a function call with name values.
 	FunctionCallArgsWithNameValues = iota
+	// FunctionCallArgsWithExprs is a function call with expressions.
 	FunctionCallArgsWithExprs
 )
 
@@ -33,6 +35,8 @@ func (fca *FunctionCallArguments) Visit(ctx *parser.FunctionCallArgumentsContext
 
 	switch {
 	case ctx.NameValueList() != nil:
+		fca.SubType = FunctionCallArgsWithNameValues
+
 		nvList := ctx.NameValueList().(*parser.NameValueListContext)
 
 		for _, nvCtx := range nvList.AllNameValue() {
@@ -42,9 +46,9 @@ func (fca *FunctionCallArguments) Visit(ctx *parser.FunctionCallArgumentsContext
 			fca.NameValues = append(fca.NameValues, nv)
 		}
 
-		fca.SubType = FunctionCallArgsWithNameValues
-
 	case ctx.ExpressionList() != nil:
+		fca.SubType = FunctionCallArgsWithExprs
+
 		exprList := ctx.ExpressionList().(*parser.ExpressionListContext)
 
 		for _, exprCtx := range exprList.AllExpression() {
@@ -53,8 +57,8 @@ func (fca *FunctionCallArguments) Visit(ctx *parser.FunctionCallArgumentsContext
 
 			fca.Expressions = append(fca.Expressions, expr)
 		}
-
-		fca.SubType = FunctionCallArgsWithExprs
+	default:
+		panic("Unknown type of function call arguments")
 	}
 }
 
