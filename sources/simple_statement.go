@@ -20,23 +20,35 @@ type SimpleStatement struct {
 }
 
 // NewSimpleStatement returns a new instance of SimpleStatement.
-func NewSimpleStatement() *SimpleStatement {
-	return &SimpleStatement{}
+func (s *Source) NewSimpleStatement() *SimpleStatement {
+	stmt := &SimpleStatement{}
+	s.AddNode(stmt)
+
+	return stmt
 }
 
 // Visit is called by a visitor.
-func (ss *SimpleStatement) Visit(ctx *parser.SimpleStatementContext) {
+func (ss *SimpleStatement) Visit(s *Source, ctx *parser.SimpleStatementContext) {
 	ss.Start = ctx.GetStart()
 	ss.Stop = ctx.GetStop()
 
 	if ctx.VariableDeclarationStatement() != nil {
 		varDecStmtCtx := ctx.VariableDeclarationStatement()
-		varDecStmt := NewVariableDeclarationStatement()
-		varDecStmt.Visit(varDecStmtCtx.(*parser.VariableDeclarationStatementContext))
+		varDecStmt := s.NewVariableDeclarationStatement()
+		varDecStmt.Visit(s, varDecStmtCtx.(*parser.VariableDeclarationStatementContext))
 
+		ss.SubType = SimpleStatementVarDec
 		ss.VariableDeclaration = varDecStmt
 		return
 	}
+
+	exprStmtCtx := ctx.ExpressionStatement().(*parser.ExpressionStatementContext)
+
+	expr := s.NewExpression()
+	expr.Visit(s, exprStmtCtx.Expression().(*parser.ExpressionContext))
+
+	ss.SubType = SimpleStatementExpr
+	ss.Expression = expr
 }
 
 func (ss *SimpleStatement) String() string {

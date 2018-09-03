@@ -15,12 +15,15 @@ type Enum struct {
 }
 
 // NewEnum returns a new instance of Enum.
-func NewEnum() *Enum {
-	return &Enum{}
+func (s *Source) NewEnum() *Enum {
+	enum := &Enum{}
+	s.AddNode(enum)
+
+	return enum
 }
 
 // Visit is called by a visitor.
-func (e *Enum) Visit(ctx *parser.EnumDefinitionContext) {
+func (e *Enum) Visit(s *Source, ctx *parser.EnumDefinitionContext) {
 	e.Start = ctx.GetStart()
 	e.Stop = ctx.GetStop()
 	e.Identifier = ctx.Identifier().GetText()

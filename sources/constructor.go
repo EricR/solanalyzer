@@ -14,35 +14,38 @@ type Constructor struct {
 }
 
 // NewConstructor returns a new instance of Constructor.
-func NewConstructor() *Constructor {
-	return &Constructor{
+func (s *Source) NewConstructor() *Constructor {
+	constructor := &Constructor{
 		Parameters: []*Parameter{},
-		Modifiers:  NewModifierList(),
+		Modifiers:  s.NewModifierList(),
 	}
+	s.AddNode(constructor)
+
+	return constructor
 }
 
 // Visit is called by a visitor.
-func (c *Constructor) Visit(ctx *parser.ConstructorDefinitionContext) {
+func (c *Constructor) Visit(s *Source, ctx *parser.ConstructorDefinitionContext) {
 	c.Start = ctx.GetStart()
 	c.Stop = ctx.GetStop()
 
 	paramList := ctx.ParameterList().(*parser.ParameterListContext)
 
 	for _, paramCtx := range paramList.AllParameter() {
-		param := NewParameter()
-		param.Visit(paramCtx.(*parser.ParameterContext))
+		param := s.NewParameter()
+		param.Visit(s, paramCtx.(*parser.ParameterContext))
 
 		c.Parameters = append(c.Parameters, param)
 	}
 
-	modifiers := NewModifierList()
-	modifiers.Visit(ctx.ModifierList().(*parser.ModifierListContext))
+	modifiers := s.NewModifierList()
+	modifiers.Visit(s, ctx.ModifierList().(*parser.ModifierListContext))
 
 	c.Modifiers = modifiers
 
 	if ctx.Block() != nil {
-		block := NewBlock()
-		block.Visit(ctx.Block().(*parser.BlockContext))
+		block := s.NewBlock()
+		block.Visit(s, ctx.Block().(*parser.BlockContext))
 
 		c.Block = block
 	}

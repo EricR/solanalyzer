@@ -13,17 +13,20 @@ type FunctionTypeParameter struct {
 }
 
 // NewFunctionTypeParameter returns a new instance of FunctionTypeParameter.
-func NewFunctionTypeParameter() *FunctionTypeParameter {
-	return &FunctionTypeParameter{}
+func (s *Source) NewFunctionTypeParameter() *FunctionTypeParameter {
+	fnTypeParam := &FunctionTypeParameter{}
+	s.AddNode(fnTypeParam)
+
+	return fnTypeParam
 }
 
 // Visit is called by a visitor.
-func (ftp *FunctionTypeParameter) Visit(ctx *parser.FunctionTypeParameterContext) {
+func (ftp *FunctionTypeParameter) Visit(s *Source, ctx *parser.FunctionTypeParameterContext) {
 	ftp.Start = ctx.GetStart()
 	ftp.Stop = ctx.GetStop()
 
-	typeName := NewTypeName()
-	typeName.Visit(ctx.TypeName().(*parser.TypeNameContext))
+	typeName := s.NewTypeName()
+	typeName.Visit(s, ctx.TypeName().(*parser.TypeNameContext))
 
 	ftp.TypeName = typeName
 

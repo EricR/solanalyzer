@@ -14,28 +14,31 @@ type IfStatement struct {
 }
 
 // NewIfStatement returns a new instance of IfStatement.
-func NewIfStatement() *IfStatement {
-	return &IfStatement{}
+func (s *Source) NewIfStatement() *IfStatement {
+	stmt := &IfStatement{}
+	s.AddNode(stmt)
+
+	return stmt
 }
 
 // Visit is called by a visitor.
-func (is *IfStatement) Visit(ctx *parser.IfStatementContext) {
+func (is *IfStatement) Visit(s *Source, ctx *parser.IfStatementContext) {
 	is.Start = ctx.GetStart()
 	is.Stop = ctx.GetStop()
 
-	ifExpr := NewExpression()
-	ifExpr.Visit(ctx.Expression().(*parser.ExpressionContext))
+	ifExpr := s.NewExpression()
+	ifExpr.Visit(s, ctx.Expression().(*parser.ExpressionContext))
 
 	is.If = ifExpr
 
-	bodyStmt := NewStatement()
-	bodyStmt.Visit(ctx.Statement(0).(*parser.StatementContext))
+	bodyStmt := s.NewStatement()
+	bodyStmt.Visit(s, ctx.Statement(0).(*parser.StatementContext))
 
 	is.Body = bodyStmt
 
 	if ctx.Statement(1) != nil {
-		elseStmt := NewStatement()
-		elseStmt.Visit(ctx.Statement(1).(*parser.StatementContext))
+		elseStmt := s.NewStatement()
+		elseStmt.Visit(s, ctx.Statement(1).(*parser.StatementContext))
 
 		is.Else = elseStmt
 	}

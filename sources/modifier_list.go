@@ -17,23 +17,26 @@ type ModifierList struct {
 }
 
 // NewModifierList returns a new instance of ModifierList.
-func NewModifierList() *ModifierList {
-	return &ModifierList{}
+func (s *Source) NewModifierList() *ModifierList {
+	modList := &ModifierList{}
+	s.AddNode(modList)
+
+	return modList
 }
 
 // Visit is called by a visitor.
-func (ml *ModifierList) Visit(ctx *parser.ModifierListContext) {
+func (ml *ModifierList) Visit(s *Source, ctx *parser.ModifierListContext) {
 	ml.Start = ctx.GetStart()
 	ml.Stop = ctx.GetStop()
 	ml.External = ctx.ExternalKeyword(0) != nil
 	ml.Public = ctx.PublicKeyword(0) != nil
 	ml.Internal = ctx.InternalKeyword(0) != nil
 	ml.Private = ctx.PrivateKeyword(0) != nil
-	ml.StateMutability = NewStateMutabilityFromCtxs(ctx.AllStateMutability())
+	ml.StateMutability = s.NewStateMutabilityFromCtxs(ctx.AllStateMutability())
 
 	for _, miCtx := range ctx.AllModifierInvocation() {
-		invocation := NewModifierInvocation()
-		invocation.Visit(miCtx.(*parser.ModifierInvocationContext))
+		invocation := s.NewModifierInvocation()
+		invocation.Visit(s, miCtx.(*parser.ModifierInvocationContext))
 
 		ml.Invocations = append(ml.Invocations, invocation)
 	}

@@ -9,17 +9,20 @@ type EmitCall struct {
 }
 
 // NewEmitCall returns a new instance of Emit.
-func NewEmitCall() *EmitCall {
-	return &EmitCall{}
+func (s *Source) NewEmitCall() *EmitCall {
+	emitCall := &EmitCall{}
+	s.AddNode(emitCall)
+
+	return emitCall
 }
 
 // Visit is called by a visitor.
-func (ec *EmitCall) Visit(ctx *parser.FunctionCallContext) {
-	expr := NewExpression()
-	expr.Visit(ctx.Expression().(*parser.ExpressionContext))
+func (ec *EmitCall) Visit(s *Source, ctx *parser.FunctionCallContext) {
+	expr := s.NewExpression()
+	expr.Visit(s, ctx.Expression().(*parser.ExpressionContext))
 
-	args := NewFunctionCallArguments()
-	args.Visit(ctx.FunctionCallArguments().(*parser.FunctionCallArgumentsContext))
+	args := s.NewFunctionCallArguments()
+	args.Visit(s, ctx.FunctionCallArguments().(*parser.FunctionCallArgumentsContext))
 
 	ec.Expression = expr
 	ec.Arguments = args

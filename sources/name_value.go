@@ -13,17 +13,20 @@ type NameValue struct {
 }
 
 // NewNameValue returns a new instance of NameValue.
-func NewNameValue() *NameValue {
-	return &NameValue{}
+func (s *Source) NewNameValue() *NameValue {
+	nv := &NameValue{}
+	s.AddNode(nv)
+
+	return nv
 }
 
 // Visit is called by a visitor.
-func (nv *NameValue) Visit(ctx *parser.NameValueContext) {
+func (nv *NameValue) Visit(s *Source, ctx *parser.NameValueContext) {
 	nv.Start = ctx.GetStart()
 	nv.Stop = ctx.GetStop()
 
-	expr := NewExpression()
-	expr.Visit(ctx.Expression().(*parser.ExpressionContext))
+	expr := s.NewExpression()
+	expr.Visit(s, ctx.Expression().(*parser.ExpressionContext))
 
 	nv.Identifier = ctx.Identifier().GetText()
 	nv.Expression = expr

@@ -1,11 +1,13 @@
 package sources
 
-import "github.com/ericr/solanalyzer/parser"
+import (
+	"fmt"
+	"github.com/ericr/solanalyzer/parser"
+)
 
 // Contract represents a contract in Solidity.
 type Contract struct {
 	Tokens
-	Source      *Source
 	DefType     string
 	Identifier  string
 	Inheritance []*Inheritance
@@ -20,9 +22,8 @@ type Contract struct {
 }
 
 // NewContract returns a new instance of Contract.
-func NewContract(source *Source) *Contract {
-	return &Contract{
-		Source:      source,
+func (s *Source) NewContract() *Contract {
+	contract := &Contract{
 		Inheritance: []*Inheritance{},
 		StateVars:   []*StateVariable{},
 		UsingFor:    []*UsingFor{},
@@ -30,18 +31,21 @@ func NewContract(source *Source) *Contract {
 		Modifiers:   []*Modifier{},
 		Functions:   []*Function{},
 	}
+	s.AddNode(contract)
+
+	return contract
 }
 
 // Visit is called by a visitor.
-func (c *Contract) Visit(ctx *parser.ContractDefinitionContext) {
+func (c *Contract) Visit(s *Source, ctx *parser.ContractDefinitionContext) {
 	c.Start = ctx.GetStart()
 	c.Stop = ctx.GetStop()
 	c.DefType = getText(ctx.GetChild(0))
 	c.Identifier = ctx.Identifier().GetText()
 
 	for _, inheritanceSpec := range ctx.AllInheritanceSpecifier() {
-		inheritance := NewInheritance()
-		inheritance.Visit(inheritanceSpec.(*parser.InheritanceSpecifierContext))
+		inheritance := s.NewInheritance()
+		inheritance.Visit(s, inheritanceSpec.(*parser.InheritanceSpecifierContext))
 
 		c.Inheritance = append(c.Inheritance, inheritance)
 	}
@@ -51,44 +55,44 @@ func (c *Contract) Visit(ctx *parser.ContractDefinitionContext) {
 
 		switch {
 		case part.StateVariableDeclaration() != nil:
-			stateVar := NewStateVariable()
-			stateVar.Visit(part.StateVariableDeclaration().(*parser.StateVariableDeclarationContext))
+			stateVar := s.NewStateVariable()
+			stateVar.Visit(s, part.StateVariableDeclaration().(*parser.StateVariableDeclarationContext))
 
 			c.StateVars = append(c.StateVars, stateVar)
 
 		case part.UsingForDeclaration() != nil:
-			usingFor := NewUsingFor()
-			usingFor.Visit(part.UsingForDeclaration().(*parser.UsingForDeclarationContext))
+			usingFor := s.NewUsingFor()
+			usingFor.Visit(s, part.UsingForDeclaration().(*parser.UsingForDeclarationContext))
 
 			c.UsingFor = append(c.UsingFor, usingFor)
 
 		case part.StructDefinition() != nil:
-			structDef := NewStruct()
-			structDef.Visit(part.StructDefinition().(*parser.StructDefinitionContext))
+			structDef := s.NewStruct()
+			structDef.Visit(s, part.StructDefinition().(*parser.StructDefinitionContext))
 
 			c.Structs = append(c.Structs, structDef)
 
 		case part.ConstructorDefinition() != nil:
-			constructor := NewConstructor()
-			constructor.Visit(part.ConstructorDefinition().(*parser.ConstructorDefinitionContext))
+			constructor := s.NewConstructor()
+			constructor.Visit(s, part.ConstructorDefinition().(*parser.ConstructorDefinitionContext))
 
 			c.Constructor = constructor
 
 		case part.FunctionDefinition() != nil:
-			function := NewFunction()
-			function.Visit(part.FunctionDefinition().(*parser.FunctionDefinitionContext))
+			function := s.NewFunction()
+			function.Visit(s, part.FunctionDefinition().(*parser.FunctionDefinitionContext))
 
 			c.Functions = append(c.Functions, function)
 
 		case part.EventDefinition() != nil:
-			event := NewEvent()
-			event.Visit(part.EventDefinition().(*parser.EventDefinitionContext))
+			event := s.NewEvent()
+			event.Visit(s, part.EventDefinition().(*parser.EventDefinitionContext))
 
 			c.Events = append(c.Events, event)
 
 		case part.EnumDefinition() != nil:
-			enum := NewEnum()
-			enum.Visit(part.EnumDefinition().(*parser.EnumDefinitionContext))
+			enum := s.NewEnum()
+			enum.Visit(s, part.EnumDefinition().(*parser.EnumDefinitionContext))
 
 			c.Enums = append(c.Enums, enum)
 
@@ -99,5 +103,5 @@ func (c *Contract) Visit(ctx *parser.ContractDefinitionContext) {
 }
 
 func (c *Contract) String() string {
-	return c.Identifier
+	return fmt.Sprintf("%s %s", c.DefType, c.Identifier)
 }

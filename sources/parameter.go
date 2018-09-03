@@ -15,12 +15,15 @@ type Parameter struct {
 }
 
 // NewParameter returns a new instance of Parameter.
-func NewParameter() *Parameter {
-	return &Parameter{}
+func (s *Source) NewParameter() *Parameter {
+	param := &Parameter{}
+	s.AddNode(param)
+
+	return param
 }
 
 // Visit is called by a visitor.
-func (p *Parameter) Visit(ctx *parser.ParameterContext) {
+func (p *Parameter) Visit(s *Source, ctx *parser.ParameterContext) {
 	p.Start = ctx.GetStart()
 	p.Stop = ctx.GetStop()
 
@@ -32,8 +35,8 @@ func (p *Parameter) Visit(ctx *parser.ParameterContext) {
 		p.StorageLocation = ctx.StorageLocation().GetText()
 	}
 
-	typeName := NewTypeName()
-	typeName.Visit(ctx.TypeName().(*parser.TypeNameContext))
+	typeName := s.NewTypeName()
+	typeName.Visit(s, ctx.TypeName().(*parser.TypeNameContext))
 
 	p.TypeName = typeName
 }

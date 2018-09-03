@@ -14,14 +14,17 @@ type StateMutability struct {
 }
 
 // NewStateMutability returns an instance of StateMutability.
-func NewStateMutability() *StateMutability {
-	return &StateMutability{}
+func (s *Source) NewStateMutability() *StateMutability {
+	stMut := &StateMutability{}
+	s.AddNode(stMut)
+
+	return stMut
 }
 
 // NewStateMutabilityFromCtxs returns an instance of StateMutability given a
 // parser context.
-func NewStateMutabilityFromCtxs(ctxs []parser.IStateMutabilityContext) *StateMutability {
-	sm := NewStateMutability()
+func (s *Source) NewStateMutabilityFromCtxs(ctxs []parser.IStateMutabilityContext) *StateMutability {
+	sm := s.NewStateMutability()
 
 	for _, mutabiltiy := range ctxs {
 		smCtx := mutabiltiy.(*parser.StateMutabilityContext)

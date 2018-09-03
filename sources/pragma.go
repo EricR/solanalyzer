@@ -8,18 +8,20 @@ import (
 // Pragma represents a pragma in Solidity.
 type Pragma struct {
 	Tokens
-	Source *Source
-	Name   string
-	Value  string
+	Name  string
+	Value string
 }
 
 // NewPragma returns a new instance of Pragma.
-func NewPragma(source *Source) *Pragma {
-	return &Pragma{Source: source}
+func (s *Source) NewPragma() *Pragma {
+	pragma := &Pragma{}
+	s.AddNode(pragma)
+
+	return pragma
 }
 
 // Visit is called by a visitor.
-func (p *Pragma) Visit(ctx *parser.PragmaDirectiveContext) {
+func (p *Pragma) Visit(s *Source, ctx *parser.PragmaDirectiveContext) {
 	p.Start = ctx.GetStart()
 	p.Stop = ctx.GetStop()
 	p.Name = ctx.PragmaName().GetText()

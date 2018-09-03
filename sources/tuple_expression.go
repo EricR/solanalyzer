@@ -14,12 +14,15 @@ type TupleExpression struct {
 }
 
 // NewTupleExpression returns a new instance of TupleExpression.
-func NewTupleExpression() *TupleExpression {
-	return &TupleExpression{}
+func (s *Source) NewTupleExpression() *TupleExpression {
+	expr := &TupleExpression{}
+	s.AddNode(expr)
+
+	return expr
 }
 
 // Visit is called by a visitor.
-func (te *TupleExpression) Visit(ctx *parser.TupleExpressionContext) {
+func (te *TupleExpression) Visit(s *Source, ctx *parser.TupleExpressionContext) {
 	te.Start = ctx.GetStart()
 	te.Stop = ctx.GetStop()
 
@@ -28,8 +31,8 @@ func (te *TupleExpression) Visit(ctx *parser.TupleExpressionContext) {
 	}
 
 	for _, exprCtx := range ctx.AllExpression() {
-		expr := NewExpression()
-		expr.Visit(exprCtx.(*parser.ExpressionContext))
+		expr := s.NewExpression()
+		expr.Visit(s, exprCtx.(*parser.ExpressionContext))
 
 		te.Expressions = append(te.Expressions, expr)
 	}

@@ -22,14 +22,17 @@ type FunctionCallArguments struct {
 }
 
 // NewFunctionCallArguments returns a new instance of FunctionCallArguments.
-func NewFunctionCallArguments() *FunctionCallArguments {
-	return &FunctionCallArguments{
+func (s *Source) NewFunctionCallArguments() *FunctionCallArguments {
+	fnCallArgs := &FunctionCallArguments{
 		Expressions: []*Expression{},
 	}
+	s.AddNode(fnCallArgs)
+
+	return fnCallArgs
 }
 
 // Visit is called by a visitor.
-func (fca *FunctionCallArguments) Visit(ctx *parser.FunctionCallArgumentsContext) {
+func (fca *FunctionCallArguments) Visit(s *Source, ctx *parser.FunctionCallArgumentsContext) {
 	fca.Start = ctx.GetStart()
 	fca.Stop = ctx.GetStop()
 
@@ -40,8 +43,8 @@ func (fca *FunctionCallArguments) Visit(ctx *parser.FunctionCallArgumentsContext
 		nvList := ctx.NameValueList().(*parser.NameValueListContext)
 
 		for _, nvCtx := range nvList.AllNameValue() {
-			nv := NewNameValue()
-			nv.Visit(nvCtx.(*parser.NameValueContext))
+			nv := s.NewNameValue()
+			nv.Visit(s, nvCtx.(*parser.NameValueContext))
 
 			fca.NameValues = append(fca.NameValues, nv)
 		}
@@ -52,13 +55,11 @@ func (fca *FunctionCallArguments) Visit(ctx *parser.FunctionCallArgumentsContext
 		exprList := ctx.ExpressionList().(*parser.ExpressionListContext)
 
 		for _, exprCtx := range exprList.AllExpression() {
-			expr := NewExpression()
-			expr.Visit(exprCtx.(*parser.ExpressionContext))
+			expr := s.NewExpression()
+			expr.Visit(s, exprCtx.(*parser.ExpressionContext))
 
 			fca.Expressions = append(fca.Expressions, expr)
 		}
-	default:
-		panic("Unknown type of function call arguments")
 	}
 }
 

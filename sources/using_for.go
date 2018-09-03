@@ -14,19 +14,22 @@ type UsingFor struct {
 }
 
 // NewUsingFor returns a new instance of UsingFor.
-func NewUsingFor() *UsingFor {
-	return &UsingFor{}
+func (s *Source) NewUsingFor() *UsingFor {
+	uf := &UsingFor{}
+	s.AddNode(uf)
+
+	return uf
 }
 
 // Visit is called by a visitor.
-func (uf *UsingFor) Visit(ctx *parser.UsingForDeclarationContext) {
+func (uf *UsingFor) Visit(s *Source, ctx *parser.UsingForDeclarationContext) {
 	uf.Start = ctx.GetStart()
 	uf.Stop = ctx.GetStop()
 	uf.Identifier = ctx.Identifier().GetText()
 
 	if ctx.TypeName() != nil {
-		typeName := NewTypeName()
-		typeName.Visit(ctx.TypeName().(*parser.TypeNameContext))
+		typeName := s.NewTypeName()
+		typeName.Visit(s, ctx.TypeName().(*parser.TypeNameContext))
 
 		uf.TypeName = typeName
 	}
@@ -34,7 +37,7 @@ func (uf *UsingFor) Visit(ctx *parser.UsingForDeclarationContext) {
 
 func (uf *UsingFor) String() string {
 	if uf.TypeName == nil {
-		return fmt.Sprintf("using %s for *;", uf.Identifier)
+		return fmt.Sprintf("using %s for *", uf.Identifier)
 	}
-	return fmt.Sprintf("using %s for %s;", uf.Identifier, uf.TypeName)
+	return fmt.Sprintf("using %s for %s", uf.Identifier, uf.TypeName)
 }

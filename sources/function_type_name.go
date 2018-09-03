@@ -17,33 +17,36 @@ type FunctionTypeName struct {
 }
 
 // NewFunctionTypeName returns a new instance of FunctionTypeName.
-func NewFunctionTypeName() *FunctionTypeName {
-	return &FunctionTypeName{}
+func (s *Source) NewFunctionTypeName() *FunctionTypeName {
+	fnTypeName := &FunctionTypeName{}
+	s.AddNode(fnTypeName)
+
+	return fnTypeName
 }
 
 // Visit is called by a visitor.
-func (ftn *FunctionTypeName) Visit(ctx *parser.FunctionTypeNameContext) {
+func (ftn *FunctionTypeName) Visit(s *Source, ctx *parser.FunctionTypeNameContext) {
 	ftn.Start = ctx.GetStart()
 	ftn.Stop = ctx.GetStop()
 
 	paramList := ctx.FunctionTypeParameterList(0).(*parser.FunctionTypeParameterListContext)
 
 	for _, paramCtx := range paramList.AllFunctionTypeParameter() {
-		param := NewFunctionTypeParameter()
-		param.Visit(paramCtx.(*parser.FunctionTypeParameterContext))
+		param := s.NewFunctionTypeParameter()
+		param.Visit(s, paramCtx.(*parser.FunctionTypeParameterContext))
 
 		ftn.Parameters = append(ftn.Parameters, param)
 	}
 
 	ftn.Internal = ctx.InternalKeyword(0) != nil
 	ftn.External = ctx.ExternalKeyword(0) != nil
-	ftn.StateMutability = NewStateMutabilityFromCtxs(ctx.AllStateMutability())
+	ftn.StateMutability = s.NewStateMutabilityFromCtxs(ctx.AllStateMutability())
 
 	returnList := ctx.FunctionTypeParameterList(1).(*parser.FunctionTypeParameterListContext)
 
 	for _, paramCtx := range returnList.AllFunctionTypeParameter() {
-		param := NewFunctionTypeParameter()
-		param.Visit(paramCtx.(*parser.FunctionTypeParameterContext))
+		param := s.NewFunctionTypeParameter()
+		param.Visit(s, paramCtx.(*parser.FunctionTypeParameterContext))
 
 		ftn.Returns = append(ftn.Returns, param)
 	}

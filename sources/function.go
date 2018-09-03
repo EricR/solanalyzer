@@ -17,16 +17,19 @@ type Function struct {
 }
 
 // NewFunction returns a new instance of Function.
-func NewFunction() *Function {
-	return &Function{
+func (s *Source) NewFunction() *Function {
+	fn := &Function{
 		Parameters: []*Parameter{},
-		Modifiers:  NewModifierList(),
+		Modifiers:  s.NewModifierList(),
 		Returns:    []*Parameter{},
 	}
+	s.AddNode(fn)
+
+	return fn
 }
 
 // Visit is called by a visitor.
-func (f *Function) Visit(ctx *parser.FunctionDefinitionContext) {
+func (f *Function) Visit(s *Source, ctx *parser.FunctionDefinitionContext) {
 	f.Start = ctx.GetStart()
 	f.Stop = ctx.GetStop()
 	f.Identifier = ctx.Identifier().GetText()
@@ -34,14 +37,14 @@ func (f *Function) Visit(ctx *parser.FunctionDefinitionContext) {
 	paramList := ctx.ParameterList().(*parser.ParameterListContext)
 
 	for _, paramCtx := range paramList.AllParameter() {
-		param := NewParameter()
-		param.Visit(paramCtx.(*parser.ParameterContext))
+		param := s.NewParameter()
+		param.Visit(s, paramCtx.(*parser.ParameterContext))
 
 		f.Parameters = append(f.Parameters, param)
 	}
 
-	modifiers := NewModifierList()
-	modifiers.Visit(ctx.ModifierList().(*parser.ModifierListContext))
+	modifiers := s.NewModifierList()
+	modifiers.Visit(s, ctx.ModifierList().(*parser.ModifierListContext))
 
 	f.Modifiers = modifiers
 
@@ -50,16 +53,16 @@ func (f *Function) Visit(ctx *parser.FunctionDefinitionContext) {
 		returnList := returnParams.ParameterList().(*parser.ParameterListContext)
 
 		for _, paramCtx := range returnList.AllParameter() {
-			param := NewParameter()
-			param.Visit(paramCtx.(*parser.ParameterContext))
+			param := s.NewParameter()
+			param.Visit(s, paramCtx.(*parser.ParameterContext))
 
 			f.Returns = append(f.Returns, param)
 		}
 	}
 
 	if ctx.Block() != nil {
-		block := NewBlock()
-		block.Visit(ctx.Block().(*parser.BlockContext))
+		block := s.NewBlock()
+		block.Visit(s, ctx.Block().(*parser.BlockContext))
 
 		f.Block = block
 	}

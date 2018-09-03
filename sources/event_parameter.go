@@ -15,17 +15,20 @@ type EventParameter struct {
 }
 
 // NewEventParameter returns a new instance of EventParameter.
-func NewEventParameter(event *Event) *EventParameter {
-	return &EventParameter{Event: event}
+func (s *Source) NewEventParameter(event *Event) *EventParameter {
+	param := &EventParameter{Event: event}
+	s.AddNode(param)
+
+	return param
 }
 
 // Visit is called by a visitor.
-func (ep *EventParameter) Visit(ctx *parser.EventParameterContext) {
+func (ep *EventParameter) Visit(s *Source, ctx *parser.EventParameterContext) {
 	ep.Start = ctx.GetStart()
 	ep.Stop = ctx.GetStop()
 
-	typeName := NewTypeName()
-	typeName.Visit(ctx.TypeName().(*parser.TypeNameContext))
+	typeName := s.NewTypeName()
+	typeName.Visit(s, ctx.TypeName().(*parser.TypeNameContext))
 
 	ep.TypeName = typeName
 	ep.Identifier = ctx.Identifier().GetText()

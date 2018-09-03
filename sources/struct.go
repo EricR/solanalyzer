@@ -3,6 +3,7 @@ package sources
 import (
 	"fmt"
 	"github.com/ericr/solanalyzer/parser"
+	"strings"
 )
 
 // Struct represents a struct in Solidity.
@@ -13,31 +14,32 @@ type Struct struct {
 }
 
 // NewStruct returns a new instance of Struct.
-func NewStruct() *Struct {
-	return &Struct{}
+func (s *Source) NewStruct() *Struct {
+	str := &Struct{}
+	s.AddNode(str)
+
+	return str
 }
 
 // Visit is called by a visitor.
-func (s *Struct) Visit(ctx *parser.StructDefinitionContext) {
+func (s *Struct) Visit(source *Source, ctx *parser.StructDefinitionContext) {
 	s.Start = ctx.GetStart()
 	s.Stop = ctx.GetStop()
 
 	for _, varDecCtx := range ctx.AllVariableDeclaration() {
-		varDec := NewVariableDeclaration()
-		varDec.Visit(varDecCtx.(*parser.VariableDeclarationContext))
+		varDec := source.NewVariableDeclaration()
+		varDec.Visit(source, varDecCtx.(*parser.VariableDeclarationContext))
 
 		s.VariableDeclarations = append(s.VariableDeclarations, varDec)
 	}
 }
 
 func (s *Struct) String() string {
-	str := fmt.Sprintf("struct %s {", s.Identifier)
+	varDecs := []string{}
 
-	for _, varDeclaration := range s.VariableDeclarations {
-		str += fmt.Sprintf("%s;", varDeclaration.String())
+	for _, varDec := range s.VariableDeclarations {
+		varDecs = append(varDecs, varDec.String())
 	}
 
-	str += "}"
-
-	return str
+	return fmt.Sprintf("struct %s {%s}", s.Identifier, strings.Join(varDecs, ";"))
 }

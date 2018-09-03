@@ -14,14 +14,17 @@ type ModifierInvocation struct {
 }
 
 // NewModifierInvocation returns a new instance of ModifierInvocation.
-func NewModifierInvocation() *ModifierInvocation {
-	return &ModifierInvocation{
+func (s *Source) NewModifierInvocation() *ModifierInvocation {
+	modInv := &ModifierInvocation{
 		Expressions: []*Expression{},
 	}
+	s.AddNode(modInv)
+
+	return modInv
 }
 
 // Visit is called by a visitor.
-func (mi *ModifierInvocation) Visit(ctx *parser.ModifierInvocationContext) {
+func (mi *ModifierInvocation) Visit(s *Source, ctx *parser.ModifierInvocationContext) {
 	mi.Start = ctx.GetStart()
 	mi.Stop = ctx.GetStop()
 	mi.Identifier = ctx.Identifier().GetText()
@@ -30,8 +33,8 @@ func (mi *ModifierInvocation) Visit(ctx *parser.ModifierInvocationContext) {
 		expList := ctx.ExpressionList().(*parser.ExpressionListContext)
 
 		for _, exprCtx := range expList.AllExpression() {
-			expression := NewExpression()
-			expression.Visit(exprCtx.(*parser.ExpressionContext))
+			expression := s.NewExpression()
+			expression.Visit(s, exprCtx.(*parser.ExpressionContext))
 
 			mi.Expressions = append(mi.Expressions, expression)
 		}

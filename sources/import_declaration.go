@@ -13,12 +13,15 @@ type ImportDeclaration struct {
 }
 
 // NewImportDeclaration returns a new instance of ImportDeclaration.
-func NewImportDeclaration() *ImportDeclaration {
-	return &ImportDeclaration{}
+func (s *Source) NewImportDeclaration() *ImportDeclaration {
+	dec := &ImportDeclaration{}
+	s.AddNode(dec)
+
+	return dec
 }
 
 // Visit is called by a visitor.
-func (id *ImportDeclaration) Visit(ctx *parser.ImportDeclarationContext) {
+func (id *ImportDeclaration) Visit(s *Source, ctx *parser.ImportDeclarationContext) {
 	id.Start = ctx.GetStart()
 	id.Stop = ctx.GetStop()
 
