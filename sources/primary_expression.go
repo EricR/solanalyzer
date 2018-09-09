@@ -87,5 +87,29 @@ func (pe *PrimaryExpression) Visit(ctx *parser.PrimaryExpressionContext) {
 }
 
 func (pe *PrimaryExpression) String() string {
-	return "TODO"
+	switch pe.SubType {
+	case ExpressionPrimaryBoolean:
+		return pe.Boolean
+
+	case ExpressionPrimaryNumber:
+		return pe.Number
+
+	case ExpressionPrimaryHex:
+		return pe.Hex
+
+	case ExpressionPrimaryString:
+		return pe.StringLit
+
+	case ExpressionPrimaryIdentifier:
+		return pe.Identifier
+
+	case ExpressionPrimaryTuple:
+		return pe.Tuple.String()
+
+	case ExpressionPrimaryElementaryTypeName:
+		return pe.ElementaryTypeName.String()
+
+	default:
+		panic("Unknown primary expression type")
+	}
 }

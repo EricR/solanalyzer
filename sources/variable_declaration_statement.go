@@ -70,16 +70,16 @@ func (vds *VariableDeclarationStatement) String() string {
 			str += fmt.Sprintf(" %s", identifier)
 		}
 	case vds.VariableDeclaration != nil:
-		str += fmt.Sprintf(" %s", vds.VariableDeclaration.String())
+		str += fmt.Sprintf(" %s", vds.VariableDeclaration)
 	case len(vds.VariableDeclarationList) > 0:
 		for _, varDec := range vds.VariableDeclarationList {
-			str += fmt.Sprintf(" %s", varDec.String())
+			str += fmt.Sprintf(" %s", varDec)
 		}
 	}
 
 	if vds.Expression != nil {
-		str += fmt.Sprintf(" %s", vds.Expression.String())
+		str += fmt.Sprintf(" %s", vds.Expression)
 	}
 
-	return fmt.Sprintf("%s;", str)
+	return str
 }

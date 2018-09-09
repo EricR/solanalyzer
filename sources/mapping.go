@@ -33,6 +33,5 @@ func (m *Mapping) Visit(ctx *parser.MappingContext) {
 }
 
 func (m *Mapping) String() string {
-	return fmt.Sprintf("mapping (%s=>%s)",
-		m.Elementary, m.TypeName.String())
+	return fmt.Sprintf("mapping (%s=>%s)", m.Elementary, m.TypeName)
 }

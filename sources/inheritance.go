@@ -1,11 +1,14 @@
 package sources
 
-import "github.com/ericr/solanalyzer/parser"
+import (
+	"fmt"
+	"github.com/ericr/solanalyzer/parser"
+	"strings"
+)
 
 // Inheritance represents inheritance in Solidity.
 type Inheritance struct {
 	Tokens
-	Contract    *Contract
 	TypeName    *UserDefinedTypeName
 	Expressions []*Expression
 }
@@ -21,4 +24,24 @@ func NewInheritance() *Inheritance {
 func (i *Inheritance) Visit(ctx *parser.InheritanceSpecifierContext) {
 	i.Start = ctx.GetStart()
 	i.Stop = ctx.GetStop()
+
+	// udtn := NewUserDefinedTypeName()
+	// udtn.Visit(ctx.UserDefinedTypeName().(*parser.UserDefinedTypeNameContext))
+
+	for _, exprCtx := range ctx.AllExpression() {
+		expr := NewExpression()
+		expr.Visit(exprCtx.(*parser.ExpressionContext))
+
+		i.Expressions = append(i.Expressions, expr)
+	}
+}
+
+func (i *Inheritance) String() string {
+	exprs := []string{}
+
+	for _, expr := range i.Expressions {
+		exprs = append(exprs, expr.String())
+	}
+
+	return fmt.Sprintf("%s(%s)", i.TypeName, strings.Join(exprs, ","))
 }

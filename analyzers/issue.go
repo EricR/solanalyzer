@@ -19,31 +19,33 @@ type Issue struct {
 }
 
 const (
-	// Informational severity
+	// SeverityInfo represents informational severity
 	SeverityInfo int = iota
-	// Low severity
+	// SeverityLow represents low severity
 	SeverityLow
-	// Medium severity
+	// SeverityMed represents medium severity
 	SeverityMed
-	// High severity
+	// SeverityHigh represents high severity
 	SeverityHigh
 )
 
+// ID returns the ID associated with an issue.
 func (i *Issue) ID() string {
 	id := fmt.Sprintf("%s:%s:%s", i.AnalyzerID(), i.Source(), i.Message)
 
 	return fmt.Sprintf("%x", sha256.Sum256([]byte(id)))
 }
 
+// AnalyzerID returns the ID of an analyzer associated with an issue.
 func (i *Issue) AnalyzerID() string {
 	return i.analyzer.ID()
 }
 
+// Source returns the source location of an issue.
 func (i *Issue) Source() string {
 	if i.sourceStart == nil || i.sourceStop == nil {
 		return fmt.Sprintf("%s:1:1", i.sourcePath)
-	} else {
-		return fmt.Sprintf("%s:%d:%d",
-			i.sourcePath, i.sourceStart.GetLine(), i.sourceStop.GetColumn())
 	}
+	return fmt.Sprintf("%s:%d:%d",
+		i.sourcePath, i.sourceStart.GetLine(), i.sourceStop.GetColumn())
 }

@@ -57,8 +57,6 @@ func (fca *FunctionCallArguments) Visit(ctx *parser.FunctionCallArgumentsContext
 
 			fca.Expressions = append(fca.Expressions, expr)
 		}
-	default:
-		panic("Unknown type of function call arguments")
 	}
 }
 

@@ -46,9 +46,9 @@ func (e *Event) String() string {
 	}
 
 	if e.Anonymous {
-		return fmt.Sprintf("event %s (%s) anonymous;",
+		return fmt.Sprintf("event %s (%s) anonymous",
 			e.Identifier, strings.Join(paramStrs, ", "))
 	}
-	return fmt.Sprintf("event %s (%s);",
+	return fmt.Sprintf("event %s (%s)",
 		e.Identifier, strings.Join(paramStrs, ", "))
 }

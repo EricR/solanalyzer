@@ -34,5 +34,5 @@ func (dws *DoWhileStatement) Visit(ctx *parser.DoWhileStatementContext) {
 }
 
 func (dws *DoWhileStatement) String() string {
-	return fmt.Sprintf("do %s while (%s);", dws.Body, dws.Condition)
+	return fmt.Sprintf("do %s while (%s)", dws.Body, dws.Condition)
 }

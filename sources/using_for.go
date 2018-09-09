@@ -34,7 +34,7 @@ func (uf *UsingFor) Visit(ctx *parser.UsingForDeclarationContext) {
 
 func (uf *UsingFor) String() string {
 	if uf.TypeName == nil {
-		return fmt.Sprintf("using %s for *;", uf.Identifier)
+		return fmt.Sprintf("using %s for *", uf.Identifier)
 	}
-	return fmt.Sprintf("using %s for %s;", uf.Identifier, uf.TypeName)
+	return fmt.Sprintf("using %s for %s", uf.Identifier, uf.TypeName)
 }

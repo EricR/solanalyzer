@@ -3,15 +3,25 @@ package sources
 import "github.com/ericr/solanalyzer/parser"
 
 const (
+	// ElementaryTypeNameInt represents an integer.
 	ElementaryTypeNameInt = iota
+	// ElementaryTypeNameUint represents an unsigned integer.
 	ElementaryTypeNameUint
+	// ElementaryTypeNameAddress represents an address.
 	ElementaryTypeNameAddress
+	// ElementaryTypeNameBool represents a boolean.
 	ElementaryTypeNameBool
+	// ElementaryTypeNameString represents a string.
 	ElementaryTypeNameString
+	// ElementaryTypeNameVar represents a variable.
 	ElementaryTypeNameVar
+	// ElementaryTypeNameByte represents a byte.
 	ElementaryTypeNameByte
+	// ElementaryTypeNameBytes represents bytes.
 	ElementaryTypeNameBytes
+	// ElementaryTypeNameFixed represents a fixed type.
 	ElementaryTypeNameFixed
+	// ElementaryTypeNameUfixed represents an unfixed type.
 	ElementaryTypeNameUfixed
 )
 
@@ -32,6 +42,7 @@ func NewElementaryTypeName() *ElementaryTypeName {
 	return &ElementaryTypeName{}
 }
 
+// Visit is called by a visitor.
 func (etn *ElementaryTypeName) Visit(ctx *parser.ElementaryTypeNameContext) {
 	etn.Start = ctx.GetStart()
 	etn.Stop = ctx.GetStop()

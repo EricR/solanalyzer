@@ -34,9 +34,18 @@ func (ss *SimpleStatement) Visit(ctx *parser.SimpleStatementContext) {
 		varDecStmt := NewVariableDeclarationStatement()
 		varDecStmt.Visit(varDecStmtCtx.(*parser.VariableDeclarationStatementContext))
 
+		ss.SubType = SimpleStatementVarDec
 		ss.VariableDeclaration = varDecStmt
 		return
 	}
+
+	exprStmtCtx := ctx.ExpressionStatement().(*parser.ExpressionStatementContext)
+
+	expr := NewExpression()
+	expr.Visit(exprStmtCtx.Expression().(*parser.ExpressionContext))
+
+	ss.SubType = SimpleStatementExpr
+	ss.Expression = expr
 }
 
 func (ss *SimpleStatement) String() string {

@@ -141,7 +141,7 @@ func (cva *CompilerVersionAnalyzer) Execute(source *sources.Source) ([]*Issue, e
 }
 
 func (cva *CompilerVersionAnalyzer) getLatestVersion() error {
-	resp, err := getUrl(solVerURL)
+	resp, err := getURL(solVerURL)
 	if err != nil {
 		return fmt.Errorf("HTTP error: %s", err)
 	}
@@ -162,7 +162,7 @@ func (cva *CompilerVersionAnalyzer) getLatestVersion() error {
 }
 
 func (cva *CompilerVersionAnalyzer) getBugs() error {
-	resp, err := getUrl(solBugsURL)
+	resp, err := getURL(solBugsURL)
 	if err != nil {
 		return fmt.Errorf("HTTP error: %s", err)
 	}
@@ -175,7 +175,7 @@ func (cva *CompilerVersionAnalyzer) getBugs() error {
 }
 
 func (cva *CompilerVersionAnalyzer) getBugVersions() error {
-	resp, err := getUrl(solBugsByVerURL)
+	resp, err := getURL(solBugsByVerURL)
 	if err != nil {
 		return fmt.Errorf("HTTP error: %s", err)
 	}

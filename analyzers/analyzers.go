@@ -14,7 +14,7 @@ type Analyzer interface {
 	Execute(*sources.Source) ([]*Issue, error)
 }
 
-func getUrl(url string) ([]byte, error) {
+func getURL(url string) ([]byte, error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		return []byte(""), err

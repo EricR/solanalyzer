@@ -10,7 +10,7 @@ const (
 	ExpressionPrimary = iota
 	// ExpressionNew represents a 'new' expression.
 	ExpressionNew
-	// ExpressionUnary represents a unary operation expression.
+	// ExpressionUnaryOperation represents a unary operation expression.
 	ExpressionUnaryOperation
 	// ExpressionParentheses represents a sub-expression in parentheses.
 	ExpressionParentheses
@@ -97,7 +97,7 @@ func (e *Expression) Visit(ctx *parser.ExpressionContext) {
 	case 3:
 		if getText(ctx.GetChild(0)) == "(" && getText(ctx.GetChild(2)) == ")" {
 			expr := NewExpression()
-			expr.Visit(ctx.Expression(0).(*parser.ExpressionContext))
+			expr.Visit(ctx.Expression(1).(*parser.ExpressionContext))
 
 			e.SubType = ExpressionParentheses
 			e.SubExpression = expr
@@ -149,12 +149,15 @@ func (e *Expression) Visit(ctx *parser.ExpressionContext) {
 			subExpr := NewExpression()
 			subExpr.Visit(ctx.Expression(0).(*parser.ExpressionContext))
 
-			indexExpr := NewExpression()
-			indexExpr.Visit(ctx.Expression(1).(*parser.ExpressionContext))
+			if ctx.Expression(1) != nil {
+				indexExpr := NewExpression()
+				indexExpr.Visit(ctx.Expression(1).(*parser.ExpressionContext))
+
+				e.IndexExpression = indexExpr
+			}
 
 			e.SubType = ExpressionIndexAccess
 			e.SubExpression = subExpr
-			e.IndexExpression = indexExpr
 
 		default:
 			panic("Unknown expression(4)")
@@ -182,7 +185,7 @@ func (e *Expression) String() string {
 		return e.Primary.String()
 
 	case ExpressionNew:
-		return fmt.Sprintf("new %s", e.TypeName.String())
+		return fmt.Sprintf("new %s", e.TypeName)
 
 	case ExpressionUnaryOperation:
 		return fmt.Sprintf("%s %s", e.Operation, e.SubExpression)
@@ -191,7 +194,7 @@ func (e *Expression) String() string {
 		return fmt.Sprintf("(%s)", e.SubExpression)
 
 	case ExpressionMemberAccess:
-		return fmt.Sprintf("%s.%s", e.SubExpression, e.IndexExpression)
+		return fmt.Sprintf("%s.%s", e.SubExpression, e.MemberName)
 
 	case ExpressionBinaryOperation:
 		return fmt.Sprintf("%s %s %s", e.LeftExpression, e.Operation, e.RightExpression)
@@ -209,5 +212,5 @@ func (e *Expression) String() string {
 		panic("unknown expression sub-type")
 	}
 
-	return ""
+	return "(unknown expression)"
 }

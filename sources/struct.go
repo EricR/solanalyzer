@@ -3,6 +3,7 @@ package sources
 import (
 	"fmt"
 	"github.com/ericr/solanalyzer/parser"
+	"strings"
 )
 
 // Struct represents a struct in Solidity.
@@ -31,13 +32,11 @@ func (s *Struct) Visit(ctx *parser.StructDefinitionContext) {
 }
 
 func (s *Struct) String() string {
-	str := fmt.Sprintf("struct %s {", s.Identifier)
+	varDecs := []string{}
 
-	for _, varDeclaration := range s.VariableDeclarations {
-		str += fmt.Sprintf("%s;", varDeclaration.String())
+	for _, varDec := range s.VariableDeclarations {
+		varDecs = append(varDecs, varDec.String())
 	}
 
-	str += "}"
-
-	return str
+	return fmt.Sprintf("struct %s {%s}", s.Identifier, strings.Join(varDecs, ";"))
 }

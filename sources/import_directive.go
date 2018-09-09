@@ -74,14 +74,14 @@ func (id *ImportDirective) String() string {
 	switch id.SubType {
 	case ImportPath:
 		if id.As == "" {
-			return fmt.Sprintf("import \"%s\";", id.From)
+			return fmt.Sprintf("import \"%s\"", id.From)
 		}
-		return fmt.Sprintf("import \"%s\" as %s;", id.From, id.As)
+		return fmt.Sprintf("import \"%s\" as %s", id.From, id.As)
 	case ImprotModule:
 		if id.As == "" {
-			return fmt.Sprintf("import %s from \"%s\";", id.Module, id.From)
+			return fmt.Sprintf("import %s from \"%s\"", id.Module, id.From)
 		}
-		return fmt.Sprintf("import %s as %s from \"%s\";", id.Module, id.As, id.From)
+		return fmt.Sprintf("import %s as %s from \"%s\"", id.Module, id.As, id.From)
 	case ImportModules:
 		decs := []string{}
 
@@ -89,9 +89,9 @@ func (id *ImportDirective) String() string {
 			decs = append(decs, dec.String())
 		}
 
-		return fmt.Sprintf("import { %s } from \"%s\";",
+		return fmt.Sprintf("import { %s } from \"%s\"",
 			strings.Join(decs, ","), id.From)
 	default:
-		panic("Unknown import directive sub-type")
+		panic("Unknown import directive subtype")
 	}
 }

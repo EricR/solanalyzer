@@ -62,7 +62,7 @@ func (sv *StateVariable) String() string {
 	}
 
 	if sv.Expression == nil {
-		return fmt.Sprintf("%s %s;", str, sv.Identifier)
+		return fmt.Sprintf("%s %s", str, sv.Identifier)
 	}
-	return fmt.Sprintf("%s %s = %s;", str, sv.Identifier, sv.Expression)
+	return fmt.Sprintf("%s %s = %s", str, sv.Identifier, sv.Expression)
 }

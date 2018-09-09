@@ -124,5 +124,47 @@ func (s *Statement) Visit(ctx *parser.StatementContext) {
 }
 
 func (s *Statement) String() string {
-	return "TODO"
+	switch s.SubType {
+	case StatementIf:
+		return s.If.String()
+
+	case StatementWhile:
+		return s.While.String()
+
+	case StatementFor:
+		return s.For.String()
+
+	case StatementBlock:
+		return s.Block.String()
+
+	case StatementInlineAssembly:
+		// TODO
+		return "TODO"
+
+	case StatementDoWhile:
+		return s.DoWhile.String()
+
+	case StatementContinue:
+		return "continue"
+
+	case StatementBreak:
+		return "break"
+
+	case StatementReturn:
+		return s.ReturnStatement.String()
+
+	case StatementThrow:
+		return "throw"
+
+	case StatementEmit:
+		return "emit"
+
+	case StatementSimple:
+		return s.SimpleStatement.String()
+
+	default:
+		panic("Unknown statement type")
+	}
+
+	return "unknown statement type"
 }
