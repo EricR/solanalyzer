@@ -9,12 +9,12 @@ import (
 // function visibility.
 type FunctionVisibilityAnalyzer struct{}
 
-// Name returns the name of the analyzer.
+// GetName returns the name of the analyzer.
 func (fva *FunctionVisibilityAnalyzer) Name() string {
 	return "Function Visibility"
 }
 
-// ID returns the unique ID of the analyzer.
+// GetID returns the unique ID of the analyer.
 func (fva *FunctionVisibilityAnalyzer) ID() string {
 	return "function-visibility"
 }

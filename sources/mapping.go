@@ -13,28 +13,26 @@ type Mapping struct {
 }
 
 // NewMapping returns a new instance of Mapping.
-func (s *Source) NewMapping() *Mapping {
-	mapping := &Mapping{}
-	s.AddNode(mapping)
-
-	return mapping
+func NewMapping() *Mapping {
+	return &Mapping{}
 }
 
 // Visit is called by a visitor.
-func (m *Mapping) Visit(s *Source, ctx *parser.MappingContext) {
+func (m *Mapping) Visit(ctx *parser.MappingContext) {
 	m.Start = ctx.GetStart()
 	m.Stop = ctx.GetStop()
 
-	tn := s.NewTypeName()
-	tn.Visit(s, ctx.TypeName().(*parser.TypeNameContext))
+	tn := NewTypeName()
+	tn.Visit(ctx.TypeName().(*parser.TypeNameContext))
 
-	etn := s.NewElementaryTypeName()
-	etn.Visit(s, ctx.ElementaryTypeName().(*parser.ElementaryTypeNameContext))
+	etn := NewElementaryTypeName()
+	etn.Visit(ctx.ElementaryTypeName().(*parser.ElementaryTypeNameContext))
 
 	m.Elementary = etn
 	m.TypeName = tn
 }
 
 func (m *Mapping) String() string {
-	return fmt.Sprintf("mapping (%s=>%s)", m.Elementary, m.TypeName)
+	return fmt.Sprintf("mapping (%s=>%s)",
+		m.Elementary, m.TypeName.String())
 }

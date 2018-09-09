@@ -14,20 +14,17 @@ type VariableDeclaration struct {
 }
 
 // NewVariableDeclaration returns a new instance of VariableDeclaration.
-func (s *Source) NewVariableDeclaration() *VariableDeclaration {
-	varDec := &VariableDeclaration{}
-	s.AddNode(varDec)
-
-	return varDec
+func NewVariableDeclaration() *VariableDeclaration {
+	return &VariableDeclaration{}
 }
 
 // Visit is called by a visitor.
-func (vd *VariableDeclaration) Visit(s *Source, ctx *parser.VariableDeclarationContext) {
+func (vd *VariableDeclaration) Visit(ctx *parser.VariableDeclarationContext) {
 	vd.Start = ctx.GetStart()
 	vd.Stop = ctx.GetStop()
 
-	typeName := s.NewTypeName()
-	typeName.Visit(s, ctx.TypeName().(*parser.TypeNameContext))
+	typeName := NewTypeName()
+	typeName.Visit(ctx.TypeName().(*parser.TypeNameContext))
 
 	vd.TypeName = typeName
 

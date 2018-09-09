@@ -13,23 +13,20 @@ type Block struct {
 }
 
 // NewBlock returns a new instance of Block.
-func (s *Source) NewBlock() *Block {
-	block := &Block{
+func NewBlock() *Block {
+	return &Block{
 		Statements: []*Statement{},
 	}
-	s.AddNode(block)
-
-	return block
 }
 
 // Visit is called by a visitor.
-func (b *Block) Visit(s *Source, ctx *parser.BlockContext) {
+func (b *Block) Visit(ctx *parser.BlockContext) {
 	b.Start = ctx.GetStart()
 	b.Stop = ctx.GetStop()
 
 	for _, stmtCtx := range ctx.AllStatement() {
-		statement := s.NewStatement()
-		statement.Visit(s, stmtCtx.(*parser.StatementContext))
+		statement := NewStatement()
+		statement.Visit(stmtCtx.(*parser.StatementContext))
 
 		b.Statements = append(b.Statements, statement)
 	}

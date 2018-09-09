@@ -16,7 +16,6 @@ import (
 // analyzers, and issues found.
 type Session struct {
 	Sources      []*sources.Source
-	Nodes        []sources.Node
 	sourcesMap   map[string]bool
 	Analyzers    []analyzers.Analyzer
 	analyzersMap map[string]bool
@@ -27,7 +26,6 @@ type Session struct {
 func NewSession() *Session {
 	return &Session{
 		Sources:      []*sources.Source{},
-		Nodes:        []sources.Node{},
 		sourcesMap:   map[string]bool{},
 		analyzersMap: map[string]bool{},
 	}
@@ -90,7 +88,6 @@ func (s *Session) VisitSources() {
 	for _, source := range s.Sources {
 		logrus.Debugf("Scanning %s", source.FilePath)
 		source.Visit()
-		s.Nodes = append(s.Nodes, source.Nodes...)
 	}
 }
 

@@ -16,15 +16,12 @@ type Event struct {
 }
 
 // NewEvent returns a new instance of Event.
-func (s *Source) NewEvent() *Event {
-	event := &Event{}
-	s.AddNode(event)
-
-	return event
+func NewEvent() *Event {
+	return &Event{}
 }
 
 // Visit is called by a visitor.
-func (e *Event) Visit(s *Source, ctx *parser.EventDefinitionContext) {
+func (e *Event) Visit(ctx *parser.EventDefinitionContext) {
 	e.Start = ctx.GetStart()
 	e.Stop = ctx.GetStop()
 
@@ -34,8 +31,8 @@ func (e *Event) Visit(s *Source, ctx *parser.EventDefinitionContext) {
 	pramList := ctx.EventParameterList().(*parser.EventParameterListContext)
 
 	for _, paramCtx := range pramList.AllEventParameter() {
-		param := s.NewEventParameter(e)
-		param.Visit(s, paramCtx.(*parser.EventParameterContext))
+		param := NewEventParameter(e)
+		param.Visit(paramCtx.(*parser.EventParameterContext))
 
 		e.Parameters = append(e.Parameters, param)
 	}
@@ -49,9 +46,9 @@ func (e *Event) String() string {
 	}
 
 	if e.Anonymous {
-		return fmt.Sprintf("event %s (%s) anonymous",
+		return fmt.Sprintf("event %s (%s) anonymous;",
 			e.Identifier, strings.Join(paramStrs, ", "))
 	}
-	return fmt.Sprintf("event %s (%s)",
+	return fmt.Sprintf("event %s (%s);",
 		e.Identifier, strings.Join(paramStrs, ", "))
 }

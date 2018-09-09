@@ -15,41 +15,38 @@ type ForStatement struct {
 }
 
 // NewForStatement returns a new instance of ForStatement.
-func (s *Source) NewForStatement() *ForStatement {
-	stmt := &ForStatement{}
-	s.AddNode(stmt)
-
-	return stmt
+func NewForStatement() *ForStatement {
+	return &ForStatement{}
 }
 
 // Visit is called by a visitor.
-func (fs *ForStatement) Visit(s *Source, ctx *parser.ForStatementContext) {
+func (fs *ForStatement) Visit(ctx *parser.ForStatementContext) {
 	fs.Start = ctx.GetStart()
 	fs.Stop = ctx.GetStop()
 
 	if ctx.SimpleStatement() != nil {
-		simpleStatement := s.NewSimpleStatement()
-		simpleStatement.Visit(s, ctx.SimpleStatement().(*parser.SimpleStatementContext))
+		simpleStatement := NewSimpleStatement()
+		simpleStatement.Visit(ctx.SimpleStatement().(*parser.SimpleStatementContext))
 
 		fs.Initialization = simpleStatement
 	}
 
 	if ctx.Expression(0) != nil {
-		expr := s.NewExpression()
-		expr.Visit(s, ctx.Expression(0).(*parser.ExpressionContext))
+		expr := NewExpression()
+		expr.Visit(ctx.Expression(0).(*parser.ExpressionContext))
 
 		fs.Condition = expr
 	}
 
 	if ctx.Expression(1) != nil {
-		expr := s.NewExpression()
-		expr.Visit(s, ctx.Expression(1).(*parser.ExpressionContext))
+		expr := NewExpression()
+		expr.Visit(ctx.Expression(1).(*parser.ExpressionContext))
 
 		fs.Increment = expr
 	}
 
-	body := s.NewStatement()
-	body.Visit(s, ctx.Statement().(*parser.StatementContext))
+	body := NewStatement()
+	body.Visit(ctx.Statement().(*parser.StatementContext))
 
 	fs.Body = body
 }

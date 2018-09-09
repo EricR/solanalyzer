@@ -14,17 +14,14 @@ type Modifier struct {
 }
 
 // NewModifier returns a new instance of Modifier.
-func (s *Source) NewModifier() *Modifier {
-	modifier := &Modifier{
+func NewModifier() *Modifier {
+	return &Modifier{
 		Parameters: []*Parameter{},
 	}
-	s.AddNode(modifier)
-
-	return modifier
 }
 
 // Visit is called by a visitor.
-func (m *Modifier) Visit(s *Source, ctx *parser.FunctionDefinitionContext) {
+func (m *Modifier) Visit(ctx *parser.FunctionDefinitionContext) {
 	m.Start = ctx.GetStart()
 	m.Stop = ctx.GetStop()
 	m.Identifier = ctx.Identifier().GetText()
@@ -32,15 +29,15 @@ func (m *Modifier) Visit(s *Source, ctx *parser.FunctionDefinitionContext) {
 	paramList := ctx.ParameterList().(*parser.ParameterListContext)
 
 	for _, paramCtx := range paramList.AllParameter() {
-		param := s.NewParameter()
-		param.Visit(s, paramCtx.(*parser.ParameterContext))
+		param := NewParameter()
+		param.Visit(paramCtx.(*parser.ParameterContext))
 
 		m.Parameters = append(m.Parameters, param)
 	}
 
 	if ctx.Block() != nil {
-		block := s.NewBlock()
-		block.Visit(s, ctx.Block().(*parser.BlockContext))
+		block := NewBlock()
+		block.Visit(ctx.Block().(*parser.BlockContext))
 
 		m.Block = block
 	}

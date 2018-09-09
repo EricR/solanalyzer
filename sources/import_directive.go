@@ -18,6 +18,7 @@ const (
 // ImportDirective represents an import directive in Solidity.
 type ImportDirective struct {
 	Tokens
+	Source       *Source
 	SubType      int
 	Module       string
 	From         string
@@ -26,15 +27,12 @@ type ImportDirective struct {
 }
 
 // NewImportDirective returns a new instance of ImportDirective.
-func (s *Source) NewImportDirective() *ImportDirective {
-	dir := &ImportDirective{}
-	s.AddNode(dir)
-
-	return dir
+func NewImportDirective(source *Source) *ImportDirective {
+	return &ImportDirective{Source: source}
 }
 
 // Visit is called by a visitor.
-func (id *ImportDirective) Visit(s *Source, ctx *parser.ImportDirectiveContext) {
+func (id *ImportDirective) Visit(ctx *parser.ImportDirectiveContext) {
 	id.Start = ctx.GetStart()
 	id.Stop = ctx.GetStop()
 
@@ -50,8 +48,8 @@ func (id *ImportDirective) Visit(s *Source, ctx *parser.ImportDirectiveContext) 
 		for _, decCtx := range ctx.AllImportDeclaration() {
 			from := ctx.StringLiteral().GetText()
 
-			dec := s.NewImportDeclaration()
-			dec.Visit(s, decCtx.(*parser.ImportDeclarationContext))
+			dec := NewImportDeclaration()
+			dec.Visit(decCtx.(*parser.ImportDeclarationContext))
 
 			id.SubType = ImprotModule
 			id.Declarations = append(id.Declarations, dec)
@@ -76,14 +74,14 @@ func (id *ImportDirective) String() string {
 	switch id.SubType {
 	case ImportPath:
 		if id.As == "" {
-			return fmt.Sprintf("import \"%s\"", id.From)
+			return fmt.Sprintf("import \"%s\";", id.From)
 		}
-		return fmt.Sprintf("import \"%s\" as %s", id.From, id.As)
+		return fmt.Sprintf("import \"%s\" as %s;", id.From, id.As)
 	case ImprotModule:
 		if id.As == "" {
-			return fmt.Sprintf("import %s from \"%s\"", id.Module, id.From)
+			return fmt.Sprintf("import %s from \"%s\";", id.Module, id.From)
 		}
-		return fmt.Sprintf("import %s as %s from \"%s\"", id.Module, id.As, id.From)
+		return fmt.Sprintf("import %s as %s from \"%s\";", id.Module, id.As, id.From)
 	case ImportModules:
 		decs := []string{}
 
@@ -91,7 +89,7 @@ func (id *ImportDirective) String() string {
 			decs = append(decs, dec.String())
 		}
 
-		return fmt.Sprintf("import { %s } from \"%s\"",
+		return fmt.Sprintf("import { %s } from \"%s\";",
 			strings.Join(decs, ","), id.From)
 	default:
 		panic("Unknown import directive sub-type")

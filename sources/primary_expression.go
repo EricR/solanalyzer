@@ -34,15 +34,12 @@ type PrimaryExpression struct {
 }
 
 // NewPrimaryExpression returns a new instance of PrimaryExpression.
-func (s *Source) NewPrimaryExpression() *PrimaryExpression {
-	expr := &PrimaryExpression{}
-	s.AddNode(expr)
-
-	return expr
+func NewPrimaryExpression() *PrimaryExpression {
+	return &PrimaryExpression{}
 }
 
 // Visit is called by a visitor.
-func (pe *PrimaryExpression) Visit(s *Source, ctx *parser.PrimaryExpressionContext) {
+func (pe *PrimaryExpression) Visit(ctx *parser.PrimaryExpressionContext) {
 	pe.Start = ctx.GetStart()
 	pe.Stop = ctx.GetStop()
 
@@ -68,8 +65,8 @@ func (pe *PrimaryExpression) Visit(s *Source, ctx *parser.PrimaryExpressionConte
 		pe.Identifier = ctx.Identifier().GetText()
 
 	case ctx.TupleExpression() != nil:
-		tuple := s.NewTupleExpression()
-		tuple.Visit(s, ctx.TupleExpression().(*parser.TupleExpressionContext))
+		tuple := NewTupleExpression()
+		tuple.Visit(ctx.TupleExpression().(*parser.TupleExpressionContext))
 
 		pe.SubType = ExpressionPrimaryTuple
 		pe.Tuple = tuple
@@ -78,8 +75,8 @@ func (pe *PrimaryExpression) Visit(s *Source, ctx *parser.PrimaryExpressionConte
 		etneCtx := ctx.ElementaryTypeNameExpression().(*parser.ElementaryTypeNameExpressionContext)
 		etnCtx := etneCtx.ElementaryTypeName().(*parser.ElementaryTypeNameContext)
 
-		elementaryTypeName := s.NewElementaryTypeName()
-		elementaryTypeName.Visit(s, etnCtx)
+		elementaryTypeName := NewElementaryTypeName()
+		elementaryTypeName.Visit(etnCtx)
 
 		pe.SubType = ExpressionPrimaryElementaryTypeName
 		pe.ElementaryTypeName = elementaryTypeName
@@ -90,29 +87,5 @@ func (pe *PrimaryExpression) Visit(s *Source, ctx *parser.PrimaryExpressionConte
 }
 
 func (pe *PrimaryExpression) String() string {
-	switch pe.SubType {
-	case ExpressionPrimaryBoolean:
-		return pe.Boolean
-		
-	case ExpressionPrimaryNumber:
-		return pe.Number
-
-	case ExpressionPrimaryHex:
-		return pe.Hex
-
-	case ExpressionPrimaryString:
-		return pe.StringLit
-
-	case ExpressionPrimaryIdentifier:
-		return pe.Identifier
-
-	case ExpressionPrimaryTuple:
-		return pe.Tuple.String()
-
-	case ExpressionPrimaryElementaryTypeName:
-		return pe.ElementaryTypeName.String()
-
-	default:
-		panic("Unknown primary expression type")
-	}
+	return "TODO"
 }

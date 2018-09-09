@@ -6,11 +6,8 @@ import "strings"
 type UserDefinedTypeName []string
 
 // NewUserDefinedTypeName returns a new instance of UserDefinedTypeName.
-func (s *Source) NewUserDefinedTypeName() *UserDefinedTypeName {
-	typeName := &UserDefinedTypeName{}
-	s.AddNode(typeName)
-
-	return typeName
+func NewUserDefinedTypeName() *UserDefinedTypeName {
+	return &UserDefinedTypeName{}
 }
 
 // Add adds an identifier to an instance of UserDefinedTypeName.

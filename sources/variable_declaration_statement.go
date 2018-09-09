@@ -16,17 +16,14 @@ type VariableDeclarationStatement struct {
 }
 
 // NewVariableDeclarationStatement returns a new instance of SimpleStatement.
-func (s *Source) NewVariableDeclarationStatement() *VariableDeclarationStatement {
-	stmt := &VariableDeclarationStatement{
+func NewVariableDeclarationStatement() *VariableDeclarationStatement {
+	return &VariableDeclarationStatement{
 		Identifiers: []string{},
 	}
-	s.AddNode(stmt)
-
-	return stmt
 }
 
 // Visit is called by a visitor.
-func (vds *VariableDeclarationStatement) Visit(s *Source, ctx *parser.VariableDeclarationStatementContext) {
+func (vds *VariableDeclarationStatement) Visit(ctx *parser.VariableDeclarationStatementContext) {
 	vds.Start = ctx.GetStart()
 	vds.Stop = ctx.GetStop()
 
@@ -39,16 +36,16 @@ func (vds *VariableDeclarationStatement) Visit(s *Source, ctx *parser.VariableDe
 		}
 
 	case ctx.VariableDeclaration() != nil:
-		varDec := s.NewVariableDeclaration()
-		varDec.Visit(s, ctx.VariableDeclaration().(*parser.VariableDeclarationContext))
+		varDec := NewVariableDeclaration()
+		varDec.Visit(ctx.VariableDeclaration().(*parser.VariableDeclarationContext))
 
 		vds.VariableDeclaration = varDec
 
 	case ctx.VariableDeclarationList() != nil:
 		varDecList := ctx.VariableDeclarationList().(*parser.VariableDeclarationListContext)
 		for _, varDecCtx := range varDecList.AllVariableDeclaration() {
-			varDec := s.NewVariableDeclaration()
-			varDec.Visit(s, varDecCtx.(*parser.VariableDeclarationContext))
+			varDec := NewVariableDeclaration()
+			varDec.Visit(varDecCtx.(*parser.VariableDeclarationContext))
 
 			vds.VariableDeclarationList = append(vds.VariableDeclarationList, varDec)
 		}
@@ -57,8 +54,8 @@ func (vds *VariableDeclarationStatement) Visit(s *Source, ctx *parser.VariableDe
 	}
 
 	if ctx.Expression() != nil {
-		expr := s.NewExpression()
-		expr.Visit(s, ctx.Expression().(*parser.ExpressionContext))
+		expr := NewExpression()
+		expr.Visit(ctx.Expression().(*parser.ExpressionContext))
 
 		vds.Expression = expr
 	}
@@ -73,16 +70,16 @@ func (vds *VariableDeclarationStatement) String() string {
 			str += fmt.Sprintf(" %s", identifier)
 		}
 	case vds.VariableDeclaration != nil:
-		str += fmt.Sprintf(" %s", vds.VariableDeclaration)
+		str += fmt.Sprintf(" %s", vds.VariableDeclaration.String())
 	case len(vds.VariableDeclarationList) > 0:
 		for _, varDec := range vds.VariableDeclarationList {
-			str += fmt.Sprintf(" %s", varDec)
+			str += fmt.Sprintf(" %s", varDec.String())
 		}
 	}
 
 	if vds.Expression != nil {
-		str += fmt.Sprintf(" %s", vds.Expression)
+		str += fmt.Sprintf(" %s", vds.Expression.String())
 	}
 
-	return str
+	return fmt.Sprintf("%s;", str)
 }

@@ -13,25 +13,22 @@ type WhileStatement struct {
 }
 
 // NewWhileStatement returns a new instance of WhileStatement.
-func (s *Source) NewWhileStatement() *WhileStatement {
-	stmt := &WhileStatement{}
-	s.AddNode(stmt)
-
-	return stmt
+func NewWhileStatement() *WhileStatement {
+	return &WhileStatement{}
 }
 
 // Visit is called by a visitor.
-func (ws *WhileStatement) Visit(s *Source, ctx *parser.WhileStatementContext) {
+func (ws *WhileStatement) Visit(ctx *parser.WhileStatementContext) {
 	ws.Start = ctx.GetStart()
 	ws.Stop = ctx.GetStop()
 
-	cond := s.NewExpression()
-	cond.Visit(s, ctx.Expression().(*parser.ExpressionContext))
+	cond := NewExpression()
+	cond.Visit(ctx.Expression().(*parser.ExpressionContext))
 
 	ws.Condition = cond
 
-	bodyStmt := s.NewStatement()
-	bodyStmt.Visit(s, ctx.Statement().(*parser.StatementContext))
+	bodyStmt := NewStatement()
+	bodyStmt.Visit(ctx.Statement().(*parser.StatementContext))
 
 	ws.Body = bodyStmt
 }

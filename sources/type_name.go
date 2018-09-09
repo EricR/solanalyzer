@@ -31,29 +31,26 @@ type TypeName struct {
 }
 
 // NewTypeName returns a new instance of TypeName.
-func (s *Source) NewTypeName() *TypeName {
-	typeName := &TypeName{}
-	s.AddNode(typeName)
-
-	return typeName
+func NewTypeName() *TypeName {
+	return &TypeName{}
 }
 
 // Visit is called by a visitor.
-func (tn *TypeName) Visit(s *Source, ctx *parser.TypeNameContext) {
+func (tn *TypeName) Visit(ctx *parser.TypeNameContext) {
 	tn.Start = ctx.GetStart()
 	tn.Stop = ctx.GetStop()
 
 	switch {
 	case ctx.ElementaryTypeName() != nil:
-		etn := s.NewElementaryTypeName()
-		etn.Visit(s, ctx.ElementaryTypeName().(*parser.ElementaryTypeNameContext))
+		etn := NewElementaryTypeName()
+		etn.Visit(ctx.ElementaryTypeName().(*parser.ElementaryTypeNameContext))
 
 		tn.SubType = TypeNameElementary
 		tn.Elementary = etn
 
 	case ctx.UserDefinedTypeName() != nil:
 		udCtx := ctx.UserDefinedTypeName().(*parser.UserDefinedTypeNameContext)
-		userDefined := s.NewUserDefinedTypeName()
+		userDefined := NewUserDefinedTypeName()
 
 		for _, identifier := range udCtx.AllIdentifier() {
 			userDefined.Add(identifier.GetText())
@@ -63,26 +60,26 @@ func (tn *TypeName) Visit(s *Source, ctx *parser.TypeNameContext) {
 		tn.UserDefined = userDefined
 
 	case ctx.Mapping() != nil:
-		mapping := s.NewMapping()
-		mapping.Visit(s, ctx.Mapping().(*parser.MappingContext))
+		mapping := NewMapping()
+		mapping.Visit(ctx.Mapping().(*parser.MappingContext))
 
 		tn.SubType = TypeNameMapping
 		tn.Mapping = mapping
 
 	case ctx.TypeName() != nil && ctx.Expression() != nil:
-		tn2 := s.NewTypeName()
-		tn2.Visit(s, ctx.TypeName().(*parser.TypeNameContext))
+		tn2 := NewTypeName()
+		tn2.Visit(ctx.TypeName().(*parser.TypeNameContext))
 
-		expr := s.NewExpression()
-		expr.Visit(s, ctx.Expression().(*parser.ExpressionContext))
+		expr := NewExpression()
+		expr.Visit(ctx.Expression().(*parser.ExpressionContext))
 
 		tn.SubType = TypeNameArray
 		tn.Expression = expr
 		tn.TypeName = tn2
 
 	case ctx.FunctionTypeName() != nil:
-		ftn := s.NewFunctionTypeName()
-		ftn.Visit(s, ctx.FunctionTypeName().(*parser.FunctionTypeNameContext))
+		ftn := NewFunctionTypeName()
+		ftn.Visit(ctx.FunctionTypeName().(*parser.FunctionTypeNameContext))
 
 		tn.Function = ftn
 

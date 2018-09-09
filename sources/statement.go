@@ -43,43 +43,40 @@ type Statement struct {
 }
 
 // NewStatement returns a new instance of Statement.
-func (s *Source) NewStatement() *Statement {
-	stmt := &Statement{}
-	s.AddNode(stmt)
-
-	return stmt
+func NewStatement() *Statement {
+	return &Statement{}
 }
 
 // Visit is called by a visitor.
-func (s *Statement) Visit(source *Source, ctx *parser.StatementContext) {
+func (s *Statement) Visit(ctx *parser.StatementContext) {
 	s.Start = ctx.GetStart()
 	s.Stop = ctx.GetStop()
 
 	switch {
 	case ctx.IfStatement() != nil:
-		ifStatement := source.NewIfStatement()
-		ifStatement.Visit(source, ctx.IfStatement().(*parser.IfStatementContext))
+		ifStatement := NewIfStatement()
+		ifStatement.Visit(ctx.IfStatement().(*parser.IfStatementContext))
 
 		s.SubType = StatementIf
 		s.If = ifStatement
 
 	case ctx.WhileStatement() != nil:
-		whileStatement := source.NewWhileStatement()
-		whileStatement.Visit(source, ctx.WhileStatement().(*parser.WhileStatementContext))
+		whileStatement := NewWhileStatement()
+		whileStatement.Visit(ctx.WhileStatement().(*parser.WhileStatementContext))
 
 		s.SubType = StatementWhile
 		s.While = whileStatement
 
 	case ctx.ForStatement() != nil:
-		forStatement := source.NewForStatement()
-		forStatement.Visit(source, ctx.ForStatement().(*parser.ForStatementContext))
+		forStatement := NewForStatement()
+		forStatement.Visit(ctx.ForStatement().(*parser.ForStatementContext))
 
 		s.SubType = StatementFor
 		s.For = forStatement
 
 	case ctx.Block() != nil:
-		block := source.NewBlock()
-		block.Visit(source, ctx.Block().(*parser.BlockContext))
+		block := NewBlock()
+		block.Visit(ctx.Block().(*parser.BlockContext))
 
 		s.SubType = StatementBlock
 		s.Block = block
@@ -89,8 +86,8 @@ func (s *Statement) Visit(source *Source, ctx *parser.StatementContext) {
 		// TODO
 
 	case ctx.DoWhileStatement() != nil:
-		doWhile := source.NewDoWhileStatement()
-		doWhile.Visit(source, ctx.DoWhileStatement().(*parser.DoWhileStatementContext))
+		doWhile := NewDoWhileStatement()
+		doWhile.Visit(ctx.DoWhileStatement().(*parser.DoWhileStatementContext))
 
 		s.SubType = StatementDoWhile
 		s.DoWhile = doWhile
@@ -102,8 +99,8 @@ func (s *Statement) Visit(source *Source, ctx *parser.StatementContext) {
 		s.SubType = StatementBreak
 
 	case ctx.ReturnStatement() != nil:
-		returnStatement := source.NewReturnStatement()
-		returnStatement.Visit(source, ctx.ReturnStatement().(*parser.ReturnStatementContext))
+		returnStatement := NewReturnStatement()
+		returnStatement.Visit(ctx.ReturnStatement().(*parser.ReturnStatementContext))
 
 		s.SubType = StatementReturn
 		s.ReturnStatement = returnStatement
@@ -115,8 +112,8 @@ func (s *Statement) Visit(source *Source, ctx *parser.StatementContext) {
 		s.SubType = StatementEmit
 
 	case ctx.SimpleStatement() != nil:
-		simpleStatement := source.NewSimpleStatement()
-		simpleStatement.Visit(source, ctx.SimpleStatement().(*parser.SimpleStatementContext))
+		simpleStatement := NewSimpleStatement()
+		simpleStatement.Visit(ctx.SimpleStatement().(*parser.SimpleStatementContext))
 
 		s.SimpleStatement = simpleStatement
 		s.SubType = StatementSimple
@@ -127,47 +124,5 @@ func (s *Statement) Visit(source *Source, ctx *parser.StatementContext) {
 }
 
 func (s *Statement) String() string {
-	switch s.SubType {
-	case StatementIf:
-		return s.If.String()
-
-	case StatementWhile:
-		return s.While.String()
-
-	case StatementFor:
-		return s.For.String()
-
-	case StatementBlock:
-		return s.Block.String()
-
-	case StatementInlineAssembly:
-		// TODO
-		return "TODO"
-
-	case StatementDoWhile:
-		return s.DoWhile.String()
-
-	case StatementContinue:
-		return "continue"
-
-	case StatementBreak:
-		return "break"
-
-	case StatementReturn:
-		return s.ReturnStatement.String()
-
-	case StatementThrow:
-		return "throw"
-
-	case StatementEmit:
-		return "emit"
-
-	case StatementSimple:
-		return s.SimpleStatement.String()
-
-	default:
-		panic("Unknown statement type")
-	}
-
-	return "unknown statement type"
+	return "TODO"
 }

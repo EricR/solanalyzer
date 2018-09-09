@@ -48,7 +48,6 @@ func main() {
 
 			session.AddAnalyzer(&analyzers.CompilerVersionAnalyzer{})
 			session.AddAnalyzer(&analyzers.FunctionVisibilityAnalyzer{})
-			session.AddAnalyzer(&analyzers.CallGraphAnalyzer{})
 
 			logrus.Info("Analyzing sources")
 			session.Analyze()

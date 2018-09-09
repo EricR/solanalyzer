@@ -13,29 +13,26 @@ type DoWhileStatement struct {
 }
 
 // NewDoWhileStatement returns a new instance of DoWhileStatement.
-func (s *Source) NewDoWhileStatement() *DoWhileStatement {
-	stmt := &DoWhileStatement{}
-	s.AddNode(stmt)
-
-	return stmt
+func NewDoWhileStatement() *DoWhileStatement {
+	return &DoWhileStatement{}
 }
 
 // Visit is called by a visitor.
-func (dws *DoWhileStatement) Visit(s *Source, ctx *parser.DoWhileStatementContext) {
+func (dws *DoWhileStatement) Visit(ctx *parser.DoWhileStatementContext) {
 	dws.Start = ctx.GetStart()
 	dws.Stop = ctx.GetStop()
 
-	bodyStmt := s.NewStatement()
-	bodyStmt.Visit(s, ctx.Statement().(*parser.StatementContext))
+	bodyStmt := NewStatement()
+	bodyStmt.Visit(ctx.Statement().(*parser.StatementContext))
 
 	dws.Body = bodyStmt
 
-	condition := s.NewExpression()
-	condition.Visit(s, ctx.Expression().(*parser.ExpressionContext))
+	condition := NewExpression()
+	condition.Visit(ctx.Expression().(*parser.ExpressionContext))
 
 	dws.Condition = condition
 }
 
 func (dws *DoWhileStatement) String() string {
-	return fmt.Sprintf("do %s while (%s)", dws.Body, dws.Condition)
+	return fmt.Sprintf("do %s while (%s);", dws.Body, dws.Condition)
 }

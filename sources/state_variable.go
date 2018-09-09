@@ -19,20 +19,17 @@ type StateVariable struct {
 }
 
 // NewStateVariable returns a new instance of StateVariable.
-func (s *Source) NewStateVariable() *StateVariable {
-	stVar := &StateVariable{}
-	s.AddNode(stVar)
-
-	return stVar
+func NewStateVariable() *StateVariable {
+	return &StateVariable{}
 }
 
 // Visit is called by a visitor.
-func (sv *StateVariable) Visit(s *Source, ctx *parser.StateVariableDeclarationContext) {
+func (sv *StateVariable) Visit(ctx *parser.StateVariableDeclarationContext) {
 	sv.Start = ctx.GetStart()
 	sv.Stop = ctx.GetStop()
 
-	typeName := s.NewTypeName()
-	typeName.Visit(s, ctx.TypeName().(*parser.TypeNameContext))
+	typeName := NewTypeName()
+	typeName.Visit(ctx.TypeName().(*parser.TypeNameContext))
 
 	sv.TypeName = typeName
 	sv.Public = ctx.PublicKeyword(0) != nil
@@ -43,8 +40,8 @@ func (sv *StateVariable) Visit(s *Source, ctx *parser.StateVariableDeclarationCo
 	sv.Identifier = ctx.Identifier().GetText()
 
 	if ctx.Expression() != nil {
-		expr := s.NewExpression()
-		expr.Visit(s, ctx.Expression().(*parser.ExpressionContext))
+		expr := NewExpression()
+		expr.Visit(ctx.Expression().(*parser.ExpressionContext))
 	}
 }
 
@@ -65,7 +62,7 @@ func (sv *StateVariable) String() string {
 	}
 
 	if sv.Expression == nil {
-		return fmt.Sprintf("%s %s", str, sv.Identifier)
+		return fmt.Sprintf("%s %s;", str, sv.Identifier)
 	}
-	return fmt.Sprintf("%s %s = %s", str, sv.Identifier, sv.Expression)
+	return fmt.Sprintf("%s %s = %s;", str, sv.Identifier, sv.Expression)
 }
