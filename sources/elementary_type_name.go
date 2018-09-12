@@ -1,6 +1,9 @@
 package sources
 
-import "github.com/ericr/solanalyzer/parser"
+import (
+	"github.com/ericr/solanalyzer/parser"
+	"strconv"
+)
 
 const (
 	// ElementaryTypeNameInt represents an integer.
@@ -29,12 +32,8 @@ const (
 type ElementaryTypeName struct {
 	Tokens
 	SubType int
+	Size    int
 	Text    string
-	Int     string
-	Uint    string
-	Byte    string
-	Fixed   string
-	Ufixed  string
 }
 
 // NewElementaryTypeName returns a new instance of ElementaryTypeName.
@@ -46,17 +45,16 @@ func NewElementaryTypeName() *ElementaryTypeName {
 func (etn *ElementaryTypeName) Visit(ctx *parser.ElementaryTypeNameContext) {
 	etn.Start = ctx.GetStart()
 	etn.Stop = ctx.GetStop()
-
 	etn.Text = ctx.GetText()
 
 	switch {
 	case ctx.Int() != nil:
-		etn.Int = ctx.Int().GetText()
 		etn.SubType = ElementaryTypeNameInt
+		etn.Size = mustParseSize(etn.Text, 3)
 
 	case ctx.Uint() != nil:
-		etn.Uint = ctx.Uint().GetText()
 		etn.SubType = ElementaryTypeNameUint
+		etn.Size = mustParseSize(etn.Text, 4)
 
 	case ctx.GetText() == "address":
 		etn.SubType = ElementaryTypeNameAddress
@@ -74,15 +72,13 @@ func (etn *ElementaryTypeName) Visit(ctx *parser.ElementaryTypeNameContext) {
 		etn.SubType = ElementaryTypeNameByte
 
 	case ctx.Byte() != nil:
-		etn.Byte = ctx.Byte().GetText()
 		etn.SubType = ElementaryTypeNameBytes
+		etn.Size = mustParseSize(etn.Text, 4)
 
 	case ctx.Fixed() != nil:
-		etn.Fixed = ctx.Fixed().GetText()
 		etn.SubType = ElementaryTypeNameFixed
 
 	case ctx.Ufixed() != nil:
-		etn.Ufixed = ctx.Ufixed().GetText()
 		etn.SubType = ElementaryTypeNameUfixed
 
 	default:
@@ -92,4 +88,20 @@ func (etn *ElementaryTypeName) Visit(ctx *parser.ElementaryTypeNameContext) {
 
 func (etn *ElementaryTypeName) String() string {
 	return etn.Text
+}
+
+func mustParseSize(str string, offset int) int {
+	switch str {
+	case "int":
+		str = "int256"
+	case "uint":
+		str = "uint256"
+	}
+
+	i, err := strconv.Atoi(str[offset:len(str)])
+	if err != nil {
+		panic("Failed to parse type size")
+	}
+
+	return i
 }

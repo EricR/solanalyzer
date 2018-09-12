@@ -1,9 +1,6 @@
 package sources
 
-import (
-	"fmt"
-	"github.com/ericr/solanalyzer/parser"
-)
+import "github.com/ericr/solanalyzer/parser"
 
 // Contract represents a contract in Solidity.
 type Contract struct {
@@ -102,5 +99,5 @@ func (c *Contract) Visit(ctx *parser.ContractDefinitionContext) {
 }
 
 func (c *Contract) String() string {
-	return fmt.Sprintf("%s %s", c.DefType, c.Identifier)
+	return c.Identifier
 }

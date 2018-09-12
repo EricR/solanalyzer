@@ -14,6 +14,12 @@
   version = "4.7.1"
 
 [[projects]]
+  name = "github.com/ethereum/go-ethereum"
+  packages = ["common/hexutil"]
+  revision = "dea1ce052a10cd7d401a5c04f83f371a06fe293c"
+  version = "v1.8.11"
+
+[[projects]]
   name = "github.com/inconshreveable/mousetrap"
   packages = ["."]
   revision = "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
@@ -76,6 +82,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "112c0eba15f267fa4f0b749fa0396334e26bf18742a1c2b0084f9961c1bb47e1"
+  inputs-digest = "9c54aa43f1611431e7b60483f320cd0f97711e980a12d3f15a411f47899644bd"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -3,6 +3,7 @@ package sources
 import (
 	"fmt"
 	"github.com/ericr/solanalyzer/parser"
+	"strings"
 )
 
 // VariableDeclarationStatement represents a variable declaration statement in
@@ -18,7 +19,8 @@ type VariableDeclarationStatement struct {
 // NewVariableDeclarationStatement returns a new instance of SimpleStatement.
 func NewVariableDeclarationStatement() *VariableDeclarationStatement {
 	return &VariableDeclarationStatement{
-		Identifiers: []string{},
+		Identifiers:             []string{},
+		VariableDeclarationList: []*VariableDeclaration{},
 	}
 }
 
@@ -28,6 +30,7 @@ func (vds *VariableDeclarationStatement) Visit(ctx *parser.VariableDeclarationSt
 	vds.Stop = ctx.GetStop()
 
 	switch {
+
 	case ctx.IdentifierList() != nil:
 		identifierList := ctx.IdentifierList().(*parser.IdentifierListContext)
 		for _, identifierCtx := range identifierList.AllIdentifier() {
@@ -49,8 +52,6 @@ func (vds *VariableDeclarationStatement) Visit(ctx *parser.VariableDeclarationSt
 
 			vds.VariableDeclarationList = append(vds.VariableDeclarationList, varDec)
 		}
-	default:
-		panic("Unknown type of variable declaration")
 	}
 
 	if ctx.Expression() != nil {
@@ -62,23 +63,27 @@ func (vds *VariableDeclarationStatement) Visit(ctx *parser.VariableDeclarationSt
 }
 
 func (vds *VariableDeclarationStatement) String() string {
-	str := "var"
+	str := ""
 
 	switch {
 	case len(vds.Identifiers) > 0:
-		for _, identifier := range vds.Identifiers {
-			str += fmt.Sprintf(" %s", identifier)
-		}
+		str = fmt.Sprintf("var (%s)", strings.Join(vds.Identifiers, ", "))
+
 	case vds.VariableDeclaration != nil:
-		str += fmt.Sprintf(" %s", vds.VariableDeclaration)
+		str = vds.VariableDeclaration.String()
+
 	case len(vds.VariableDeclarationList) > 0:
+		varDecs := []string{}
+
 		for _, varDec := range vds.VariableDeclarationList {
-			str += fmt.Sprintf(" %s", varDec)
+			varDecs = append(varDecs, varDec.String())
 		}
+
+		str = fmt.Sprintf("(%s)", strings.Join(varDecs, ", "))
 	}
 
 	if vds.Expression != nil {
-		str += fmt.Sprintf(" %s", vds.Expression)
+		str += fmt.Sprintf(" = %s", vds.Expression)
 	}
 
 	return str

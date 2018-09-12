@@ -97,7 +97,7 @@ func (e *Expression) Visit(ctx *parser.ExpressionContext) {
 	case 3:
 		if getText(ctx.GetChild(0)) == "(" && getText(ctx.GetChild(2)) == ")" {
 			expr := NewExpression()
-			expr.Visit(ctx.Expression(1).(*parser.ExpressionContext))
+			expr.Visit(ctx.Expression(0).(*parser.ExpressionContext))
 
 			e.SubType = ExpressionParentheses
 			e.SubExpression = expr

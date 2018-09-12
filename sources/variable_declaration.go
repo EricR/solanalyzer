@@ -37,7 +37,7 @@ func (vd *VariableDeclaration) Visit(ctx *parser.VariableDeclarationContext) {
 
 func (vd *VariableDeclaration) String() string {
 	if vd.StorageLocation == "" {
-		return fmt.Sprintf("%s %s", vd.TypeName.String(), vd.Identifier)
+		return fmt.Sprintf("%s %s", vd.TypeName, vd.Identifier)
 	}
-	return fmt.Sprintf("%s %s %s", vd.TypeName.String(), vd.StorageLocation, vd.Identifier)
+	return fmt.Sprintf("%s %s %s", vd.TypeName, vd.StorageLocation, vd.Identifier)
 }

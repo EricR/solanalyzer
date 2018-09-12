@@ -1,6 +1,13 @@
 package sources
 
-import "github.com/ericr/solanalyzer/parser"
+import (
+	"github.com/ericr/solanalyzer/parser"
+	"github.com/ericr/solanalyzer/utils"
+	"math/big"
+	"regexp"
+)
+
+var supportedNumberLiteral = regexp.MustCompile(`^-?[0-9]+$`)
 
 const (
 	// ExpressionPrimaryBoolean represents a boolean expression.
@@ -24,10 +31,10 @@ const (
 type PrimaryExpression struct {
 	Tokens
 	SubType            int
-	Boolean            string
-	Number             string
+	Boolean            bool
+	Integer            *big.Int
 	Hex                string
-	StringLit          string
+	Text               string
 	Identifier         string
 	Tuple              *TupleExpression
 	ElementaryTypeName *ElementaryTypeName
@@ -46,19 +53,36 @@ func (pe *PrimaryExpression) Visit(ctx *parser.PrimaryExpressionContext) {
 	switch {
 	case ctx.BooleanLiteral() != nil:
 		pe.SubType = ExpressionPrimaryBoolean
-		pe.Boolean = ctx.BooleanLiteral().GetText()
+		pe.Boolean = ctx.BooleanLiteral().GetText() == "true"
 
 	case ctx.NumberLiteral() != nil:
+		numLiteral := ctx.NumberLiteral().(*parser.NumberLiteralContext)
+
+		switch {
+		case numLiteral.DecimalNumber() != nil:
+			decimal := getText(numLiteral.DecimalNumber())
+			checkNumberLiteral(decimal)
+			pe.Integer = utils.MustParseBigInt(decimal)
+
+		case numLiteral.HexNumber() != nil:
+			pe.Hex = getText(numLiteral.HexNumber())
+			pe.Integer = utils.HexToBigInt(pe.Hex)
+		}
+
+		if numLiteral.NumberUnit() != nil {
+			units := getText(numLiteral.NumberUnit())
+			pe.Integer = utils.IntOfUnit(pe.Integer, units)
+		}
+
 		pe.SubType = ExpressionPrimaryNumber
-		pe.Number = ctx.NumberLiteral().GetText()
 
 	case ctx.HexLiteral() != nil:
 		pe.SubType = ExpressionPrimaryHex
-		pe.Number = ctx.HexLiteral().GetText()
+		pe.Text = ctx.HexLiteral().GetText()
 
 	case ctx.StringLiteral() != nil:
 		pe.SubType = ExpressionPrimaryString
-		pe.StringLit = ctx.StringLiteral().GetText()
+		pe.Text = ctx.StringLiteral().GetText()
 
 	case ctx.Identifier() != nil:
 		pe.SubType = ExpressionPrimaryIdentifier
@@ -89,16 +113,16 @@ func (pe *PrimaryExpression) Visit(ctx *parser.PrimaryExpressionContext) {
 func (pe *PrimaryExpression) String() string {
 	switch pe.SubType {
 	case ExpressionPrimaryBoolean:
-		return pe.Boolean
+		if pe.Boolean {
+			return "true"
+		}
+		return "false"
 
 	case ExpressionPrimaryNumber:
-		return pe.Number
+		return pe.Integer.String()
 
-	case ExpressionPrimaryHex:
-		return pe.Hex
-
-	case ExpressionPrimaryString:
-		return pe.StringLit
+	case ExpressionPrimaryHex, ExpressionPrimaryString:
+		return pe.Text
 
 	case ExpressionPrimaryIdentifier:
 		return pe.Identifier
@@ -112,4 +136,12 @@ func (pe *PrimaryExpression) String() string {
 	default:
 		panic("Unknown primary expression type")
 	}
+}
+
+func checkNumberLiteral(text string) string {
+	if !supportedNumberLiteral.MatchString(text) {
+		panic("Non-integers in integer literals are not supported")
+	}
+
+	return text
 }
