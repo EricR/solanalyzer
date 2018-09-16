@@ -64,7 +64,7 @@ func (cva *CompilerVersionAnalyzer) Execute(source *sources.Source) ([]*Issue, e
 		issues = append(issues, &Issue{
 			Severity:    SeverityInfo,
 			Title:       "Missing Version Pragma",
-			MsgFormat:   "txt",
+			Format:      "txt",
 			Message:     "No version pragma is declared.",
 			analyzer:    cva,
 			sourcePath:  source.FilePath,
@@ -96,7 +96,7 @@ func (cva *CompilerVersionAnalyzer) Execute(source *sources.Source) ([]*Issue, e
 		issues = append(issues, &Issue{
 			Severity:    SeverityInfo,
 			Title:       "Outdated Compiler",
-			MsgFormat:   "txt",
+			Format:      "txt",
 			Message:     msg,
 			analyzer:    cva,
 			sourcePath:  source.FilePath,
@@ -123,9 +123,9 @@ func (cva *CompilerVersionAnalyzer) Execute(source *sources.Source) ([]*Issue, e
 
 	for _, bug := range matchedBugs {
 		issues = append(issues, &Issue{
-			Severity:  cva.bugSeverity(bug.Severity),
-			Title:     fmt.Sprintf("Compiler Bug - %s", bug.Name),
-			MsgFormat: "txt",
+			Severity: cva.bugSeverity(bug.Severity),
+			Title:    fmt.Sprintf("Compiler Bug - %s", bug.Name),
+			Format:   "txt",
 			Message: fmt.Sprintf("The version pragma, %s, can be satisfied "+
 				"by a version of the Solidity compiler that contains a known bug. %s "+
 				"This bug is reported to be fixed in version %s.",

@@ -6,8 +6,10 @@ import (
 )
 
 const (
+	// TypeNameUnknown represents an unknown type.
+	TypeNameUnknown int = iota
 	// TypeNameElementary represents an elementary type.
-	TypeNameElementary int = iota
+	TypeNameElementary
 	// TypeNameUserDefined represents a user-defined type.
 	TypeNameUserDefined
 	// TypeNameMapping represents a mapping type.
@@ -105,5 +107,31 @@ func (tn *TypeName) String() string {
 		tn.Function.String()
 	}
 
-	return ""
+	return "<unknown>"
+}
+
+// IsComplex returns true if type is of an array, mapping, or struct.
+func (tn *TypeName) IsComplex() bool {
+	switch tn.SubType {
+	case TypeNameUserDefined, TypeNameMapping, TypeNameArray:
+		return true
+	}
+	return false
+}
+
+// Equal evaluates the equality of two type names.
+func (tn *TypeName) Equal(b *TypeName) bool {
+	if tn.SubType != b.SubType {
+		return false
+	}
+
+	if tn.SubType == TypeNameElementary && b.SubType == TypeNameElementary {
+		return tn.Elementary.Equal(b.Elementary)
+	}
+
+	if tn.SubType == TypeNameUserDefined && b.SubType == TypeNameUserDefined {
+		return tn.UserDefined.String() == b.UserDefined.String()
+	}
+
+	return false
 }

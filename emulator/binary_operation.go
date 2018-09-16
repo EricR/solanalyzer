@@ -2,10 +2,9 @@ package emulator
 
 import "github.com/ericr/solanalyzer/sources"
 
-func (e *Emulator) evalBinaryOperation(op string, expr1 *sources.Expression, expr2 *sources.Expression) []*Value {
-	left := e.Eval(expr1)
-	right := e.Eval(expr2)
-	answer := &Value{}
+func (e *Emulator) evalBinaryOperation(expr *sources.Expression) []*Value {
+	left := e.Eval(expr.LeftExpression)
+	right := e.Eval(expr.RightExpression)
 
 	if len(left) != 1 {
 		panic("Wrong number of operands on left side for binary operation")
@@ -15,20 +14,26 @@ func (e *Emulator) evalBinaryOperation(op string, expr1 *sources.Expression, exp
 		panic("Wrong number of operands on right side for binary operation")
 	}
 
-	if left[0].Expression.SubType != sources.ExpressionPrimaryNumber {
-		panic("Left side of binary operation is NaN")
+	leftExpr := left[0].Expression
+	rightExpr := right[0].Expression
+
+	value := NewValue()
+	value.Expression = expr
+	value.Expression.LeftExpression = leftExpr
+	value.Expression.RightExpression = rightExpr
+
+	if leftExpr.SubType == sources.ExpressionPrimary &&
+		leftExpr.Primary.SubType == sources.ExpressionPrimaryNumber &&
+		rightExpr.SubType == sources.ExpressionPrimary &&
+		rightExpr.Primary.SubType == sources.ExpressionPrimaryNumber {
+
+		value = evalMath(expr.Operation, left[0].Expression.Primary, right[0].Expression.Primary)
+
+		switch expr.Operation {
+		case "=", "+=", "-=", "*=", "/=", "%=":
+			e.MustSetVariable(expr.LeftExpression.String(), value)
+		}
 	}
 
-	if right[0].Expression.SubType != sources.ExpressionPrimaryNumber {
-		panic("Right side of binary operation is NaN")
-	}
-
-	answer = evalMath(op, left[0].Expression, right[0].Expression)
-
-	switch op {
-	case "=", "+=", "-=", "*=", "/=", "%=":
-		e.MustAssignVariable(expr1.String(), answer)
-	}
-
-	return []*Value{answer}
+	return []*Value{value}
 }

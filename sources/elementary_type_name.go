@@ -6,8 +6,10 @@ import (
 )
 
 const (
+	// ElementaryTypeNameUnknown represents an unknown type.
+	ElementaryTypeNameUnknown = iota
 	// ElementaryTypeNameInt represents an integer.
-	ElementaryTypeNameInt = iota
+	ElementaryTypeNameInt
 	// ElementaryTypeNameUint represents an unsigned integer.
 	ElementaryTypeNameUint
 	// ElementaryTypeNameAddress represents an address.
@@ -88,6 +90,16 @@ func (etn *ElementaryTypeName) Visit(ctx *parser.ElementaryTypeNameContext) {
 
 func (etn *ElementaryTypeName) String() string {
 	return etn.Text
+}
+
+// Equal evaluates the equality of two elementary type names.
+func (etn *ElementaryTypeName) Equal(b *ElementaryTypeName) bool {
+	// uints can be a subset of ints
+	if etn.SubType == ElementaryTypeNameUint && b.SubType == ElementaryTypeNameInt {
+		return true
+	}
+
+	return etn.SubType == b.SubType
 }
 
 func mustParseSize(str string, offset int) int {

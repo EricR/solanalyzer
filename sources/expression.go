@@ -6,8 +6,10 @@ import (
 )
 
 const (
+	// ExpressionUnknown represents an unknown expression.
+	ExpressionUnknown = iota
 	// ExpressionPrimary represents a primary expression.
-	ExpressionPrimary = iota
+	ExpressionPrimary
 	// ExpressionNew represents a 'new' expression.
 	ExpressionNew
 	// ExpressionUnaryOperation represents a unary operation expression.
@@ -71,7 +73,7 @@ func (e *Expression) Visit(ctx *parser.ExpressionContext) {
 			e.SubType = ExpressionNew
 			e.TypeName = typeName
 
-		case "++", "--", "after", "delete", "!", "~":
+		case "++", "--", "+", "-", "after", "delete", "!", "~":
 			expr := NewExpression()
 			expr.Visit(ctx.Expression(0).(*parser.ExpressionContext))
 
@@ -207,10 +209,7 @@ func (e *Expression) String() string {
 
 	case ExpressionTernary:
 		return fmt.Sprintf("%s ? %s : %s", e.TernaryIf, e.TernaryThen, e.TernaryElse)
-
-	default:
-		panic("unknown expression sub-type")
 	}
 
-	return "(unknown expression)"
+	return "<unknown>"
 }

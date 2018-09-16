@@ -44,7 +44,7 @@ func SmallestIntSize(i *big.Int, negative bool) int {
 			max = NewMaxIntSize(n)
 		}
 
-		if i.Cmp(max) < 1 {
+		if big.NewInt(0).Abs(i).Cmp(max) < 1 {
 			return n
 		}
 	}

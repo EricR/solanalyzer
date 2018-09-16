@@ -10,8 +10,10 @@ import (
 var supportedNumberLiteral = regexp.MustCompile(`^-?[0-9]+$`)
 
 const (
+	// ExpressionPrimaryUnknown represents an unknown expression.
+	ExpressionPrimaryUnknown = iota
 	// ExpressionPrimaryBoolean represents a boolean expression.
-	ExpressionPrimaryBoolean = iota
+	ExpressionPrimaryBoolean
 	// ExpressionPrimaryNumber represents a number expression.
 	ExpressionPrimaryNumber
 	// ExpressionPrimaryHex represents a hexadecimal expression.
@@ -134,7 +136,7 @@ func (pe *PrimaryExpression) String() string {
 		return pe.ElementaryTypeName.String()
 
 	default:
-		panic("Unknown primary expression type")
+		return "<UNKNOWN>"
 	}
 }
 

@@ -15,7 +15,7 @@
 
 [[projects]]
   name = "github.com/ethereum/go-ethereum"
-  packages = ["common/hexutil"]
+  packages = ["common","common/hexutil","crypto/sha3"]
   revision = "dea1ce052a10cd7d401a5c04f83f371a06fe293c"
   version = "v1.8.11"
 
@@ -38,10 +38,22 @@
   version = "v0.0.3"
 
 [[projects]]
+  name = "github.com/mattn/go-runewidth"
+  packages = ["."]
+  revision = "ce7b0b5c7b45a81508558cd1dba6bb1e4ddb51bb"
+  version = "v0.0.3"
+
+[[projects]]
   branch = "master"
   name = "github.com/mgutz/ansi"
   packages = ["."]
   revision = "9520e82c474b0a04dd04f8a40959027271bab992"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/olekukonko/tablewriter"
+  packages = ["."]
+  revision = "be2c049b30ccd4d3fd795d6bf7dce74e42eeedaa"
 
 [[projects]]
   name = "github.com/sirupsen/logrus"
@@ -82,6 +94,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9c54aa43f1611431e7b60483f320cd0f97711e980a12d3f15a411f47899644bd"
+  inputs-digest = "0e17fa045fe46a9abf5b10d800b9144413d5941991d19ec121c67a6cf08033e5"
   solver-name = "gps-cdcl"
   solver-version = 1

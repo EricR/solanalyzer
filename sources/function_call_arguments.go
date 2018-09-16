@@ -57,6 +57,9 @@ func (fca *FunctionCallArguments) Visit(ctx *parser.FunctionCallArgumentsContext
 
 			fca.Expressions = append(fca.Expressions, expr)
 		}
+
+	default:
+		fca.SubType = FunctionCallArgsWithExprs
 	}
 }
 

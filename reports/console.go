@@ -2,7 +2,9 @@ package reports
 
 import (
 	"fmt"
-	"github.com/ericr/solanalyzer/analyzers"
+	"github.com/olekukonko/tablewriter"
+	"golang.org/x/crypto/ssh/terminal"
+	"os"
 	"strings"
 )
 
@@ -12,6 +14,11 @@ type ConsoleReport struct{}
 // Generate generates a text-based report.
 func (cr *ConsoleReport) Generate(report *Report) {
 	issues := sortedIssues(report.Issues)
+
+	width, _, err := terminal.GetSize(0)
+	if err != nil {
+		width = 70
+	}
 
 	cr.println("")
 	cr.println("=== Start SolAnalyzer Report ===")
@@ -30,8 +37,30 @@ func (cr *ConsoleReport) Generate(report *Report) {
 			continue
 		}
 
+		cr.println("")
+
 		for _, issue := range issues[i] {
-			cr.printIssue(issue)
+			table := tablewriter.NewWriter(os.Stdout)
+			table.SetColWidth(width - 18)
+			table.SetBorder(false)
+			table.SetColumnSeparator("")
+			table.Append([]string{"Title", issue.Title})
+
+			switch issue.Format {
+			case "txt":
+				table.Append([]string{"Description", issue.Message})
+
+			case "dot":
+				table.Append([]string{"Description",
+					processDot(issue.AnalyzerID(), []byte(issue.Message))})
+			}
+
+			table.Append([]string{"Source", issue.Source()})
+			table.Append([]string{"Analyzer ID", issue.AnalyzerID()})
+			table.Append([]string{"Instance ID", issue.ID()})
+			table.Render()
+
+			cr.println("")
 		}
 	}
 
@@ -46,13 +75,4 @@ func (cr *ConsoleReport) printHeader(str string) {
 
 func (cr *ConsoleReport) println(str string, vars ...interface{}) {
 	fmt.Println(fmt.Sprintf(str, vars...))
-}
-
-func (cr *ConsoleReport) printIssue(issue *analyzers.Issue) {
-	cr.println("Title:       %s", issue.Title)
-	cr.println("Description: %s", issue.Message)
-	cr.println("Source:      %s", issue.Source())
-	cr.println("Analyzer ID: %s", issue.AnalyzerID())
-	cr.println("Instance ID: %s", issue.ID())
-	cr.println("")
 }

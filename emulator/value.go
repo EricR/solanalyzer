@@ -6,62 +6,62 @@ import (
 	"github.com/ericr/solanalyzer/utils"
 )
 
-// Value either represents a symbolic or solved primary expression.
+// Value represents a value.
 type Value struct {
 	Solved     bool
-	Expression *sources.PrimaryExpression
+	Expression *sources.Expression
 }
 
 // NewValue returns a new instance of Value.
-func NewValue(expr *sources.PrimaryExpression) *Value {
-	if expr == nil {
-		return &Value{}
-	}
+func NewValue() *Value {
 	return &Value{
-		Solved:     true,
-		Expression: expr,
+		Solved:     false,
+		Expression: sources.NewExpression(),
 	}
 }
 
-// InferredType returns the inferred type of a value.
-func (val *Value) InferredType() *sources.TypeName {
-	if !val.Solved {
-		panic("Cannot infer type of an unsolved value")
-	}
-
+// InferredTypeName returns the inferred type name of a value.
+func (val Value) InferredTypeName() *sources.TypeName {
 	switch val.Expression.SubType {
-	case sources.ExpressionPrimaryBoolean:
-		elementaryTypeName := sources.NewElementaryTypeName()
-		elementaryTypeName.SubType = sources.ElementaryTypeNameBool
+	case sources.ExpressionPrimary:
+		switch val.Expression.Primary.SubType {
+		case sources.ExpressionPrimaryBoolean:
+			elementaryTypeName := sources.NewElementaryTypeName()
+			elementaryTypeName.SubType = sources.ElementaryTypeNameBool
 
-		typeName := sources.NewTypeName()
-		typeName.SubType = sources.TypeNameElementary
-		typeName.Elementary = elementaryTypeName
+			typeName := sources.NewTypeName()
+			typeName.SubType = sources.TypeNameElementary
+			typeName.Elementary = elementaryTypeName
 
-		return typeName
+			return typeName
 
-	case sources.ExpressionPrimaryNumber:
-		typeName := sources.NewTypeName()
-		typeName.SubType = sources.TypeNameElementary
-		typeName.Elementary = inferIntegerType(val.Expression)
+		case sources.ExpressionPrimaryNumber:
+			typeName := sources.NewTypeName()
+			typeName.SubType = sources.TypeNameElementary
+			typeName.Elementary = inferIntegerType(val.Expression.Primary)
 
-		return typeName
+			return typeName
 
-	case sources.ExpressionPrimaryHex:
-		elementaryTypeName := sources.NewElementaryTypeName()
-		elementaryTypeName.SubType = sources.ElementaryTypeNameString
+		case sources.ExpressionPrimaryHex:
+			elementaryTypeName := sources.NewElementaryTypeName()
+			elementaryTypeName.SubType = sources.ElementaryTypeNameString
 
-		typeName := sources.NewTypeName()
-		typeName.SubType = sources.TypeNameElementary
-		typeName.Elementary = elementaryTypeName
+			typeName := sources.NewTypeName()
+			typeName.SubType = sources.TypeNameElementary
+			typeName.Elementary = elementaryTypeName
 
-		return typeName
-
-	default:
-		panic("Could not infer type")
+			return typeName
+		}
 	}
 
-	return nil
+	typeName := sources.NewTypeName()
+	typeName.SubType = sources.TypeNameUnknown
+
+	return typeName
+}
+
+func (val *Value) String() string {
+	return val.Expression.String()
 }
 
 func inferIntegerType(expr *sources.PrimaryExpression) *sources.ElementaryTypeName {

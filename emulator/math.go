@@ -7,68 +7,77 @@ import (
 )
 
 func evalMath(op string, expr1 *sources.PrimaryExpression, expr2 *sources.PrimaryExpression) *Value {
-	expr := sources.NewPrimaryExpression()
+	sExpr := sources.NewPrimaryExpression()
 	a := utils.MustParseBigInt(expr1.String())
 	b := utils.MustParseBigInt(expr2.String())
 	c := big.NewInt(0)
 
 	switch op {
+	case "=":
+		sExpr.SubType = sources.ExpressionPrimaryNumber
+		sExpr.Integer = b
+
 	case "+", "+=":
-		expr.SubType = sources.ExpressionPrimaryNumber
-		expr.Integer = c.Add(a, b)
+		sExpr.SubType = sources.ExpressionPrimaryNumber
+		sExpr.Integer = c.Add(a, b)
 
 	case "-", "-=":
-		expr.SubType = sources.ExpressionPrimaryNumber
-		expr.Integer = c.Sub(a, b)
+		sExpr.SubType = sources.ExpressionPrimaryNumber
+		sExpr.Integer = c.Sub(a, b)
 
 	case "*", "*=":
-		expr.SubType = sources.ExpressionPrimaryNumber
-		expr.Integer = c.Mul(a, b)
+		sExpr.SubType = sources.ExpressionPrimaryNumber
+		sExpr.Integer = c.Mul(a, b)
 
 	case "/", "/=":
-		expr.SubType = sources.ExpressionPrimaryNumber
-		expr.Integer = c.Div(a, b)
+		sExpr.SubType = sources.ExpressionPrimaryNumber
+		sExpr.Integer = c.Div(a, b)
 
 	case "%", "%=":
-		expr.SubType = sources.ExpressionPrimaryNumber
-		expr.Integer = c.Mod(a, b)
+		sExpr.SubType = sources.ExpressionPrimaryNumber
+		sExpr.Integer = c.Mod(a, b)
 
 	case "**":
-		expr.SubType = sources.ExpressionPrimaryNumber
-		expr.Integer = c.Exp(a, b, c)
+		sExpr.SubType = sources.ExpressionPrimaryNumber
+		sExpr.Integer = c.Exp(a, b, c)
 
 	case ">>":
-		expr.SubType = sources.ExpressionPrimaryNumber
-		expr.Integer = c.Rsh(a, utils.MustParseUint(expr2.String()))
+		sExpr.SubType = sources.ExpressionPrimaryNumber
+		sExpr.Integer = c.Rsh(a, utils.MustParseUint(expr2.String()))
 
 	case "<<":
-		expr.SubType = sources.ExpressionPrimaryNumber
-		expr.Integer = c.Lsh(a, utils.MustParseUint(expr2.String()))
+		sExpr.SubType = sources.ExpressionPrimaryNumber
+		sExpr.Integer = c.Lsh(a, utils.MustParseUint(expr2.String()))
 
 	case "==":
-		expr.SubType = sources.ExpressionPrimaryBoolean
-		expr.Boolean = a.Cmp(b) == 0
+		sExpr.SubType = sources.ExpressionPrimaryBoolean
+		sExpr.Boolean = a.Cmp(b) == 0
 
 	case "!=":
-		expr.SubType = sources.ExpressionPrimaryBoolean
-		expr.Boolean = a.Cmp(b) != 0
+		sExpr.SubType = sources.ExpressionPrimaryBoolean
+		sExpr.Boolean = a.Cmp(b) != 0
 
 	case "<":
-		expr.SubType = sources.ExpressionPrimaryBoolean
-		expr.Boolean = a.Cmp(b) == -1
+		sExpr.SubType = sources.ExpressionPrimaryBoolean
+		sExpr.Boolean = a.Cmp(b) == -1
 
 	case "<=":
-		expr.SubType = sources.ExpressionPrimaryBoolean
-		expr.Boolean = a.Cmp(b) <= 0
+		sExpr.SubType = sources.ExpressionPrimaryBoolean
+		sExpr.Boolean = a.Cmp(b) <= 0
 
 	case ">":
-		expr.SubType = sources.ExpressionPrimaryBoolean
-		expr.Boolean = a.Cmp(b) == 1
+		sExpr.SubType = sources.ExpressionPrimaryBoolean
+		sExpr.Boolean = a.Cmp(b) == 1
 
 	case ">=":
-		expr.SubType = sources.ExpressionPrimaryBoolean
-		expr.Boolean = a.Cmp(b) >= 0
+		sExpr.SubType = sources.ExpressionPrimaryBoolean
+		sExpr.Boolean = a.Cmp(b) >= 0
 	}
 
-	return NewValue(expr)
+	value := NewValue()
+	value.Expression.SubType = sources.ExpressionPrimary
+	value.Expression.Primary = sExpr
+	value.Solved = true
+
+	return value
 }

@@ -10,7 +10,7 @@ import (
 type Issue struct {
 	Severity    int
 	Title       string
-	MsgFormat   string
+	Format      string
 	Message     string
 	sourcePath  string
 	sourceStart antlr.Token

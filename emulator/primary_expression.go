@@ -2,24 +2,27 @@ package emulator
 
 import "github.com/ericr/solanalyzer/sources"
 
-func (e *Emulator) evalPrimary(expr *sources.PrimaryExpression) []*Value {
-	defer e.Recover(expr.Tokens)
+func (e *Emulator) evalPrimary(pExpr *sources.PrimaryExpression) []*Value {
+	defer e.Recover(pExpr.Tokens)
 
-	var vals []*Value
+	var values []*Value
 
-	switch expr.SubType {
+	switch pExpr.SubType {
 	case sources.ExpressionPrimaryIdentifier:
-		variable := e.MustFindVariable(expr.Identifier)
-		vals = append(vals, variable.Value)
+		values = append(values, e.MustResolveIdentifier(pExpr.Identifier))
 
 	case sources.ExpressionPrimaryTuple:
-		for _, subExpr := range expr.Tuple.Expressions {
-			vals = append(vals, e.Eval(subExpr)...)
+		for _, sExpr := range pExpr.Tuple.Expressions {
+			values = append(values, e.Eval(sExpr)...)
 		}
 
 	default:
-		vals = []*Value{NewValue(expr)}
+		value := NewValue()
+		value.Expression.SubType = sources.ExpressionPrimary
+		value.Expression.Primary = pExpr
+
+		values = []*Value{value}
 	}
 
-	return vals
+	return values
 }

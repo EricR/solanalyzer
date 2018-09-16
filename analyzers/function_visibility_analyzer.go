@@ -40,9 +40,9 @@ func (fva *FunctionVisibilityAnalyzer) Execute(source *sources.Source) ([]*Issue
 					"explicitly set.", function.ShortSignature(), contract)
 
 				issues = append(issues, &Issue{
-					Severity:    SeverityInfo,
+					Severity:    SeverityLow,
 					Title:       "Default Function Visibility",
-					MsgFormat:   "txt",
+					Format:      "txt",
 					Message:     msg,
 					analyzer:    fva,
 					sourcePath:  source.FilePath,

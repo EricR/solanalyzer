@@ -7,7 +7,9 @@ func (e *Emulator) evalSimpleStatement(stmt *sources.SimpleStatement) {
 
 	switch stmt.SubType {
 	case sources.SimpleStatementVarDec:
-		e.evalVariableDeclaration(stmt.VariableDeclaration)
+		for _, variable := range e.evalVariableDeclarationStatement(stmt.VariableDeclaration) {
+			e.SetVariable(variable)
+		}
 
 	case sources.SimpleStatementExpr:
 		e.Eval(stmt.Expression)
