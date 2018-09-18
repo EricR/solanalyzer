@@ -74,6 +74,12 @@ func (c *Contract) Visit(ctx *parser.ContractDefinitionContext) {
 
 			c.Constructor = constructor
 
+		case part.ModifierDefinition() != nil:
+			modifier := NewModifier()
+			modifier.Visit(part.ModifierDefinition().(*parser.ModifierDefinitionContext))
+
+			c.Modifiers = append(c.Modifiers, modifier)
+
 		case part.FunctionDefinition() != nil:
 			function := NewFunction()
 			function.Visit(part.FunctionDefinition().(*parser.FunctionDefinitionContext))

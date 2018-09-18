@@ -8,19 +8,18 @@ import (
 
 // Emulator is a Solidity emulator.
 type Emulator struct {
-	source        *sources.Source
-	ErrorCount    uint
-	eventHandlers map[string][]func(*Event)
-	contract      *sources.Contract
-	function      *sources.Function
-	structs       []*sources.Struct
-	functions     []*sources.Function
-	memory        []*Variable
-	storage       []*Variable
-	structsMap    map[string]*sources.Struct
-	functionsMap  map[string]*sources.Function
-	memoryMap     map[string]*Variable
-	storageMap    map[string]*Variable
+	source          *sources.Source
+	ErrorCount      uint
+	eventHandlers   map[string][]func(*Event)
+	stack           *Stack
+	currentContract *sources.Contract
+	currentFunction *sources.Function
+	structs         []*sources.Struct
+	functions       []*sources.Function
+	storage         []*Variable
+	structsMap      map[string]*sources.Struct
+	functionsMap    map[string]*sources.Function
+	storageMap      map[string]*Variable
 }
 
 // New returns a new instance of Emulator.
@@ -28,13 +27,12 @@ func New(source *sources.Source) *Emulator {
 	return &Emulator{
 		source:        source,
 		eventHandlers: map[string][]func(*Event){},
+		stack:         &Stack{},
 		structs:       []*sources.Struct{},
 		functions:     []*sources.Function{},
-		memory:        []*Variable{},
 		storage:       []*Variable{},
 		structsMap:    map[string]*sources.Struct{},
 		functionsMap:  map[string]*sources.Function{},
-		memoryMap:     map[string]*Variable{},
 		storageMap:    map[string]*Variable{},
 	}
 }
@@ -46,15 +44,18 @@ func (e *Emulator) Run() {
 	}
 
 	if e.ErrorCount > 0 {
-		logrus.Warnf("Finished emulation of %s with %d error(s)", e.source, e.ErrorCount)
+		logrus.Warnf("Finished emulation of %s with %d error(s)",
+			e.source, e.ErrorCount)
 	}
 }
 
 // Reset resets the emulator's state.
 func (e *Emulator) Reset() {
+	e.currentContract = nil
+	e.currentFunction = nil
 	e.ResetStructs()
 	e.ResetFunctions()
-	e.ResetMemory()
+	e.ResetStack()
 	e.ResetStorage()
 }
 
@@ -87,10 +88,9 @@ func (e *Emulator) ResetStorage() {
 	e.storageMap = map[string]*Variable{}
 }
 
-// ResetMemory resets the memory.
-func (e *Emulator) ResetMemory() {
-	e.memory = []*Variable{}
-	e.memoryMap = map[string]*Variable{}
+// ResetMemory resets the stack.
+func (e *Emulator) ResetStack() {
+	e.stack = &Stack{}
 }
 
 // AddStructDeclaration adds a struct declaration.

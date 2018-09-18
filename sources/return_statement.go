@@ -21,10 +21,12 @@ func (rs *ReturnStatement) Visit(ctx *parser.ReturnStatementContext) {
 	rs.Start = ctx.GetStart()
 	rs.Stop = ctx.GetStop()
 
-	expr := NewExpression()
-	expr.Visit(ctx.Expression().(*parser.ExpressionContext))
+	if ctx.Expression() != nil {
+		expr := NewExpression()
+		expr.Visit(ctx.Expression().(*parser.ExpressionContext))
 
-	rs.Expression = expr
+		rs.Expression = expr
+	}
 }
 
 func (rs *ReturnStatement) String() string {

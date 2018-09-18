@@ -20,10 +20,10 @@ const (
 	ElementaryTypeNameString
 	// ElementaryTypeNameVar represents a variable.
 	ElementaryTypeNameVar
-	// ElementaryTypeNameByte represents a byte.
-	ElementaryTypeNameByte
 	// ElementaryTypeNameBytes represents bytes.
 	ElementaryTypeNameBytes
+	// ElementaryTypeNameDynamicBytes represents a dynamic byte array.
+	ElementaryTypeNameDynamicBytes
 	// ElementaryTypeNameFixed represents a fixed type.
 	ElementaryTypeNameFixed
 	// ElementaryTypeNameUfixed represents an unfixed type.
@@ -71,11 +71,15 @@ func (etn *ElementaryTypeName) Visit(ctx *parser.ElementaryTypeNameContext) {
 		etn.SubType = ElementaryTypeNameVar
 
 	case ctx.GetText() == "byte":
-		etn.SubType = ElementaryTypeNameByte
+		etn.SubType = ElementaryTypeNameBytes
+		etn.Size = 1
+
+	case ctx.GetText() == "bytes":
+		etn.SubType = ElementaryTypeNameDynamicBytes
 
 	case ctx.Byte() != nil:
 		etn.SubType = ElementaryTypeNameBytes
-		etn.Size = mustParseSize(etn.Text, 4)
+		etn.Size = mustParseSize(etn.Text, 5)
 
 	case ctx.Fixed() != nil:
 		etn.SubType = ElementaryTypeNameFixed
@@ -110,7 +114,7 @@ func mustParseSize(str string, offset int) int {
 		str = "uint256"
 	}
 
-	i, err := strconv.Atoi(str[offset:len(str)])
+	i, err := strconv.Atoi(str[offset:])
 	if err != nil {
 		panic("Failed to parse type size")
 	}

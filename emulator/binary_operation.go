@@ -27,7 +27,8 @@ func (e *Emulator) evalBinaryOperation(expr *sources.Expression) []*Value {
 		rightExpr.SubType == sources.ExpressionPrimary &&
 		rightExpr.Primary.SubType == sources.ExpressionPrimaryNumber {
 
-		value = evalMath(expr.Operation, left[0].Expression.Primary, right[0].Expression.Primary)
+		value = evalMath(expr.Operation, left[0].Expression.Primary,
+			right[0].Expression.Primary)
 
 		switch expr.Operation {
 		case "=", "+=", "-=", "*=", "/=", "%=":

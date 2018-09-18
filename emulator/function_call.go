@@ -5,8 +5,8 @@ import "github.com/ericr/solanalyzer/sources"
 func (e *Emulator) evalFunctionCall(expr *sources.Expression, args *sources.FunctionCallArguments) []*Value {
 	e.Emit("function_call", &Event{
 		Source:         e.source,
-		Contract:       e.contract,
-		CallerFunction: e.function,
+		Contract:       e.currentContract,
+		CallerFunction: e.currentFunction,
 		Function:       e.mustResolveFunction(expr, args),
 	})
 
@@ -49,7 +49,7 @@ func (e *Emulator) exprArgsEqual(exprs []*sources.Expression, params []*sources.
 	if len(exprs) != len(params) {
 		return false
 	}
-	
+
 	for i, expr := range exprs {
 		values := e.Eval(expr)
 

@@ -42,7 +42,10 @@ func (id *ImportDirective) Visit(ctx *parser.ImportDirectiveContext) {
 
 		id.SubType = ImportPath
 		id.From = from[1 : len(from)-1]
-		id.As = ctx.Identifier(0).GetText()
+
+		if ctx.Identifier(0) != nil {
+			id.As = ctx.Identifier(0).GetText()
+		}
 
 	case '{':
 		for _, decCtx := range ctx.AllImportDeclaration() {

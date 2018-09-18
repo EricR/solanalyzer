@@ -43,9 +43,9 @@ func (i *Issue) AnalyzerID() string {
 
 // Source returns the source location of an issue.
 func (i *Issue) Source() string {
-	if i.sourceStart == nil || i.sourceStop == nil {
-		return fmt.Sprintf("%s:1:1", i.sourcePath)
+	if i.sourceStart == nil {
+		return fmt.Sprintf("%s:1:0", i.sourcePath)
 	}
 	return fmt.Sprintf("%s:%d:%d",
-		i.sourcePath, i.sourceStart.GetLine(), i.sourceStop.GetColumn())
+		i.sourcePath, i.sourceStart.GetLine(), i.sourceStart.GetColumn())
 }

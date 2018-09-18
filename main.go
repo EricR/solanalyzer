@@ -46,7 +46,12 @@ func main() {
 			logrus.Info("Scanning sources")
 			session.VisitSources()
 
-			session.AddAnalyzer(&analyzers.CompilerVersionAnalyzer{})
+			if analyzer, err := analyzers.NewCompilerVersionAnalyzer(); err != nil {
+				logrus.Warnf("Error initializing compiler version analyzer: %s", err)
+			} else {
+				session.AddAnalyzer(analyzer)
+			}
+
 			session.AddAnalyzer(&analyzers.FunctionVisibilityAnalyzer{})
 			session.AddAnalyzer(&analyzers.CallGraphAnalyzer{})
 

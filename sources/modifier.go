@@ -21,18 +21,20 @@ func NewModifier() *Modifier {
 }
 
 // Visit is called by a visitor.
-func (m *Modifier) Visit(ctx *parser.FunctionDefinitionContext) {
+func (m *Modifier) Visit(ctx *parser.ModifierDefinitionContext) {
 	m.Start = ctx.GetStart()
 	m.Stop = ctx.GetStop()
 	m.Identifier = ctx.Identifier().GetText()
 
-	paramList := ctx.ParameterList().(*parser.ParameterListContext)
+	if ctx.ParameterList() != nil {
+		paramList := ctx.ParameterList().(*parser.ParameterListContext)
 
-	for _, paramCtx := range paramList.AllParameter() {
-		param := NewParameter()
-		param.Visit(paramCtx.(*parser.ParameterContext))
+		for _, paramCtx := range paramList.AllParameter() {
+			param := NewParameter()
+			param.Visit(paramCtx.(*parser.ParameterContext))
 
-		m.Parameters = append(m.Parameters, param)
+			m.Parameters = append(m.Parameters, param)
+		}
 	}
 
 	if ctx.Block() != nil {

@@ -875,18 +875,6 @@ func (s *SourceUnitContext) ToStringTree(ruleNames []string, recog antlr.Recogni
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *SourceUnitContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterSourceUnit(s)
-	}
-}
-
-func (s *SourceUnitContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitSourceUnit(s)
-	}
-}
-
 func (p *SolidityParser) SourceUnit() (localctx ISourceUnitContext) {
 	localctx = NewSourceUnitContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 0, SolidityParserRULE_sourceUnit)
@@ -1018,18 +1006,6 @@ func (s *PragmaDirectiveContext) ToStringTree(ruleNames []string, recog antlr.Re
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *PragmaDirectiveContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterPragmaDirective(s)
-	}
-}
-
-func (s *PragmaDirectiveContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitPragmaDirective(s)
-	}
-}
-
 func (p *SolidityParser) PragmaDirective() (localctx IPragmaDirectiveContext) {
 	localctx = NewPragmaDirectiveContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 2, SolidityParserRULE_pragmaDirective)
@@ -1127,18 +1103,6 @@ func (s *PragmaNameContext) ToStringTree(ruleNames []string, recog antlr.Recogni
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *PragmaNameContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterPragmaName(s)
-	}
-}
-
-func (s *PragmaNameContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitPragmaName(s)
-	}
-}
-
 func (p *SolidityParser) PragmaName() (localctx IPragmaNameContext) {
 	localctx = NewPragmaNameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 4, SolidityParserRULE_pragmaName)
@@ -1232,18 +1196,6 @@ func (s *PragmaValueContext) GetRuleContext() antlr.RuleContext {
 
 func (s *PragmaValueContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *PragmaValueContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterPragmaValue(s)
-	}
-}
-
-func (s *PragmaValueContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitPragmaValue(s)
-	}
 }
 
 func (p *SolidityParser) PragmaValue() (localctx IPragmaValueContext) {
@@ -1357,18 +1309,6 @@ func (s *VersionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *VersionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterVersion(s)
-	}
-}
-
-func (s *VersionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitVersion(s)
-	}
-}
-
 func (p *SolidityParser) Version() (localctx IVersionContext) {
 	localctx = NewVersionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 8, SolidityParserRULE_version)
@@ -1453,18 +1393,6 @@ func (s *VersionOperatorContext) GetRuleContext() antlr.RuleContext {
 
 func (s *VersionOperatorContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *VersionOperatorContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterVersionOperator(s)
-	}
-}
-
-func (s *VersionOperatorContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitVersionOperator(s)
-	}
 }
 
 func (p *SolidityParser) VersionOperator() (localctx IVersionOperatorContext) {
@@ -1560,18 +1488,6 @@ func (s *VersionConstraintContext) GetRuleContext() antlr.RuleContext {
 
 func (s *VersionConstraintContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *VersionConstraintContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterVersionConstraint(s)
-	}
-}
-
-func (s *VersionConstraintContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitVersionConstraint(s)
-	}
 }
 
 func (p *SolidityParser) VersionConstraint() (localctx IVersionConstraintContext) {
@@ -1682,18 +1598,6 @@ func (s *ImportDeclarationContext) GetRuleContext() antlr.RuleContext {
 
 func (s *ImportDeclarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ImportDeclarationContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterImportDeclaration(s)
-	}
-}
-
-func (s *ImportDeclarationContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitImportDeclaration(s)
-	}
 }
 
 func (p *SolidityParser) ImportDeclaration() (localctx IImportDeclarationContext) {
@@ -1835,18 +1739,6 @@ func (s *ImportDirectiveContext) GetRuleContext() antlr.RuleContext {
 
 func (s *ImportDirectiveContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ImportDirectiveContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterImportDirective(s)
-	}
-}
-
-func (s *ImportDirectiveContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitImportDirective(s)
-	}
 }
 
 func (p *SolidityParser) ImportDirective() (localctx IImportDirectiveContext) {
@@ -2112,18 +2004,6 @@ func (s *ContractDefinitionContext) ToStringTree(ruleNames []string, recog antlr
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ContractDefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterContractDefinition(s)
-	}
-}
-
-func (s *ContractDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitContractDefinition(s)
-	}
-}
-
 func (p *SolidityParser) ContractDefinition() (localctx IContractDefinitionContext) {
 	localctx = NewContractDefinitionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 18, SolidityParserRULE_contractDefinition)
@@ -2295,18 +2175,6 @@ func (s *InheritanceSpecifierContext) GetRuleContext() antlr.RuleContext {
 
 func (s *InheritanceSpecifierContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *InheritanceSpecifierContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterInheritanceSpecifier(s)
-	}
-}
-
-func (s *InheritanceSpecifierContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitInheritanceSpecifier(s)
-	}
 }
 
 func (p *SolidityParser) InheritanceSpecifier() (localctx IInheritanceSpecifierContext) {
@@ -2502,18 +2370,6 @@ func (s *ContractPartContext) ToStringTree(ruleNames []string, recog antlr.Recog
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ContractPartContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterContractPart(s)
-	}
-}
-
-func (s *ContractPartContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitContractPart(s)
-	}
-}
-
 func (p *SolidityParser) ContractPart() (localctx IContractPartContext) {
 	localctx = NewContractPartContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 22, SolidityParserRULE_contractPart)
@@ -2706,18 +2562,6 @@ func (s *StateVariableDeclarationContext) ToStringTree(ruleNames []string, recog
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *StateVariableDeclarationContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterStateVariableDeclaration(s)
-	}
-}
-
-func (s *StateVariableDeclarationContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitStateVariableDeclaration(s)
-	}
-}
-
 func (p *SolidityParser) StateVariableDeclaration() (localctx IStateVariableDeclarationContext) {
 	localctx = NewStateVariableDeclarationContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 24, SolidityParserRULE_stateVariableDeclaration)
@@ -2854,18 +2698,6 @@ func (s *UsingForDeclarationContext) GetRuleContext() antlr.RuleContext {
 
 func (s *UsingForDeclarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *UsingForDeclarationContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterUsingForDeclaration(s)
-	}
-}
-
-func (s *UsingForDeclarationContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitUsingForDeclaration(s)
-	}
 }
 
 func (p *SolidityParser) UsingForDeclaration() (localctx IUsingForDeclarationContext) {
@@ -3005,18 +2837,6 @@ func (s *StructDefinitionContext) GetRuleContext() antlr.RuleContext {
 
 func (s *StructDefinitionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *StructDefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterStructDefinition(s)
-	}
-}
-
-func (s *StructDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitStructDefinition(s)
-	}
 }
 
 func (p *SolidityParser) StructDefinition() (localctx IStructDefinitionContext) {
@@ -3170,18 +2990,6 @@ func (s *ConstructorDefinitionContext) ToStringTree(ruleNames []string, recog an
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ConstructorDefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterConstructorDefinition(s)
-	}
-}
-
-func (s *ConstructorDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitConstructorDefinition(s)
-	}
-}
-
 func (p *SolidityParser) ConstructorDefinition() (localctx IConstructorDefinitionContext) {
 	localctx = NewConstructorDefinitionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 30, SolidityParserRULE_constructorDefinition)
@@ -3299,18 +3107,6 @@ func (s *ModifierDefinitionContext) ToStringTree(ruleNames []string, recog antlr
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ModifierDefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterModifierDefinition(s)
-	}
-}
-
-func (s *ModifierDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitModifierDefinition(s)
-	}
-}
-
 func (p *SolidityParser) ModifierDefinition() (localctx IModifierDefinitionContext) {
 	localctx = NewModifierDefinitionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 32, SolidityParserRULE_modifierDefinition)
@@ -3424,18 +3220,6 @@ func (s *ModifierInvocationContext) GetRuleContext() antlr.RuleContext {
 
 func (s *ModifierInvocationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ModifierInvocationContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterModifierInvocation(s)
-	}
-}
-
-func (s *ModifierInvocationContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitModifierInvocation(s)
-	}
 }
 
 func (p *SolidityParser) ModifierInvocation() (localctx IModifierInvocationContext) {
@@ -3590,18 +3374,6 @@ func (s *FunctionDefinitionContext) ToStringTree(ruleNames []string, recog antlr
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *FunctionDefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterFunctionDefinition(s)
-	}
-}
-
-func (s *FunctionDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitFunctionDefinition(s)
-	}
-}
-
 func (p *SolidityParser) FunctionDefinition() (localctx IFunctionDefinitionContext) {
 	localctx = NewFunctionDefinitionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 36, SolidityParserRULE_functionDefinition)
@@ -3735,18 +3507,6 @@ func (s *ReturnParametersContext) GetRuleContext() antlr.RuleContext {
 
 func (s *ReturnParametersContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ReturnParametersContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterReturnParameters(s)
-	}
-}
-
-func (s *ReturnParametersContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitReturnParameters(s)
-	}
 }
 
 func (p *SolidityParser) ReturnParameters() (localctx IReturnParametersContext) {
@@ -3906,18 +3666,6 @@ func (s *ModifierListContext) ToStringTree(ruleNames []string, recog antlr.Recog
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ModifierListContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterModifierList(s)
-	}
-}
-
-func (s *ModifierListContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitModifierList(s)
-	}
-}
-
 func (p *SolidityParser) ModifierList() (localctx IModifierListContext) {
 	localctx = NewModifierListContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 40, SolidityParserRULE_modifierList)
@@ -4067,18 +3815,6 @@ func (s *EventDefinitionContext) ToStringTree(ruleNames []string, recog antlr.Re
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *EventDefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterEventDefinition(s)
-	}
-}
-
-func (s *EventDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitEventDefinition(s)
-	}
-}
-
 func (p *SolidityParser) EventDefinition() (localctx IEventDefinitionContext) {
 	localctx = NewEventDefinitionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 42, SolidityParserRULE_eventDefinition)
@@ -4188,18 +3924,6 @@ func (s *EnumValueContext) ToStringTree(ruleNames []string, recog antlr.Recogniz
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *EnumValueContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterEnumValue(s)
-	}
-}
-
-func (s *EnumValueContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitEnumValue(s)
-	}
-}
-
 func (p *SolidityParser) EnumValue() (localctx IEnumValueContext) {
 	localctx = NewEnumValueContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 44, SolidityParserRULE_enumValue)
@@ -4306,18 +4030,6 @@ func (s *EnumDefinitionContext) GetRuleContext() antlr.RuleContext {
 
 func (s *EnumDefinitionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *EnumDefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterEnumDefinition(s)
-	}
-}
-
-func (s *EnumDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitEnumDefinition(s)
-	}
 }
 
 func (p *SolidityParser) EnumDefinition() (localctx IEnumDefinitionContext) {
@@ -4460,18 +4172,6 @@ func (s *ParameterListContext) ToStringTree(ruleNames []string, recog antlr.Reco
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ParameterListContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterParameterList(s)
-	}
-}
-
-func (s *ParameterListContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitParameterList(s)
-	}
-}
-
 func (p *SolidityParser) ParameterList() (localctx IParameterListContext) {
 	localctx = NewParameterListContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 48, SolidityParserRULE_parameterList)
@@ -4611,18 +4311,6 @@ func (s *ParameterContext) ToStringTree(ruleNames []string, recog antlr.Recogniz
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ParameterContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterParameter(s)
-	}
-}
-
-func (s *ParameterContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitParameter(s)
-	}
-}
-
 func (p *SolidityParser) Parameter() (localctx IParameterContext) {
 	localctx = NewParameterContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 50, SolidityParserRULE_parameter)
@@ -4742,18 +4430,6 @@ func (s *EventParameterListContext) GetRuleContext() antlr.RuleContext {
 
 func (s *EventParameterListContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *EventParameterListContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterEventParameterList(s)
-	}
-}
-
-func (s *EventParameterListContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitEventParameterList(s)
-	}
 }
 
 func (p *SolidityParser) EventParameterList() (localctx IEventParameterListContext) {
@@ -4889,18 +4565,6 @@ func (s *EventParameterContext) ToStringTree(ruleNames []string, recog antlr.Rec
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *EventParameterContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterEventParameter(s)
-	}
-}
-
-func (s *EventParameterContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitEventParameter(s)
-	}
-}
-
 func (p *SolidityParser) EventParameter() (localctx IEventParameterContext) {
 	localctx = NewEventParameterContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 54, SolidityParserRULE_eventParameter)
@@ -5020,18 +4684,6 @@ func (s *FunctionTypeParameterListContext) GetRuleContext() antlr.RuleContext {
 
 func (s *FunctionTypeParameterListContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *FunctionTypeParameterListContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterFunctionTypeParameterList(s)
-	}
-}
-
-func (s *FunctionTypeParameterListContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitFunctionTypeParameterList(s)
-	}
 }
 
 func (p *SolidityParser) FunctionTypeParameterList() (localctx IFunctionTypeParameterListContext) {
@@ -5163,18 +4815,6 @@ func (s *FunctionTypeParameterContext) ToStringTree(ruleNames []string, recog an
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *FunctionTypeParameterContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterFunctionTypeParameter(s)
-	}
-}
-
-func (s *FunctionTypeParameterContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitFunctionTypeParameter(s)
-	}
-}
-
 func (p *SolidityParser) FunctionTypeParameter() (localctx IFunctionTypeParameterContext) {
 	localctx = NewFunctionTypeParameterContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 58, SolidityParserRULE_functionTypeParameter)
@@ -5290,18 +4930,6 @@ func (s *VariableDeclarationContext) GetRuleContext() antlr.RuleContext {
 
 func (s *VariableDeclarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *VariableDeclarationContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterVariableDeclaration(s)
-	}
-}
-
-func (s *VariableDeclarationContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitVariableDeclaration(s)
-	}
 }
 
 func (p *SolidityParser) VariableDeclaration() (localctx IVariableDeclarationContext) {
@@ -5453,18 +5081,6 @@ func (s *TypeNameContext) GetRuleContext() antlr.RuleContext {
 
 func (s *TypeNameContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *TypeNameContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterTypeName(s)
-	}
-}
-
-func (s *TypeNameContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitTypeName(s)
-	}
 }
 
 func (p *SolidityParser) TypeName() (localctx ITypeNameContext) {
@@ -5647,18 +5263,6 @@ func (s *UserDefinedTypeNameContext) ToStringTree(ruleNames []string, recog antl
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *UserDefinedTypeNameContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterUserDefinedTypeName(s)
-	}
-}
-
-func (s *UserDefinedTypeNameContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitUserDefinedTypeName(s)
-	}
-}
-
 func (p *SolidityParser) UserDefinedTypeName() (localctx IUserDefinedTypeNameContext) {
 	localctx = NewUserDefinedTypeNameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 64, SolidityParserRULE_userDefinedTypeName)
@@ -5774,18 +5378,6 @@ func (s *MappingContext) GetRuleContext() antlr.RuleContext {
 
 func (s *MappingContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *MappingContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterMapping(s)
-	}
-}
-
-func (s *MappingContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitMapping(s)
-	}
 }
 
 func (p *SolidityParser) Mapping() (localctx IMappingContext) {
@@ -5945,18 +5537,6 @@ func (s *FunctionTypeNameContext) ToStringTree(ruleNames []string, recog antlr.R
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *FunctionTypeNameContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterFunctionTypeName(s)
-	}
-}
-
-func (s *FunctionTypeNameContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitFunctionTypeName(s)
-	}
-}
-
 func (p *SolidityParser) FunctionTypeName() (localctx IFunctionTypeNameContext) {
 	localctx = NewFunctionTypeNameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 68, SolidityParserRULE_functionTypeName)
@@ -6088,18 +5668,6 @@ func (s *StorageLocationContext) ToStringTree(ruleNames []string, recog antlr.Re
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *StorageLocationContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterStorageLocation(s)
-	}
-}
-
-func (s *StorageLocationContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitStorageLocation(s)
-	}
-}
-
 func (p *SolidityParser) StorageLocation() (localctx IStorageLocationContext) {
 	localctx = NewStorageLocationContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 70, SolidityParserRULE_storageLocation)
@@ -6195,18 +5763,6 @@ func (s *StateMutabilityContext) GetRuleContext() antlr.RuleContext {
 
 func (s *StateMutabilityContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *StateMutabilityContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterStateMutability(s)
-	}
-}
-
-func (s *StateMutabilityContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitStateMutability(s)
-	}
 }
 
 func (p *SolidityParser) StateMutability() (localctx IStateMutabilityContext) {
@@ -6311,18 +5867,6 @@ func (s *BlockContext) GetRuleContext() antlr.RuleContext {
 
 func (s *BlockContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *BlockContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterBlock(s)
-	}
-}
-
-func (s *BlockContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitBlock(s)
-	}
 }
 
 func (p *SolidityParser) Block() (localctx IBlockContext) {
@@ -6539,18 +6083,6 @@ func (s *StatementContext) ToStringTree(ruleNames []string, recog antlr.Recogniz
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *StatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterStatement(s)
-	}
-}
-
-func (s *StatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitStatement(s)
-	}
-}
-
 func (p *SolidityParser) Statement() (localctx IStatementContext) {
 	localctx = NewStatementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 76, SolidityParserRULE_statement)
@@ -6722,18 +6254,6 @@ func (s *ExpressionStatementContext) ToStringTree(ruleNames []string, recog antl
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ExpressionStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterExpressionStatement(s)
-	}
-}
-
-func (s *ExpressionStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitExpressionStatement(s)
-	}
-}
-
 func (p *SolidityParser) ExpressionStatement() (localctx IExpressionStatementContext) {
 	localctx = NewExpressionStatementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 78, SolidityParserRULE_expressionStatement)
@@ -6844,18 +6364,6 @@ func (s *IfStatementContext) GetRuleContext() antlr.RuleContext {
 
 func (s *IfStatementContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *IfStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterIfStatement(s)
-	}
-}
-
-func (s *IfStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitIfStatement(s)
-	}
 }
 
 func (p *SolidityParser) IfStatement() (localctx IIfStatementContext) {
@@ -6983,18 +6491,6 @@ func (s *WhileStatementContext) ToStringTree(ruleNames []string, recog antlr.Rec
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *WhileStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterWhileStatement(s)
-	}
-}
-
-func (s *WhileStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitWhileStatement(s)
-	}
-}
-
 func (p *SolidityParser) WhileStatement() (localctx IWhileStatementContext) {
 	localctx = NewWhileStatementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 82, SolidityParserRULE_whileStatement)
@@ -7104,18 +6600,6 @@ func (s *SimpleStatementContext) GetRuleContext() antlr.RuleContext {
 
 func (s *SimpleStatementContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *SimpleStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterSimpleStatement(s)
-	}
-}
-
-func (s *SimpleStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitSimpleStatement(s)
-	}
 }
 
 func (p *SolidityParser) SimpleStatement() (localctx ISimpleStatementContext) {
@@ -7246,18 +6730,6 @@ func (s *ForStatementContext) GetRuleContext() antlr.RuleContext {
 
 func (s *ForStatementContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ForStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterForStatement(s)
-	}
-}
-
-func (s *ForStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitForStatement(s)
-	}
 }
 
 func (p *SolidityParser) ForStatement() (localctx IForStatementContext) {
@@ -7407,18 +6879,6 @@ func (s *InlineAssemblyStatementContext) ToStringTree(ruleNames []string, recog 
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *InlineAssemblyStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterInlineAssemblyStatement(s)
-	}
-}
-
-func (s *InlineAssemblyStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitInlineAssemblyStatement(s)
-	}
-}
-
 func (p *SolidityParser) InlineAssemblyStatement() (localctx IInlineAssemblyStatementContext) {
 	localctx = NewInlineAssemblyStatementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 88, SolidityParserRULE_inlineAssemblyStatement)
@@ -7530,18 +6990,6 @@ func (s *DoWhileStatementContext) ToStringTree(ruleNames []string, recog antlr.R
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *DoWhileStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterDoWhileStatement(s)
-	}
-}
-
-func (s *DoWhileStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitDoWhileStatement(s)
-	}
-}
-
 func (p *SolidityParser) DoWhileStatement() (localctx IDoWhileStatementContext) {
 	localctx = NewDoWhileStatementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 90, SolidityParserRULE_doWhileStatement)
@@ -7640,18 +7088,6 @@ func (s *ContinueStatementContext) ToStringTree(ruleNames []string, recog antlr.
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ContinueStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterContinueStatement(s)
-	}
-}
-
-func (s *ContinueStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitContinueStatement(s)
-	}
-}
-
 func (p *SolidityParser) ContinueStatement() (localctx IContinueStatementContext) {
 	localctx = NewContinueStatementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 92, SolidityParserRULE_continueStatement)
@@ -7728,18 +7164,6 @@ func (s *BreakStatementContext) GetRuleContext() antlr.RuleContext {
 
 func (s *BreakStatementContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *BreakStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterBreakStatement(s)
-	}
-}
-
-func (s *BreakStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitBreakStatement(s)
-	}
 }
 
 func (p *SolidityParser) BreakStatement() (localctx IBreakStatementContext) {
@@ -7829,18 +7253,6 @@ func (s *ReturnStatementContext) GetRuleContext() antlr.RuleContext {
 
 func (s *ReturnStatementContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ReturnStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterReturnStatement(s)
-	}
-}
-
-func (s *ReturnStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitReturnStatement(s)
-	}
 }
 
 func (p *SolidityParser) ReturnStatement() (localctx IReturnStatementContext) {
@@ -7933,18 +7345,6 @@ func (s *ThrowStatementContext) ToStringTree(ruleNames []string, recog antlr.Rec
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ThrowStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterThrowStatement(s)
-	}
-}
-
-func (s *ThrowStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitThrowStatement(s)
-	}
-}
-
 func (p *SolidityParser) ThrowStatement() (localctx IThrowStatementContext) {
 	localctx = NewThrowStatementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 98, SolidityParserRULE_throwStatement)
@@ -8032,18 +7432,6 @@ func (s *EmitStatementContext) GetRuleContext() antlr.RuleContext {
 
 func (s *EmitStatementContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *EmitStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterEmitStatement(s)
-	}
-}
-
-func (s *EmitStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitEmitStatement(s)
-	}
 }
 
 func (p *SolidityParser) EmitStatement() (localctx IEmitStatementContext) {
@@ -8167,18 +7555,6 @@ func (s *VariableDeclarationStatementContext) GetRuleContext() antlr.RuleContext
 
 func (s *VariableDeclarationStatementContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *VariableDeclarationStatementContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterVariableDeclarationStatement(s)
-	}
-}
-
-func (s *VariableDeclarationStatementContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitVariableDeclarationStatement(s)
-	}
 }
 
 func (p *SolidityParser) VariableDeclarationStatement() (localctx IVariableDeclarationStatementContext) {
@@ -8329,18 +7705,6 @@ func (s *VariableDeclarationListContext) ToStringTree(ruleNames []string, recog 
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *VariableDeclarationListContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterVariableDeclarationList(s)
-	}
-}
-
-func (s *VariableDeclarationListContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitVariableDeclarationList(s)
-	}
-}
-
 func (p *SolidityParser) VariableDeclarationList() (localctx IVariableDeclarationListContext) {
 	localctx = NewVariableDeclarationListContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 104, SolidityParserRULE_variableDeclarationList)
@@ -8470,18 +7834,6 @@ func (s *IdentifierListContext) GetRuleContext() antlr.RuleContext {
 
 func (s *IdentifierListContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *IdentifierListContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterIdentifierList(s)
-	}
-}
-
-func (s *IdentifierListContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitIdentifierList(s)
-	}
 }
 
 func (p *SolidityParser) IdentifierList() (localctx IIdentifierListContext) {
@@ -8622,18 +7974,6 @@ func (s *ElementaryTypeNameContext) GetRuleContext() antlr.RuleContext {
 
 func (s *ElementaryTypeNameContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ElementaryTypeNameContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterElementaryTypeName(s)
-	}
-}
-
-func (s *ElementaryTypeNameContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitElementaryTypeName(s)
-	}
 }
 
 func (p *SolidityParser) ElementaryTypeName() (localctx IElementaryTypeNameContext) {
@@ -8778,18 +8118,6 @@ func (s *ExpressionContext) GetRuleContext() antlr.RuleContext {
 
 func (s *ExpressionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ExpressionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterExpression(s)
-	}
-}
-
-func (s *ExpressionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitExpression(s)
-	}
 }
 
 func (p *SolidityParser) Expression() (localctx IExpressionContext) {
@@ -9383,18 +8711,6 @@ func (s *PrimaryExpressionContext) ToStringTree(ruleNames []string, recog antlr.
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *PrimaryExpressionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterPrimaryExpression(s)
-	}
-}
-
-func (s *PrimaryExpressionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitPrimaryExpression(s)
-	}
-}
-
 func (p *SolidityParser) PrimaryExpression() (localctx IPrimaryExpressionContext) {
 	localctx = NewPrimaryExpressionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 112, SolidityParserRULE_primaryExpression)
@@ -9544,18 +8860,6 @@ func (s *ExpressionListContext) ToStringTree(ruleNames []string, recog antlr.Rec
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ExpressionListContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterExpressionList(s)
-	}
-}
-
-func (s *ExpressionListContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitExpressionList(s)
-	}
-}
-
 func (p *SolidityParser) ExpressionList() (localctx IExpressionListContext) {
 	localctx = NewExpressionListContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 114, SolidityParserRULE_expressionList)
@@ -9671,18 +8975,6 @@ func (s *NameValueListContext) GetRuleContext() antlr.RuleContext {
 
 func (s *NameValueListContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *NameValueListContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterNameValueList(s)
-	}
-}
-
-func (s *NameValueListContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitNameValueList(s)
-	}
 }
 
 func (p *SolidityParser) NameValueList() (localctx INameValueListContext) {
@@ -9814,18 +9106,6 @@ func (s *NameValueContext) ToStringTree(ruleNames []string, recog antlr.Recogniz
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *NameValueContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterNameValue(s)
-	}
-}
-
-func (s *NameValueContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitNameValue(s)
-	}
-}
-
 func (p *SolidityParser) NameValue() (localctx INameValueContext) {
 	localctx = NewNameValueContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 118, SolidityParserRULE_nameValue)
@@ -9927,18 +9207,6 @@ func (s *FunctionCallArgumentsContext) GetRuleContext() antlr.RuleContext {
 
 func (s *FunctionCallArgumentsContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *FunctionCallArgumentsContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterFunctionCallArguments(s)
-	}
-}
-
-func (s *FunctionCallArgumentsContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitFunctionCallArguments(s)
-	}
 }
 
 func (p *SolidityParser) FunctionCallArguments() (localctx IFunctionCallArgumentsContext) {
@@ -10075,18 +9343,6 @@ func (s *FunctionCallContext) ToStringTree(ruleNames []string, recog antlr.Recog
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *FunctionCallContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterFunctionCall(s)
-	}
-}
-
-func (s *FunctionCallContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitFunctionCall(s)
-	}
-}
-
 func (p *SolidityParser) FunctionCall() (localctx IFunctionCallContext) {
 	localctx = NewFunctionCallContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 122, SolidityParserRULE_functionCall)
@@ -10195,18 +9451,6 @@ func (s *AssemblyBlockContext) GetRuleContext() antlr.RuleContext {
 
 func (s *AssemblyBlockContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *AssemblyBlockContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyBlock(s)
-	}
-}
-
-func (s *AssemblyBlockContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyBlock(s)
-	}
 }
 
 func (p *SolidityParser) AssemblyBlock() (localctx IAssemblyBlockContext) {
@@ -10449,18 +9693,6 @@ func (s *AssemblyItemContext) ToStringTree(ruleNames []string, recog antlr.Recog
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *AssemblyItemContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyItem(s)
-	}
-}
-
-func (s *AssemblyItemContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyItem(s)
-	}
-}
-
 func (p *SolidityParser) AssemblyItem() (localctx IAssemblyItemContext) {
 	localctx = NewAssemblyItemContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 126, SolidityParserRULE_assemblyItem)
@@ -10674,18 +9906,6 @@ func (s *AssemblyExpressionContext) ToStringTree(ruleNames []string, recog antlr
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *AssemblyExpressionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyExpression(s)
-	}
-}
-
-func (s *AssemblyExpressionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyExpression(s)
-	}
-}
-
 func (p *SolidityParser) AssemblyExpression() (localctx IAssemblyExpressionContext) {
 	localctx = NewAssemblyExpressionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 128, SolidityParserRULE_assemblyExpression)
@@ -10808,18 +10028,6 @@ func (s *AssemblyCallContext) GetRuleContext() antlr.RuleContext {
 
 func (s *AssemblyCallContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *AssemblyCallContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyCall(s)
-	}
-}
-
-func (s *AssemblyCallContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyCall(s)
-	}
 }
 
 func (p *SolidityParser) AssemblyCall() (localctx IAssemblyCallContext) {
@@ -10988,18 +10196,6 @@ func (s *AssemblyLocalDefinitionContext) ToStringTree(ruleNames []string, recog 
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *AssemblyLocalDefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyLocalDefinition(s)
-	}
-}
-
-func (s *AssemblyLocalDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyLocalDefinition(s)
-	}
-}
-
 func (p *SolidityParser) AssemblyLocalDefinition() (localctx IAssemblyLocalDefinitionContext) {
 	localctx = NewAssemblyLocalDefinitionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 132, SolidityParserRULE_assemblyLocalDefinition)
@@ -11115,18 +10311,6 @@ func (s *AssemblyAssignmentContext) ToStringTree(ruleNames []string, recog antlr
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *AssemblyAssignmentContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyAssignment(s)
-	}
-}
-
-func (s *AssemblyAssignmentContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyAssignment(s)
-	}
-}
-
 func (p *SolidityParser) AssemblyAssignment() (localctx IAssemblyAssignmentContext) {
 	localctx = NewAssemblyAssignmentContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 134, SolidityParserRULE_assemblyAssignment)
@@ -11228,18 +10412,6 @@ func (s *AssemblyIdentifierOrListContext) GetRuleContext() antlr.RuleContext {
 
 func (s *AssemblyIdentifierOrListContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *AssemblyIdentifierOrListContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyIdentifierOrList(s)
-	}
-}
-
-func (s *AssemblyIdentifierOrListContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyIdentifierOrList(s)
-	}
 }
 
 func (p *SolidityParser) AssemblyIdentifierOrList() (localctx IAssemblyIdentifierOrListContext) {
@@ -11364,18 +10536,6 @@ func (s *AssemblyIdentifierListContext) ToStringTree(ruleNames []string, recog a
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *AssemblyIdentifierListContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyIdentifierList(s)
-	}
-}
-
-func (s *AssemblyIdentifierListContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyIdentifierList(s)
-	}
-}
-
 func (p *SolidityParser) AssemblyIdentifierList() (localctx IAssemblyIdentifierListContext) {
 	localctx = NewAssemblyIdentifierListContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 138, SolidityParserRULE_assemblyIdentifierList)
@@ -11480,18 +10640,6 @@ func (s *AssemblyStackAssignmentContext) ToStringTree(ruleNames []string, recog 
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *AssemblyStackAssignmentContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyStackAssignment(s)
-	}
-}
-
-func (s *AssemblyStackAssignmentContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyStackAssignment(s)
-	}
-}
-
 func (p *SolidityParser) AssemblyStackAssignment() (localctx IAssemblyStackAssignmentContext) {
 	localctx = NewAssemblyStackAssignmentContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 140, SolidityParserRULE_assemblyStackAssignment)
@@ -11579,18 +10727,6 @@ func (s *LabelDefinitionContext) GetRuleContext() antlr.RuleContext {
 
 func (s *LabelDefinitionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *LabelDefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterLabelDefinition(s)
-	}
-}
-
-func (s *LabelDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitLabelDefinition(s)
-	}
 }
 
 func (p *SolidityParser) LabelDefinition() (localctx ILabelDefinitionContext) {
@@ -11705,18 +10841,6 @@ func (s *AssemblySwitchContext) ToStringTree(ruleNames []string, recog antlr.Rec
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *AssemblySwitchContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblySwitch(s)
-	}
-}
-
-func (s *AssemblySwitchContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblySwitch(s)
-	}
-}
-
 func (p *SolidityParser) AssemblySwitch() (localctx IAssemblySwitchContext) {
 	localctx = NewAssemblySwitchContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 144, SolidityParserRULE_assemblySwitch)
@@ -11829,18 +10953,6 @@ func (s *AssemblyCaseContext) GetRuleContext() antlr.RuleContext {
 
 func (s *AssemblyCaseContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *AssemblyCaseContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyCase(s)
-	}
-}
-
-func (s *AssemblyCaseContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyCase(s)
-	}
 }
 
 func (p *SolidityParser) AssemblyCase() (localctx IAssemblyCaseContext) {
@@ -11986,18 +11098,6 @@ func (s *AssemblyFunctionDefinitionContext) ToStringTree(ruleNames []string, rec
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *AssemblyFunctionDefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyFunctionDefinition(s)
-	}
-}
-
-func (s *AssemblyFunctionDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyFunctionDefinition(s)
-	}
-}
-
 func (p *SolidityParser) AssemblyFunctionDefinition() (localctx IAssemblyFunctionDefinitionContext) {
 	localctx = NewAssemblyFunctionDefinitionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 148, SolidityParserRULE_assemblyFunctionDefinition)
@@ -12120,18 +11220,6 @@ func (s *AssemblyFunctionReturnsContext) GetRuleContext() antlr.RuleContext {
 
 func (s *AssemblyFunctionReturnsContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *AssemblyFunctionReturnsContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyFunctionReturns(s)
-	}
-}
-
-func (s *AssemblyFunctionReturnsContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyFunctionReturns(s)
-	}
 }
 
 func (p *SolidityParser) AssemblyFunctionReturns() (localctx IAssemblyFunctionReturnsContext) {
@@ -12257,18 +11345,6 @@ func (s *AssemblyForContext) GetRuleContext() antlr.RuleContext {
 
 func (s *AssemblyForContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *AssemblyForContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyFor(s)
-	}
-}
-
-func (s *AssemblyForContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyFor(s)
-	}
 }
 
 func (p *SolidityParser) AssemblyFor() (localctx IAssemblyForContext) {
@@ -12412,18 +11488,6 @@ func (s *AssemblyIfContext) ToStringTree(ruleNames []string, recog antlr.Recogni
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *AssemblyIfContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyIf(s)
-	}
-}
-
-func (s *AssemblyIfContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyIf(s)
-	}
-}
-
 func (p *SolidityParser) AssemblyIf() (localctx IAssemblyIfContext) {
 	localctx = NewAssemblyIfContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 154, SolidityParserRULE_assemblyIf)
@@ -12521,18 +11585,6 @@ func (s *AssemblyLiteralContext) GetRuleContext() antlr.RuleContext {
 
 func (s *AssemblyLiteralContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *AssemblyLiteralContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterAssemblyLiteral(s)
-	}
-}
-
-func (s *AssemblyLiteralContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitAssemblyLiteral(s)
-	}
 }
 
 func (p *SolidityParser) AssemblyLiteral() (localctx IAssemblyLiteralContext) {
@@ -12634,18 +11686,6 @@ func (s *SubAssemblyContext) GetRuleContext() antlr.RuleContext {
 
 func (s *SubAssemblyContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *SubAssemblyContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterSubAssembly(s)
-	}
-}
-
-func (s *SubAssemblyContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitSubAssembly(s)
-	}
 }
 
 func (p *SolidityParser) SubAssembly() (localctx ISubAssemblyContext) {
@@ -12752,18 +11792,6 @@ func (s *TupleExpressionContext) GetRuleContext() antlr.RuleContext {
 
 func (s *TupleExpressionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *TupleExpressionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterTupleExpression(s)
-	}
-}
-
-func (s *TupleExpressionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitTupleExpression(s)
-	}
 }
 
 func (p *SolidityParser) TupleExpression() (localctx ITupleExpressionContext) {
@@ -12943,18 +11971,6 @@ func (s *ElementaryTypeNameExpressionContext) ToStringTree(ruleNames []string, r
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ElementaryTypeNameExpressionContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterElementaryTypeNameExpression(s)
-	}
-}
-
-func (s *ElementaryTypeNameExpressionContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitElementaryTypeNameExpression(s)
-	}
-}
-
 func (p *SolidityParser) ElementaryTypeNameExpression() (localctx IElementaryTypeNameExpressionContext) {
 	localctx = NewElementaryTypeNameExpressionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 162, SolidityParserRULE_elementaryTypeNameExpression)
@@ -13040,18 +12056,6 @@ func (s *NumberLiteralContext) GetRuleContext() antlr.RuleContext {
 
 func (s *NumberLiteralContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *NumberLiteralContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterNumberLiteral(s)
-	}
-}
-
-func (s *NumberLiteralContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitNumberLiteral(s)
-	}
 }
 
 func (p *SolidityParser) NumberLiteral() (localctx INumberLiteralContext) {
@@ -13147,18 +12151,6 @@ func (s *IdentifierContext) GetRuleContext() antlr.RuleContext {
 
 func (s *IdentifierContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *IdentifierContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.EnterIdentifier(s)
-	}
-}
-
-func (s *IdentifierContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(SolidityListener); ok {
-		listenerT.ExitIdentifier(s)
-	}
 }
 
 func (p *SolidityParser) Identifier() (localctx IIdentifierContext) {

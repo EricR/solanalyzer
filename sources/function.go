@@ -28,7 +28,10 @@ func NewFunction() *Function {
 func (f *Function) Visit(ctx *parser.FunctionDefinitionContext) {
 	f.Start = ctx.GetStart()
 	f.Stop = ctx.GetStop()
-	f.Identifier = ctx.Identifier().GetText()
+
+	if ctx.Identifier() != nil {
+		f.Identifier = ctx.Identifier().GetText()
+	}
 
 	paramList := ctx.ParameterList().(*parser.ParameterListContext)
 

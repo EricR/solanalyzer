@@ -7,7 +7,7 @@ func (e *Emulator) evalFunctionDefinition(function *sources.Function) {
 
 	e.Emit("function_definition", &Event{
 		Source:   e.source,
-		Contract: e.contract,
+		Contract: e.currentContract,
 		Function: function,
 	})
 

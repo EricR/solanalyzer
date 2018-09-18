@@ -68,15 +68,18 @@ func (tn *TypeName) Visit(ctx *parser.TypeNameContext) {
 		tn.SubType = TypeNameMapping
 		tn.Mapping = mapping
 
-	case ctx.TypeName() != nil && ctx.Expression() != nil:
+	case ctx.TypeName() != nil:
 		tn2 := NewTypeName()
 		tn2.Visit(ctx.TypeName().(*parser.TypeNameContext))
 
-		expr := NewExpression()
-		expr.Visit(ctx.Expression().(*parser.ExpressionContext))
+		if ctx.Expression() != nil {
+			expr := NewExpression()
+			expr.Visit(ctx.Expression().(*parser.ExpressionContext))
+
+			tn.Expression = expr
+		}
 
 		tn.SubType = TypeNameArray
-		tn.Expression = expr
 		tn.TypeName = tn2
 
 	case ctx.FunctionTypeName() != nil:

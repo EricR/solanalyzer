@@ -28,7 +28,10 @@ func (ep *EventParameter) Visit(ctx *parser.EventParameterContext) {
 	typeName.Visit(ctx.TypeName().(*parser.TypeNameContext))
 
 	ep.TypeName = typeName
-	ep.Identifier = ctx.Identifier().GetText()
+
+	if ctx.Identifier() != nil {
+		ep.Identifier = ctx.Identifier().GetText()
+	}
 
 	if ctx.IndexedKeyword() != nil {
 		ep.Indexed = true

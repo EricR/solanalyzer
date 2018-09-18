@@ -65,18 +65,18 @@ func (pe *PrimaryExpression) Visit(ctx *parser.PrimaryExpressionContext) {
 			decimal := getText(numLiteral.DecimalNumber())
 			checkNumberLiteral(decimal)
 			pe.Integer = utils.MustParseBigInt(decimal)
+			pe.SubType = ExpressionPrimaryNumber
 
 		case numLiteral.HexNumber() != nil:
 			pe.Hex = getText(numLiteral.HexNumber())
-			pe.Integer = utils.HexToBigInt(pe.Hex)
+			pe.SubType = ExpressionPrimaryHex
 		}
 
 		if numLiteral.NumberUnit() != nil {
 			units := getText(numLiteral.NumberUnit())
 			pe.Integer = utils.IntOfUnit(pe.Integer, units)
+			pe.SubType = ExpressionPrimaryNumber
 		}
-
-		pe.SubType = ExpressionPrimaryNumber
 
 	case ctx.HexLiteral() != nil:
 		pe.SubType = ExpressionPrimaryHex

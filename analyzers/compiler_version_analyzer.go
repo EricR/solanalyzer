@@ -53,6 +53,28 @@ func (cva *CompilerVersionAnalyzer) ID() string {
 	return "compiler-version"
 }
 
+// NewCompilerVersionAnalyzer returns a new instance of the analyzer.
+func NewCompilerVersionAnalyzer() (*CompilerVersionAnalyzer, error) {
+	cva := &CompilerVersionAnalyzer{}
+
+	// Fetch the latest version of the Solidity compiler.
+	if err := cva.getLatestVersion(); err != nil {
+		return nil, err
+	}
+
+	// Fetch a list of known compiler bugs.
+	if err := cva.getBugs(); err != nil {
+		return nil, err
+	}
+
+	// Fetch a list of versions with known compiler bugs.
+	if err := cva.getBugVersions(); err != nil {
+		return nil, err
+	}
+
+	return cva, nil
+}
+
 // Execute runs the analyzer on a given source.
 func (cva *CompilerVersionAnalyzer) Execute(source *sources.Source) ([]*Issue, error) {
 	issues := []*Issue{}
@@ -68,15 +90,8 @@ func (cva *CompilerVersionAnalyzer) Execute(source *sources.Source) ([]*Issue, e
 			Message:     "No version pragma is declared.",
 			analyzer:    cva,
 			sourcePath:  source.FilePath,
-			sourceStart: source.Pragma.Start,
-			sourceStop:  source.Pragma.Stop,
 		})
 		return issues, nil
-	}
-
-	// Fetch the latest version of the Solidity compiler.
-	if err := cva.getLatestVersion(); err != nil {
-		return issues, err
 	}
 
 	// Compare the latest version of the Solidity compiler to the version
@@ -103,16 +118,6 @@ func (cva *CompilerVersionAnalyzer) Execute(source *sources.Source) ([]*Issue, e
 			sourceStart: source.Pragma.Start,
 			sourceStop:  source.Pragma.Stop,
 		})
-	}
-
-	// Fetch a list of known compiler bugs.
-	if err := cva.getBugs(); err != nil {
-		return issues, err
-	}
-
-	// Fetch a list of versions with known compiler bugs.
-	if err := cva.getBugVersions(); err != nil {
-		return issues, err
 	}
 
 	// Match and report on any known compiler bugs.
