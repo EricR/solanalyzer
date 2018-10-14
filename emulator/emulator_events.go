@@ -5,6 +5,7 @@ import "github.com/ericr/solanalyzer/sources"
 // Event is an event emitted by the emulator.
 type Event struct {
 	Source                *sources.Source
+	Stack                 *Stack
 	Contract              *sources.Contract
 	Function              *sources.Function
 	CallerFunction        *sources.Function

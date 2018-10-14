@@ -2,18 +2,31 @@ package emulator
 
 import "github.com/ericr/solanalyzer/sources"
 
-func (e *Emulator) evalFunctionCall(expr *sources.Expression, args *sources.FunctionCallArguments) []*Value {
-	e.Emit("function_call", &Event{
-		Source:         e.source,
-		Contract:       e.currentContract,
-		CallerFunction: e.currentFunction,
-		Function:       e.mustResolveFunction(expr, args),
-	})
+func (e *Emulator) evalFunctionCall(expr *sources.Expression,
+	args *sources.FunctionCallArguments) []*Value {
+	
+	var function *sources.Function
+
+	switch expr.SubType {
+	case sources.ExpressionPrimary:
+		function = e.mustResolveInternalFn(expr, args)
+	}
+
+	if function != nil {
+		e.Emit("function_call", &Event{
+			Source:         e.source,
+			Contract:       e.stack.CurrentFrame().Contract,
+			CallerFunction: e.stack.CurrentFrame().Function,
+			Function:       function,
+		})
+	}
 
 	return []*Value{}
 }
 
-func (e *Emulator) mustResolveFunction(expr *sources.Expression, args *sources.FunctionCallArguments) *sources.Function {
+func (e *Emulator) mustResolveInternalFn(expr *sources.Expression,
+	args *sources.FunctionCallArguments) *sources.Function {
+
 	identifier := expr.Primary.Identifier
 
 	if args.SubType == sources.FunctionCallArgsWithNameValues {

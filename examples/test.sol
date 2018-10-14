@@ -1,5 +1,7 @@
 pragma solidity =0.4.24;
 
+import "test2.sol";
+
 contract Vulnerable {
   function a(int z) {
     a();

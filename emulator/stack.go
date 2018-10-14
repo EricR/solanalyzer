@@ -1,10 +1,14 @@
 package emulator
 
+import "github.com/ericr/solanalyzer/sources"
+
 type Stack []*StackFrame
 
 type StackFrame struct {
-	LocalVariables    []*Variable
-	LocalVariablesMap map[string]*Variable
+	Contract  *sources.Contract
+	Function  *sources.Function
+	Memory    []*Variable
+	MemoryMap map[string]*Variable
 }
 
 func (s *Stack) CurrentFrame() *StackFrame {
@@ -14,26 +18,24 @@ func (s *Stack) CurrentFrame() *StackFrame {
 	return (*s)[len(*s)-1]
 }
 
-func (s *Stack) Push() *StackFrame {
-	var newFrame *StackFrame
-
-	lastFrame := s.CurrentFrame()
-
-	if lastFrame == nil {
-		newFrame = &StackFrame{
-			LocalVariables:    []*Variable{},
-			LocalVariablesMap: map[string]*Variable{},
-		}
-	} else {
-		newFrame = &StackFrame{
-			LocalVariables:    lastFrame.LocalVariables,
-			LocalVariablesMap: lastFrame.LocalVariablesMap,
-		}
+func (s *Stack) Push(contract *sources.Contract, function *sources.Function) *StackFrame {
+	currentFrame := s.CurrentFrame()
+	frame := &StackFrame{
+		Contract: contract,
+		Function: function,
 	}
 
-	*s = append(*s, newFrame)
+	if currentFrame == nil {
+		frame.Memory = []*Variable{}
+		frame.MemoryMap = map[string]*Variable{}
+	} else {
+		frame.Memory = currentFrame.Memory
+		frame.MemoryMap = currentFrame.MemoryMap
+	}
 
-	return newFrame
+	*s = append(*s, frame)
+
+	return frame
 }
 
 func (s *Stack) Pop() *StackFrame {

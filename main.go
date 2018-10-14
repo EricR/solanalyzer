@@ -43,9 +43,6 @@ func main() {
 			logrus.Info("Parsing sources")
 			session.ParsePath(args)
 
-			logrus.Info("Scanning sources")
-			session.VisitSources()
-
 			if analyzer, err := analyzers.NewCompilerVersionAnalyzer(); err != nil {
 				logrus.Warnf("Error initializing compiler version analyzer: %s", err)
 			} else {

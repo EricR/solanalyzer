@@ -84,12 +84,12 @@ func (cva *CompilerVersionAnalyzer) Execute(source *sources.Source) ([]*Issue, e
 	// Try getting the version pragma, otherwise report an issue and return.
 	if source.Pragma == nil || source.Pragma.Name != "solidity" {
 		issues = append(issues, &Issue{
-			Severity:    SeverityInfo,
-			Title:       "Missing Version Pragma",
-			Format:      "txt",
-			Message:     "No version pragma is declared.",
-			analyzer:    cva,
-			sourcePath:  source.FilePath,
+			Severity:   SeverityInfo,
+			Title:      "Missing Version Pragma",
+			Format:     "txt",
+			Message:    "No version pragma is declared.",
+			analyzer:   cva,
+			sourcePath: source.FilePath,
 		})
 		return issues, nil
 	}

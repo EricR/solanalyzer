@@ -6,7 +6,6 @@ func (e *Emulator) evalContractDefinition(contract *sources.Contract) {
 	defer e.Recover(contract.Tokens)
 
 	e.Reset()
-	e.currentContract = contract
 
 	for _, structDec := range contract.Structs {
 		e.AddStructDeclaration(structDec)
@@ -23,9 +22,8 @@ func (e *Emulator) evalContractDefinition(contract *sources.Contract) {
 
 	for _, functionDef := range contract.Functions {
 		defer e.stack.Pop()
-		
-		e.currentFunction = functionDef
-		e.stack.Push()
+
+		e.stack.Push(contract, functionDef)
 		e.evalFunctionDefinition(functionDef)
 	}
 }

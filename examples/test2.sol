@@ -1,0 +1,4 @@
+contract Asdf {
+	function testing() {
+	}
+}

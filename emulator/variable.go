@@ -41,8 +41,8 @@ func (e *Emulator) SetVariable(variable *Variable) {
 	case "memory":
 		frame := e.stack.CurrentFrame()
 
-		frame.LocalVariables = append(frame.LocalVariables, variable)
-		frame.LocalVariablesMap[variable.Identifier] = variable
+		frame.Memory = append(frame.Memory, variable)
+		frame.MemoryMap[variable.Identifier] = variable
 
 	default:
 		panic("Unknown variable storage location")
@@ -58,7 +58,7 @@ func (e *Emulator) MustSetVariable(name string, value *Value) {
 func (e *Emulator) FindVariable(name string) *Variable {
 	frame := e.stack.CurrentFrame()
 
-	memoryVar, memoryFound := frame.LocalVariablesMap[name]
+	memoryVar, memoryFound := frame.MemoryMap[name]
 	storageVar, _ := e.storageMap[name]
 
 	if memoryFound {

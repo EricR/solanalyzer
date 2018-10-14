@@ -8,18 +8,18 @@ import (
 
 // Emulator is a Solidity emulator.
 type Emulator struct {
-	source          *sources.Source
-	ErrorCount      uint
-	eventHandlers   map[string][]func(*Event)
-	stack           *Stack
-	currentContract *sources.Contract
-	currentFunction *sources.Function
-	structs         []*sources.Struct
-	functions       []*sources.Function
-	storage         []*Variable
-	structsMap      map[string]*sources.Struct
-	functionsMap    map[string]*sources.Function
-	storageMap      map[string]*Variable
+	ErrorCount    uint
+	source        *sources.Source
+	eventHandlers map[string][]func(*Event)
+	stack         *Stack
+	imports       []*sources.ImportDirective
+	importsMap    map[string]*sources.ImportDirective
+	structs       []*sources.Struct
+	structsMap    map[string]*sources.Struct
+	functions     []*sources.Function
+	functionsMap  map[string]*sources.Function
+	storage       []*Variable
+	storageMap    map[string]*Variable
 }
 
 // New returns a new instance of Emulator.
@@ -28,11 +28,12 @@ func New(source *sources.Source) *Emulator {
 		source:        source,
 		eventHandlers: map[string][]func(*Event){},
 		stack:         &Stack{},
+		imports:       []*sources.ImportDirective{},
 		structs:       []*sources.Struct{},
-		functions:     []*sources.Function{},
-		storage:       []*Variable{},
 		structsMap:    map[string]*sources.Struct{},
+		functions:     []*sources.Function{},
 		functionsMap:  map[string]*sources.Function{},
+		storage:       []*Variable{},
 		storageMap:    map[string]*Variable{},
 	}
 }
@@ -51,8 +52,6 @@ func (e *Emulator) Run() {
 
 // Reset resets the emulator's state.
 func (e *Emulator) Reset() {
-	e.currentContract = nil
-	e.currentFunction = nil
 	e.ResetStructs()
 	e.ResetFunctions()
 	e.ResetStack()

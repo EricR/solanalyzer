@@ -26,18 +26,18 @@ const dotTemplate = `digraph solanalyzer {
   	{{printf "%s;" .DotAttrs.Inline}}
 
    {{- range .Nodes}}
-  	{{printf "%q [ %s ];" .Function .DotAttrs}}
+  	{{printf "%q [ %s ];" .Function.ShortSignature .DotAttrs}}
 	{{- end}}
 
   {{- range .Edges}}
-  	{{printf "%q -> %q [ %s ];" .From.Function .To.Function .DotAttrs}}
+  	{{printf "%q -> %q [ %s ];" .From.Function.ShortSignature .To.Function.ShortSignature .DotAttrs}}
 	{{- end}}
 
 	  {{println "}" }}
 	{{- end}}
 
 {{- range .Edges}}
-  {{printf "%q -> %q [ %s ];" .From.Function .To.Function .DotAttrs}}
+  {{printf "%q -> %q [ %s ];" .From.Function.ShortSignature .To.Function.ShortSignature .DotAttrs}}
 {{- end}}
 }`
 
@@ -93,8 +93,12 @@ func NewCallGraph() *CallGraph {
 		EdgesMap:     map[string]*CallGraphEdge{},
 		DotAttrs: &DotAttrs{
 			"rankdir": "LR",
+			"shape":   "box",
+			"style":   "rounded",
 		},
 		NodeDotAttrs: &DotAttrs{
+			"shape":    "box",
+			"style":    "rounded",
 			"fontname": "Courier New",
 			"fontsize": "12px",
 		},

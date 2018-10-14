@@ -1,13 +1,10 @@
 package sessions
 
 import (
-	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"github.com/ericr/solanalyzer/analyzers"
-	"github.com/ericr/solanalyzer/parser"
 	"github.com/ericr/solanalyzer/reports"
 	"github.com/ericr/solanalyzer/sources"
 	"github.com/sirupsen/logrus"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -49,46 +46,28 @@ func (s *Session) ParsePath(paths []string) {
 	}
 }
 
-// ParseFile parses a Solidity source file.
-func (s *Session) ParseFile(path string) error {
-	bytes, err := ioutil.ReadFile(path)
-	if err != nil {
-		return err
+// Parse parses a Solidity source string.
+func (s *Session) ParseFile(path string) *sources.Source {
+	if s.sourcesMap[path] {
+		return nil
 	}
 
-	s.Parse(path, string(bytes))
+	if source := sources.ParseFile(path); source != nil {
+		source.Visit()
+
+		s.sourcesMap[path] = true
+		s.Sources = append(s.Sources, source)
+
+		for _, importDec := range source.Imports {
+			if dep := s.ParseFile(filepath.Join(filepath.Dir(path), importDec.From)); dep != nil {
+				source.AddDependency(dep)
+			}
+		}
+
+		return source
+	}
 
 	return nil
-}
-
-// Parse parses a Solidity source string.
-func (s *Session) Parse(path string, source string) {
-	if s.sourcesMap[path] {
-		return
-	}
-
-	logrus.Debugf("Parsing %s", path)
-
-	inputStream := antlr.NewInputStream(source)
-	solLexer := parser.NewSolidityLexer(inputStream)
-	stream := antlr.NewCommonTokenStream(solLexer, antlr.TokenDefaultChannel)
-	solParser := parser.NewSolidityParser(stream)
-
-	solParser.RemoveErrorListeners()
-	solParser.AddErrorListener(&sources.ErrorListener{SourceFilePath: path})
-
-	sourceUnit := solParser.SourceUnit().(*parser.SourceUnitContext)
-
-	s.Sources = append(s.Sources, sources.New(path, sourceUnit))
-	s.sourcesMap[path] = true
-}
-
-// VisitSources "visits" all sources trees.
-func (s *Session) VisitSources() {
-	for _, source := range s.Sources {
-		logrus.Debugf("Scanning %s", source.FilePath)
-		source.Visit()
-	}
 }
 
 // AddAnalyzer adds a new analyzer to be run during the session.
@@ -127,7 +106,7 @@ func (s *Session) GenerateReport(generator reports.Generator) {
 
 func (s *Session) pathWalkFunc(path string, info os.FileInfo, err error) error {
 	if err != nil {
-		logrus.Errorf("Got error reading %s: %s", path, err)
+		logrus.Errorf("Got error reading file: %s", err)
 		return err
 	}
 
@@ -141,7 +120,6 @@ func (s *Session) pathWalkFunc(path string, info os.FileInfo, err error) error {
 func isDir(path string) bool {
 	fileInfo, err := os.Stat(path)
 	if err != nil {
-		logrus.Errorf("Got error reading %s: %s", path, err)
 		return false
 	}
 
